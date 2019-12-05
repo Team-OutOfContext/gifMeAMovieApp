@@ -8,9 +8,22 @@ class App extends Component {
     this.state = {
       userInput: "",
       autocompleteWorking: false,
-      movieSuggestions: []
+      movieSuggestions: [],
+      apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
+      movieYear: "",
+      movieImageUrl: "",
+      movieTitle: ""
     };
   }
+
+  //This function gets users search term as they type.
+  getUserInput = e => {
+    console.log("yay movies");
+    console.log(e.target.value);
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
 
   getMovieDetails = () => {
     if (this.state.userInput.length > 0) {
@@ -20,7 +33,7 @@ class App extends Component {
         method: "GET",
         dataResponse: "json",
         params: {
-          api_key: `38f9a8f5c677f0356adca226f357b762`,
+          api_key: this.state.apiKeyMovieDb,
           query: this.state.userInput,
           include_adult: false
         }
@@ -37,12 +50,23 @@ class App extends Component {
     }
   };
 
-  //This function gets users search term as they type.
-  getUserInput = e => {
-    console.log("yay movies");
-    console.log(e.target.value);
+  getMovieKeywords = (movieId, movieTitle, movieYear, movieImageUrl) => {
+    console.log(movieTitle, movieYear, movieImageUrl);
     this.setState({
-      [e.target.id]: e.target.value
+      movieTitle: movieTitle,
+      movieYear: movieYear,
+      movieImageUrl: `https://image.tmdb.org/t/p/w500${movieImageUrl}`
+    });
+    axios({
+      url: `https://api.themoviedb.org/3/movie/${movieId}/keywords`,
+      method: "GET",
+      dataResponse: "json",
+      params: {
+        api_key: this.state.apiKeyMovieDb,
+        movie_id: movieId
+      }
+    }).then(response => {
+      console.log(response);
     });
   };
 
@@ -61,10 +85,20 @@ class App extends Component {
         />
         <button type="submit">Search Movie</button>
         {this.state.autocompleteWorking
-          ? this.state.movieSuggestions.map((movieSuggestion, i) => {
+          ? this.state.movieSuggestions.map(movieSuggestion => {
               const movieYear = movieSuggestion.release_date.slice(0, 4);
               return (
-                <li key={i}>
+                <li
+                  key={movieSuggestion.id}
+                  onClick={() => {
+                    this.getMovieKeywords(
+                      movieSuggestion.id,
+                      movieSuggestion.title,
+                      movieYear,
+                      movieSuggestion.poster_path
+                    );
+                  }}
+                >
                   <p>
                     {movieSuggestion.title} ({movieYear})
                   </p>
