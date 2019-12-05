@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
-import { networkInterfaces } from "os";
 
 class App extends Component {
   constructor() {
