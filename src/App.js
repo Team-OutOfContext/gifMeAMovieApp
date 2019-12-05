@@ -15,14 +15,13 @@ class App extends Component {
       movieYear: "",
       movieImageUrl: "",
       movieTitle: "",
-      movieKeywords: []
+      movieKeywords: [],
+      keywordsForGiphy: []
     };
   }
 
   //This function gets users search term as they type.
   getUserInput = e => {
-    console.log("yay movies");
-    console.log(e.target.value);
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -32,7 +31,6 @@ class App extends Component {
   getMovieDetails = () => {
     // To make sure the user types something within the character limit
     if (this.state.userInput.length > 0 && this.state.userInput.length <= 20) {
-      console.log("getMovieDetails ran");
       // Make axios call to get movie details
       axios({
         url: `https://api.themoviedb.org/3/search/movie`,
@@ -44,9 +42,6 @@ class App extends Component {
           include_adult: false
         }
       }).then(response => {
-        console.log(this.state.userInput);
-        console.log(response);
-        console.log(response.data.results);
         // Setting the state to an array of movies and making the autosuggestion show up on the page
         this.setState({
           autoSuggestions: true,
@@ -58,8 +53,6 @@ class App extends Component {
 
   // Function to get keywords for the user's movie choice
   getMovieKeywords = (movieId, movieTitle, movieYear, movieImageUrl) => {
-    console.log(movieTitle, movieYear, movieImageUrl);
-
     // Save the user's movie choice to state
     this.setState({
       movieTitle: movieTitle,
@@ -81,26 +74,21 @@ class App extends Component {
       this.setState({
         movieKeywords: response.data.keywords
       });
-      this.getRandomKeywords();
+      this.getKeywordsForGiphy();
     });
   };
 
-  getRandomKeywords = () => {
-    // console.log(this.state.movieKeywords, "this is randomkeywords");
-
-    // if (this.state.movieKeywords.length < 3){
-
-    // } else {
-    // }
+  getKeywordsForGiphy = () => {
     this.shuffleKeywordsArray();
-
-    // let randomIndex =
-    // this.state.movieKeywords[randomIndex].name
+    this.state.keywordsForGiphy.forEach(keyword => {
+      this.getGifs(keyword.name);
+    });
   };
 
+  //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
   shuffleKeywordsArray = () => {
     const newKeywordsArray = [...this.state.movieKeywords];
-    console.log(newKeywordsArray, "this is newkeywords array");
+    //Fisher-Yates algorithm for shuffling the array.
     for (let i = newKeywordsArray.length - 1; i > 0; i--) {
       const newIndex = Math.floor(Math.random() * (i + 1));
       const currentKeyword = newKeywordsArray[i];
@@ -108,7 +96,11 @@ class App extends Component {
       newKeywordsArray[i] = keywordToSwap;
       newKeywordsArray[newIndex] = currentKeyword;
     }
-
+    //Slicing the keyword return to pull only the first three random keywords to use as our giphy call search.
+    const slicedKeywords = newKeywordsArray.slice(0, 3);
+    this.setState({
+      keywordsForGiphy: slicedKeywords
+    });
     console.log(newKeywordsArray);
     console.log("shuffled keywords");
   };
@@ -124,7 +116,13 @@ class App extends Component {
         q: keyword
       }
     }).then(response => {
-      console.log(response, "get getGifs call");
+      console.log(response);
+      console.log("this is getGifs response");
+      const randomNumber = Math.floor(Math.random * 25);
+      const gifData = response.data[randomNumber];
+      this.setState({
+        gifUrls: gifData
+      });
     });
   };
 
