@@ -10,9 +10,11 @@ class App extends Component {
       autoSuggestions: false,
       movieSuggestions: [],
       apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
+      apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
       movieYear: "",
       movieImageUrl: "",
-      movieTitle: ""
+      movieTitle: "",
+      movieKeywords: [],
     };
   }
 
@@ -74,9 +76,53 @@ class App extends Component {
         movie_id: movieId
       }
     }).then(response => {
-      console.log(response);
+      console.log(response.data.keywords);
+      this.setState({
+        movieKeywords: response.data.keywords
+      })
+      this.getRandomKeywords();
     });
   };
+
+  getRandomKeywords = () => {
+    console.log(this.state.movieKeywords);
+
+    // if (this.state.movieKeywords.length < 3){
+
+    // } else {
+    // }
+    this.shuffleKeywordsArray()
+
+    // let randomIndex = 
+    // this.state.movieKeywords[randomIndex].name
+  }
+
+  shuffleKeywordsArray = () => {
+    for (let i = this.state.movieKeywords.length - 1; i > 0; i--) {
+      const newIndex = Math.floor(Math.random() * (i + 1));
+      const currentKeyword = this.state.movieKeywords[i];
+      const keywordToSwap = this.state.movieKeywords[newIndex];
+      this.state.movieKeywords[i] = keywordToSwap;
+      this.state.movieKeywords[newIndex] = currentKeyword;
+    };
+
+    console.log(this.state.movieKeywords);
+  }
+
+  getGifs = (keyword) => {
+    // Axios call to get the keywords
+    axios({
+      url: `https://api.giphy.com/v1/gifs/search`,
+      method: "GET",
+      dataResponse: "json",
+      params: {
+        api_key: this.state.apiKeyGiphy,
+        q: keyword,
+      }
+    }).then(response => {
+      console.log(response);
+    });
+  }
 
   render() {
     return (
