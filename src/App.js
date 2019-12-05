@@ -7,7 +7,7 @@ class App extends Component {
     super();
     this.state = {
       userInput: "",
-      autocompleteWorking: false,
+      autoSuggestions: false,
       movieSuggestions: [],
       apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
       movieYear: "",
@@ -25,9 +25,12 @@ class App extends Component {
     });
   };
 
+  // This function is for getting movie details from the user input
   getMovieDetails = () => {
-    if (this.state.userInput.length > 0) {
+    // To make sure the user types something within the character limit
+    if (this.state.userInput.length > 0 && this.state.userInput.length <= 20) {
       console.log("getMovieDetails ran");
+      // Make axios call to get movie details
       axios({
         url: `https://api.themoviedb.org/3/search/movie`,
         method: "GET",
@@ -41,22 +44,27 @@ class App extends Component {
         console.log(this.state.userInput);
         console.log(response);
         console.log(response.data.results);
-
+        // Setting the state to an array of movies and making the autosuggestion show up on the page
         this.setState({
-          autocompleteWorking: true,
+          autoSuggestions: true,
           movieSuggestions: response.data.results
         });
       }); // end of .then
     }
   };
 
+  // Function to get keywords for the user's movie choice
   getMovieKeywords = (movieId, movieTitle, movieYear, movieImageUrl) => {
     console.log(movieTitle, movieYear, movieImageUrl);
+
+    // Save the user's movie choice to state
     this.setState({
       movieTitle: movieTitle,
       movieYear: movieYear,
       movieImageUrl: `https://image.tmdb.org/t/p/w500${movieImageUrl}`
     });
+
+    // Axios call to get the keywords
     axios({
       url: `https://api.themoviedb.org/3/movie/${movieId}/keywords`,
       method: "GET",
@@ -74,6 +82,8 @@ class App extends Component {
     return (
       <div>
         <h1>Woooo our movie site!</h1>
+
+        <label htmlFor="userInput">Search a movie title</label>
         <input
           type="text"
           id="userInput"
@@ -83,8 +93,8 @@ class App extends Component {
             this.getMovieDetails();
           }}
         />
-        <button type="submit">Search Movie</button>
-        {this.state.autocompleteWorking
+
+        {this.state.autoSuggestions
           ? this.state.movieSuggestions.map(movieSuggestion => {
               const movieYear = movieSuggestion.release_date.slice(0, 4);
               return (
