@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
+import { networkInterfaces } from "os";
 
 class App extends Component {
   constructor() {
@@ -14,7 +15,7 @@ class App extends Component {
       movieYear: "",
       movieImageUrl: "",
       movieTitle: "",
-      movieKeywords: [],
+      movieKeywords: []
     };
   }
 
@@ -76,40 +77,43 @@ class App extends Component {
         movie_id: movieId
       }
     }).then(response => {
-      console.log(response.data.keywords);
+      console.log(response.data.keywords, "get movie keywords axios call");
       this.setState({
         movieKeywords: response.data.keywords
-      })
+      });
       this.getRandomKeywords();
     });
   };
 
   getRandomKeywords = () => {
-    console.log(this.state.movieKeywords);
+    // console.log(this.state.movieKeywords, "this is randomkeywords");
 
     // if (this.state.movieKeywords.length < 3){
 
     // } else {
     // }
-    this.shuffleKeywordsArray()
+    this.shuffleKeywordsArray();
 
-    // let randomIndex = 
+    // let randomIndex =
     // this.state.movieKeywords[randomIndex].name
-  }
+  };
 
   shuffleKeywordsArray = () => {
-    for (let i = this.state.movieKeywords.length - 1; i > 0; i--) {
+    const newKeywordsArray = [...this.state.movieKeywords];
+    console.log(newKeywordsArray, "this is newkeywords array");
+    for (let i = newKeywordsArray.length - 1; i > 0; i--) {
       const newIndex = Math.floor(Math.random() * (i + 1));
-      const currentKeyword = this.state.movieKeywords[i];
-      const keywordToSwap = this.state.movieKeywords[newIndex];
-      this.state.movieKeywords[i] = keywordToSwap;
-      this.state.movieKeywords[newIndex] = currentKeyword;
-    };
+      const currentKeyword = newKeywordsArray[i];
+      const keywordToSwap = newKeywordsArray[newIndex];
+      newKeywordsArray[i] = keywordToSwap;
+      newKeywordsArray[newIndex] = currentKeyword;
+    }
 
-    console.log(this.state.movieKeywords);
-  }
+    console.log(newKeywordsArray);
+    console.log("shuffled keywords");
+  };
 
-  getGifs = (keyword) => {
+  getGifs = keyword => {
     // Axios call to get the keywords
     axios({
       url: `https://api.giphy.com/v1/gifs/search`,
@@ -117,12 +121,12 @@ class App extends Component {
       dataResponse: "json",
       params: {
         api_key: this.state.apiKeyGiphy,
-        q: keyword,
+        q: keyword
       }
     }).then(response => {
-      console.log(response);
+      console.log(response, "get getGifs call");
     });
-  }
+  };
 
   render() {
     return (
