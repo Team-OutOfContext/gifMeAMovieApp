@@ -15,7 +15,9 @@ class App extends Component {
       movieImageUrl: "",
       movieTitle: "",
       movieKeywords: [],
-      keywordsForGiphy: []
+      keywordsForGiphy: [],
+      gifDataArray: [],
+      showGifs: false
     };
   }
 
@@ -88,7 +90,8 @@ class App extends Component {
     console.log("logging gifDataArray below");
     console.log(gifDataArray);
     this.setState({
-      gifDataArray: gifDataArray
+      gifDataArray: gifDataArray,
+      showGifs: true
     });
   };
 
@@ -124,7 +127,9 @@ class App extends Component {
       }
     }).then(response => {
       // Randomly selecting a gif from the response data
-      const randomNumber = Math.floor(Math.random() * 25);
+      const randomNumber = Math.floor(
+        Math.random() * response.data.data.length
+      );
       const gifData = response.data.data[randomNumber];
       array.push(gifData);
     });
@@ -164,6 +169,16 @@ class App extends Component {
                   <p>
                     {movieSuggestion.title} ({movieYear})
                   </p>
+                </li>
+              );
+            })
+          : null}
+        {this.state.showGifs
+          ? this.state.gifDataArray.map(gif => {
+              return (
+                <li>
+                  <p>Hello</p>
+                  {/* <img src={gif.images.original.url} alt="gif" /> */}
                 </li>
               );
             })
