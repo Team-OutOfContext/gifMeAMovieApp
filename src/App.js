@@ -18,7 +18,8 @@ class App extends Component {
       keywordsForGiphy: [],
       gifDataArray: [],
       showGifs: false,
-      inputCounter: 0
+      inputCounter: 0,
+      errorMessage: false
     };
   }
 
@@ -46,13 +47,26 @@ class App extends Component {
           query: this.state.userInput,
           include_adult: false
         }
-      }).then(response => {
-        // Setting the state to an array of movies and making the autosuggestion show up on the page
-        this.setState({
-          autoSuggestions: true,
-          movieSuggestions: response.data.results
+      })
+        .then(response => {
+          console.log(response);
+          if (response.data.results.length === 0) {
+            this.setState({
+              errorMessage: true
+            });
+          }
+          // Setting the state to an array of movies and making the autosuggestion show up on the page
+          this.setState({
+            autoSuggestions: true,
+            movieSuggestions: response.data.results
+          });
+        }) // end of .then
+        .catch(error => {
+          this.setState({
+            errorMessage: true
+          });
+          console.log(error);
         });
-      }); // end of .then
     }
   };
 
@@ -74,13 +88,22 @@ class App extends Component {
         api_key: this.state.apiKeyMovieDb,
         movie_id: movieId
       }
-    }).then(response => {
-      console.log(response.data.keywords, "get movie keywords axios call");
-      this.setState({
-        movieKeywords: response.data.keywords
+    })
+      .then(response => {
+        console.log(response.data.keywords, "get movie keywords axios call");
+        this.setState({
+          movieKeywords: response.data.keywords,
+          userInput: "",
+          autoSuggestions: false
+        });
+        this.getKeywordsForGiphy();
+      })
+      .catch(error => {
+        this.setState({
+          errorMessage: true
+        });
+        console.log(error);
       });
-      this.getKeywordsForGiphy();
-    });
   };
 
   getKeywordsForGiphy = () => {
@@ -141,15 +164,6 @@ class App extends Component {
         q: keyword
       }
     });
-
-    // .then(response => {
-    // // Randomly selecting a gif from the response data
-    // const randomNumber = Math.floor(
-    //   Math.random() * response.data.data.length
-    // );
-    // const gifData = response.data.data[randomNumber];
-    // array.push(gifData);
-    // });
   };
 
   render() {
@@ -168,27 +182,36 @@ class App extends Component {
             this.getMovieDetails();
           }}
         />
+        {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
         {this.state.autoSuggestions
           ? this.state.movieSuggestions.map(movieSuggestion => {
-              const movieYear = movieSuggestion.release_date.slice(0, 4);
-              return (
-                <li
-                  key={movieSuggestion.id}
-                  onClick={() => {
-                    this.getMovieKeywords(
-                      movieSuggestion.id,
-                      movieSuggestion.title,
-                      movieYear,
-                      movieSuggestion.poster_path
-                    );
-                  }}
-                >
-                  <p>
-                    {movieSuggestion.title} ({movieYear})
-                  </p>
-                </li>
-              );
+              // movieSuggestion.release_date === "" ||
+              if (
+                movieSuggestion.release_date === undefined ||
+                movieSuggestion.release_date === ""
+              ) {
+                return <p>There was no release date</p>;
+              } else {
+                const movieYear = movieSuggestion.release_date.slice(0, 4);
+                return (
+                  <li
+                    key={movieSuggestion.id}
+                    onClick={() => {
+                      this.getMovieKeywords(
+                        movieSuggestion.id,
+                        movieSuggestion.title,
+                        movieYear,
+                        movieSuggestion.poster_path
+                      );
+                    }}
+                  >
+                    <p>
+                      {movieSuggestion.title} ({movieYear})
+                    </p>
+                  </li>
+                );
+              }
             })
           : null}
         <ul>
