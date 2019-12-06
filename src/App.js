@@ -17,14 +17,18 @@ class App extends Component {
       movieKeywords: [],
       keywordsForGiphy: [],
       gifDataArray: [],
-      showGifs: false
+      showGifs: false,
+      inputCounter: 0
     };
   }
 
   //This function gets users search term as they type.
   getUserInput = e => {
+    let counter = this.state.inputCounter;
+    counter++;
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+      inputCounter: counter
     });
   };
 
@@ -88,11 +92,11 @@ class App extends Component {
       this.getGifs(gifDataArray, keyword.name);
     });
     console.log("logging gifDataArray below");
-    console.log(gifDataArray);
     this.setState({
       gifDataArray: gifDataArray,
       showGifs: true
     });
+    console.log(gifDataArray);
   };
 
   //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
@@ -136,6 +140,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.gifDataArray);
     return (
       <div>
         <h1>Woooo our movie site!</h1>
@@ -173,16 +178,12 @@ class App extends Component {
               );
             })
           : null}
-        {this.state.showGifs
-          ? this.state.gifDataArray.map(gif => {
-              return (
-                <li>
-                  <p>Hello</p>
-                  {/* <img src={gif.images.original.url} alt="gif" /> */}
-                </li>
-              );
-            })
-          : null}
+        <ul>
+          {this.state.gifDataArray.map(gif => {
+            console.log(gif);
+            return <p>Hello!</p>;
+          })}
+        </ul>
       </div>
     );
   }
