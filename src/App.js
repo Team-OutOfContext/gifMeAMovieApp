@@ -87,16 +87,27 @@ class App extends Component {
     this.shuffleKeywordsArray();
 
     const gifDataArray = [];
-
+    const gifPromises = [];
     this.state.keywordsForGiphy.forEach(keyword => {
-      this.getGifs(gifDataArray, keyword.name);
+      return gifPromises.push(this.getGifs(keyword.name));
     });
-    console.log("logging gifDataArray below");
-    this.setState({
-      gifDataArray: gifDataArray,
-      showGifs: true
+
+    axios.all(gifPromises).then((...gifPromises) => {
+      gifPromises.forEach(gifPromise => {
+        // Randomly selecting a gif from the response data
+        const randomNumber = Math.floor(
+          Math.random() * gifPromise.data.data.length
+        );
+        const gifData = gifPromise.data.data[randomNumber];
+        gifDataArray.push(gifData);
+      });
+      console.log("logging gifDataArray below");
+      this.setState({
+        gifDataArray: gifDataArray,
+        showGifs: true
+      });
+      console.log(gifDataArray);
     });
-    console.log(gifDataArray);
   };
 
   //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
@@ -119,9 +130,9 @@ class App extends Component {
     console.log("shuffled keywords");
   };
 
-  getGifs = (array, keyword) => {
+  getGifs = keyword => {
     // Axios call to get the keywords
-    axios({
+    return axios({
       url: `https://api.giphy.com/v1/gifs/search`,
       method: "GET",
       dataResponse: "json",
@@ -129,14 +140,16 @@ class App extends Component {
         api_key: this.state.apiKeyGiphy,
         q: keyword
       }
-    }).then(response => {
-      // Randomly selecting a gif from the response data
-      const randomNumber = Math.floor(
-        Math.random() * response.data.data.length
-      );
-      const gifData = response.data.data[randomNumber];
-      array.push(gifData);
     });
+
+    // .then(response => {
+    // // Randomly selecting a gif from the response data
+    // const randomNumber = Math.floor(
+    //   Math.random() * response.data.data.length
+    // );
+    // const gifData = response.data.data[randomNumber];
+    // array.push(gifData);
+    // });
   };
 
   render() {
