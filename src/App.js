@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
-import { networkInterfaces } from "os";
 
 class App extends Component {
   constructor() {
@@ -80,8 +79,16 @@ class App extends Component {
 
   getKeywordsForGiphy = () => {
     this.shuffleKeywordsArray();
+
+    const gifDataArray = [];
+
     this.state.keywordsForGiphy.forEach(keyword => {
-      this.getGifs(keyword.name);
+      this.getGifs(gifDataArray, keyword.name);
+    });
+    console.log("logging gifDataArray below");
+    console.log(gifDataArray);
+    this.setState({
+      gifDataArray: gifDataArray
     });
   };
 
@@ -105,7 +112,7 @@ class App extends Component {
     console.log("shuffled keywords");
   };
 
-  getGifs = keyword => {
+  getGifs = (array, keyword) => {
     // Axios call to get the keywords
     axios({
       url: `https://api.giphy.com/v1/gifs/search`,
@@ -116,13 +123,10 @@ class App extends Component {
         q: keyword
       }
     }).then(response => {
-      console.log(response);
-      console.log("this is getGifs response");
-      const randomNumber = Math.floor(Math.random * 25);
-      const gifData = response.data[randomNumber];
-      this.setState({
-        gifUrls: gifData
-      });
+      // Randomly selecting a gif from the response data
+      const randomNumber = Math.floor(Math.random() * 25);
+      const gifData = response.data.data[randomNumber];
+      array.push(gifData);
     });
   };
 
