@@ -35,7 +35,7 @@ class App extends Component {
   // This function is for getting movie details from the user input
   getMovieDetails = () => {
     // To make sure the user types something within the character limit
-    if (this.state.userInput.length > 0 && this.state.userInput.length <= 20) {
+    if (this.state.userInput.length > 0 && this.state.inputCounter < 35) {
       // Make axios call to get movie details
       axios({
         url: `https://api.themoviedb.org/3/search/movie`,
@@ -92,22 +92,19 @@ class App extends Component {
       return gifPromises.push(this.getGifs(keyword.name));
     });
 
-    axios.all(gifPromises).then((...gifPromiseReturns) => {
-  
-      console.log(gifPromises);
+    axios.all(gifPromises).then(gifPromiseReturns => {
       gifPromiseReturns.forEach(gifPromiseReturn => {
-        console.log(gifPromiseReturn);
         // Randomly selecting a gif from the response data
         const randomNumber = Math.floor(
           Math.random() * gifPromiseReturn.data.data.length
         );
-        const gifData = gifPromise.data.data[randomNumber];
+        const gifData = gifPromiseReturn.data.data[randomNumber];
         gifDataArray.push(gifData);
       });
-      console.log("logging gifDataArray below");
       this.setState({
         gifDataArray: gifDataArray,
-        showGifs: true
+        showGifs: true,
+        inputCounter: 0
       });
       console.log(gifDataArray);
     });
@@ -195,10 +192,17 @@ class App extends Component {
             })
           : null}
         <ul>
-          {this.state.gifDataArray.map(gif => {
-            console.log(gif);
-            return <p>Hello!</p>;
-          })}
+          {this.state.showGifs
+            ? this.state.gifDataArray.map((gif, i) => {
+                console.log(gif);
+                return (
+                  <li key={i}>
+                    <p>Hello!</p>
+                    <img src={gif.images.original.url} alt="gif" />
+                  </li>
+                );
+              })
+            : null}
         </ul>
       </div>
     );
