@@ -92,11 +92,14 @@ class App extends Component {
       return gifPromises.push(this.getGifs(keyword.name));
     });
 
-    axios.all(gifPromises).then((...gifPromises) => {
-      gifPromises.forEach(gifPromise => {
+    axios.all(gifPromises).then((...gifPromiseReturns) => {
+  
+      console.log(gifPromises);
+      gifPromiseReturns.forEach(gifPromiseReturn => {
+        console.log(gifPromiseReturn);
         // Randomly selecting a gif from the response data
         const randomNumber = Math.floor(
-          Math.random() * gifPromise.data.data.length
+          Math.random() * gifPromiseReturn.data.data.length
         );
         const gifData = gifPromise.data.data[randomNumber];
         gifDataArray.push(gifData);
