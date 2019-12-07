@@ -19,7 +19,8 @@ class App extends Component {
       gifDataArray: [],
       showGifs: false,
       inputCounter: 0,
-      errorMessage: false
+      errorMessage: false,
+      showButton: false
     };
   }
 
@@ -90,13 +91,42 @@ class App extends Component {
       }
     })
       .then(response => {
+        console.log(response);
         console.log(response.data.keywords, "get movie keywords axios call");
-        this.setState({
-          movieKeywords: response.data.keywords,
-          userInput: "",
-          autoSuggestions: false
-        });
-        this.getKeywordsForGiphy();
+
+        if (response.data.keywords.length >= 3) {
+          // 3 or more keywords
+          this.setState({
+            movieKeywords: response.data.keywords,
+            userInput: "",
+            autoSuggestions: false
+          });
+          this.getKeywordsForGiphy();
+        } else if (response.data.keywords.length === 2) {
+          // only 2 keywords - random search
+        } else if (response.data.keywords.length === 1) {
+          // only 1 keyword - random search
+        } else {
+          // if there's no keywords
+          // search random gifs
+          const gifDataArray = [];
+          const gifPromises = [];
+          for (let i = 0; i < 3; i++) {
+            gifPromises.push(this.getRandomGifs());
+          }
+          axios.all(gifPromises).then(gifPromiseReturns => {
+            gifPromiseReturns.forEach(gifPromiseReturn => {
+              console.log(gifPromiseReturn.data.data);
+              gifDataArray.push(gifPromiseReturn.data.data);
+            });
+            this.setState({
+              gifDataArray: gifDataArray,
+              showGifs: true,
+              showButton: true,
+              inputCounter: 0
+            });
+          });
+        }
       })
       .catch(error => {
         this.setState({
@@ -104,6 +134,19 @@ class App extends Component {
         });
         console.log(error);
       });
+  };
+
+  // function for getting random gifs if there are no keywords
+  getRandomGifs = () => {
+    return axios({
+      url: `https://api.giphy.com/v1/gifs/random`,
+      method: "GET",
+      dataResponse: "json",
+      params: {
+        api_key: this.state.apiKeyGiphy,
+        rating: "pg"
+      }
+    });
   };
 
   getKeywordsForGiphy = () => {
@@ -127,6 +170,7 @@ class App extends Component {
       this.setState({
         gifDataArray: gifDataArray,
         showGifs: true,
+        showButton: true,
         inputCounter: 0
       });
       console.log(gifDataArray);
@@ -191,7 +235,22 @@ class App extends Component {
                 movieSuggestion.release_date === undefined ||
                 movieSuggestion.release_date === ""
               ) {
-                return <p>There was no release date</p>;
+                const movieYear = ""; // no release date so it's an empty string
+                return (
+                  <li
+                    key={movieSuggestion.id}
+                    onClick={() => {
+                      this.getMovieKeywords(
+                        movieSuggestion.id,
+                        movieSuggestion.title,
+                        movieYear,
+                        movieSuggestion.poster_path
+                      );
+                    }}
+                  >
+                    <p>{movieSuggestion.title}</p>
+                  </li>
+                );
               } else {
                 const movieYear = movieSuggestion.release_date.slice(0, 4);
                 return (
@@ -227,6 +286,7 @@ class App extends Component {
               })
             : null}
         </ul>
+        {this.state.showButton ? <button>Watch another movie?</button> : null}
       </div>
     );
   }
