@@ -175,11 +175,17 @@ class App extends Component {
 
       axios.all(gifPromises).then(gifPromiseReturns => {
         gifPromiseReturns.forEach(gifPromiseReturn => {
+          let gifData = "";
+          if (Array.isArray(gifPromiseReturn.data.data) === true) {
+            console.log(gifPromiseReturn.data.data);
+            const randomNumber = Math.floor(
+              Math.random() * gifPromiseReturn.data.data.length
+            );
+            gifData = gifPromiseReturn.data.data[randomNumber];
+          } else {
+            gifData = gifPromiseReturn.data.data;
+          }
           // Randomly selecting a gif from the response data
-          const randomNumber = Math.floor(
-            Math.random() * gifPromiseReturn.data.data.length
-          );
-          const gifData = gifPromiseReturn.data.data[randomNumber];
           gifDataArray.push(gifData);
         });
 
@@ -207,16 +213,22 @@ class App extends Component {
       gifPromises.push(this.getRandomGifs()); // RANDOM
       axios.all(gifPromises).then(gifPromiseReturns => {
         gifPromiseReturns.forEach(gifPromiseReturn => {
+          let gifData = "";
+          if (Array.isArray(gifPromiseReturn.data.data) === true) {
+            console.log(gifPromiseReturn.data.data);
+            const randomNumber = Math.floor(
+              Math.random() * gifPromiseReturn.data.data.length
+            );
+            gifData = gifPromiseReturn.data.data[randomNumber];
+          } else {
+            gifData = gifPromiseReturn.data.data;
+          }
           // Randomly selecting a gif from the response data
-          const randomNumber = Math.floor(
-            Math.random() * gifPromiseReturn.data.data.length
-          );
-          const gifData = gifPromiseReturn.data.data[randomNumber];
           gifDataArray.push(gifData);
         });
         this.setState({
           gifDataArray: gifDataArray,
-          // showGifs: true,
+          showGifs: true,
           showButton: true,
           inputCounter: 0
         });
@@ -242,15 +254,22 @@ class App extends Component {
       axios.all(gifPromises).then(gifPromiseReturns => {
         gifPromiseReturns.forEach(gifPromiseReturn => {
           // Randomly selecting a gif from the response data
-          const randomNumber = Math.floor(
-            Math.random() * gifPromiseReturn.data.data.length
-          );
-          const gifData = gifPromiseReturn.data.data[randomNumber];
+          let gifData = "";
+          if (Array.isArray(gifPromiseReturn.data.data) === true) {
+            console.log(gifPromiseReturn.data.data);
+            const randomNumber = Math.floor(
+              Math.random() * gifPromiseReturn.data.data.length
+            );
+            gifData = gifPromiseReturn.data.data[randomNumber];
+          } else {
+            gifData = gifPromiseReturn.data.data;
+          }
+          // Randomly selecting a gif from the response data
           gifDataArray.push(gifData);
         });
         this.setState({
           gifDataArray: gifDataArray,
-          // showGifs: true,
+          showGifs: true,
           showButton: true,
           inputCounter: 0
         });
