@@ -18,7 +18,9 @@ class App extends Component {
       keywordsForGiphy: [],
       gifDataArray: [],
       showGifs: false,
-      inputCounter: 0
+      inputCounter: 0,
+      errorMessage: false,
+      showButton: false
     };
   }
 
@@ -46,13 +48,26 @@ class App extends Component {
           query: this.state.userInput,
           include_adult: false
         }
-      }).then(response => {
-        // Setting the state to an array of movies and making the autosuggestion show up on the page
-        this.setState({
-          autoSuggestions: true,
-          movieSuggestions: response.data.results
+      })
+        .then(response => {
+          console.log(response);
+          if (response.data.results.length === 0) {
+            this.setState({
+              errorMessage: true
+            });
+          }
+          // Setting the state to an array of movies and making the autosuggestion show up on the page
+          this.setState({
+            autoSuggestions: true,
+            movieSuggestions: response.data.results
+          });
+        }) // end of .then
+        .catch(error => {
+          this.setState({
+            errorMessage: true
+          });
+          console.log(error);
         });
-      }); // end of .then
     }
   };
 
@@ -74,12 +89,63 @@ class App extends Component {
         api_key: this.state.apiKeyMovieDb,
         movie_id: movieId
       }
-    }).then(response => {
-      console.log(response.data.keywords, "get movie keywords axios call");
-      this.setState({
-        movieKeywords: response.data.keywords
+    })
+      .then(response => {
+        console.log(response);
+        console.log(response.data.keywords, "get movie keywords axios call");
+
+        if (response.data.keywords.length >= 3) {
+          // 3 or more keywords
+          this.setState({
+            movieKeywords: response.data.keywords,
+            userInput: "",
+            autoSuggestions: false
+          });
+          this.getKeywordsForGiphy();
+        } else if (response.data.keywords.length === 2) {
+          // only 2 keywords - random search
+        } else if (response.data.keywords.length === 1) {
+          // only 1 keyword - random search
+        } else {
+          // if there's no keywords
+          // search random gifs
+          const gifDataArray = [];
+          const gifPromises = [];
+          for (let i = 0; i < 3; i++) {
+            gifPromises.push(this.getRandomGifs());
+          }
+          axios.all(gifPromises).then(gifPromiseReturns => {
+            gifPromiseReturns.forEach(gifPromiseReturn => {
+              console.log(gifPromiseReturn.data.data);
+              gifDataArray.push(gifPromiseReturn.data.data);
+            });
+            this.setState({
+              gifDataArray: gifDataArray,
+              showGifs: true,
+              showButton: true,
+              inputCounter: 0
+            });
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          errorMessage: true
+        });
+        console.log(error);
       });
-      this.getKeywordsForGiphy();
+  };
+
+  // function for getting random gifs if there are no keywords
+  getRandomGifs = () => {
+    return axios({
+      url: `https://api.giphy.com/v1/gifs/random`,
+      method: "GET",
+      dataResponse: "json",
+      params: {
+        api_key: this.state.apiKeyGiphy,
+        rating: "pg"
+      }
     });
   };
 
@@ -104,6 +170,7 @@ class App extends Component {
       this.setState({
         gifDataArray: gifDataArray,
         showGifs: true,
+        showButton: true,
         inputCounter: 0
       });
       console.log(gifDataArray);
@@ -141,15 +208,6 @@ class App extends Component {
         q: keyword
       }
     });
-
-    // .then(response => {
-    // // Randomly selecting a gif from the response data
-    // const randomNumber = Math.floor(
-    //   Math.random() * response.data.data.length
-    // );
-    // const gifData = response.data.data[randomNumber];
-    // array.push(gifData);
-    // });
   };
 
   render() {
@@ -168,27 +226,51 @@ class App extends Component {
             this.getMovieDetails();
           }}
         />
+        {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
         {this.state.autoSuggestions
           ? this.state.movieSuggestions.map(movieSuggestion => {
-              const movieYear = movieSuggestion.release_date.slice(0, 4);
-              return (
-                <li
-                  key={movieSuggestion.id}
-                  onClick={() => {
-                    this.getMovieKeywords(
-                      movieSuggestion.id,
-                      movieSuggestion.title,
-                      movieYear,
-                      movieSuggestion.poster_path
-                    );
-                  }}
-                >
-                  <p>
-                    {movieSuggestion.title} ({movieYear})
-                  </p>
-                </li>
-              );
+              // movieSuggestion.release_date === "" ||
+              if (
+                movieSuggestion.release_date === undefined ||
+                movieSuggestion.release_date === ""
+              ) {
+                const movieYear = ""; // no release date so it's an empty string
+                return (
+                  <li
+                    key={movieSuggestion.id}
+                    onClick={() => {
+                      this.getMovieKeywords(
+                        movieSuggestion.id,
+                        movieSuggestion.title,
+                        movieYear,
+                        movieSuggestion.poster_path
+                      );
+                    }}
+                  >
+                    <p>{movieSuggestion.title}</p>
+                  </li>
+                );
+              } else {
+                const movieYear = movieSuggestion.release_date.slice(0, 4);
+                return (
+                  <li
+                    key={movieSuggestion.id}
+                    onClick={() => {
+                      this.getMovieKeywords(
+                        movieSuggestion.id,
+                        movieSuggestion.title,
+                        movieYear,
+                        movieSuggestion.poster_path
+                      );
+                    }}
+                  >
+                    <p>
+                      {movieSuggestion.title} ({movieYear})
+                    </p>
+                  </li>
+                );
+              }
             })
           : null}
         <ul>
@@ -204,6 +286,7 @@ class App extends Component {
               })
             : null}
         </ul>
+        {this.state.showButton ? <button>Watch another movie?</button> : null}
       </div>
     );
   }
