@@ -15,7 +15,6 @@ class App extends Component {
       movieImageUrl: "",
       movieTitle: "",
       movieKeywords: [],
-      keywordsForGiphy: [],
       gifDataArray: [],
       showGifs: false,
       inputCounter: 0,
@@ -94,18 +93,19 @@ class App extends Component {
         console.log(response.data.keywords, "get movie keywords axios call");
 
         this.setState({
-          keywordsForGiphy: response.data.keywords,
+          movieKeywords: response.data.keywords,
           userInput: "",
           autoSuggestions: false
         });
+        // if there's less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
         if (response.data.keywords.length >= 3) {
           this.shuffleKeywordsArray();
         } else if (response.data.keywords.length === 2) {
-          this.getKeywordsForGiphy(1);
+          this.makeGiphyApiCalls(1);
         } else if (response.data.keywords.length === 1) {
-          this.getKeywordsForGiphy(2);
+          this.makeGiphyApiCalls(2);
         } else {
-          this.getKeywordsForGiphy(3);
+          this.makeGiphyApiCalls(3);
         }
       })
       .catch(error => {
@@ -132,20 +132,23 @@ class App extends Component {
   };
 
   // function to make the right Giphy API calls, then update to state
-  // COULD BE 2 FUNCTIONS & NEEDS A MORE DESCRIPTIVE NAME
-  getKeywordsForGiphy = randomGifNum => {
-    const gifDataArray = [];
+  makeGiphyApiCalls = randomGifNum => {
     const gifPromises = [];
-    this.state.keywordsForGiphy.forEach(keyword => {
-      gifPromises.push(this.getGifs(keyword.name));
+    this.state.movieKeywords.forEach(keyword => {
+      gifPromises.push(this.getKeywordGifs(keyword.name));
     });
 
     for (let i = 0; i < randomGifNum; i++) {
-      gifPromises.push(this.getRandomGifs()); // RANDOM 0
+      gifPromises.push(this.getRandomGifs());
     }
 
+    this.prepGifData(gifPromises);
+  };
+
+  prepGifData = gifPromises => {
     // wait for API responses to come back
     axios.all(gifPromises).then(gifPromiseReturns => {
+      const gifDataArray = [];
       gifPromiseReturns.forEach(gifPromiseReturn => {
         let gifData = "";
         if (Array.isArray(gifPromiseReturn.data.data) === true) {
@@ -173,8 +176,7 @@ class App extends Component {
 
   //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
   shuffleKeywordsArray = () => {
-    // const newKeywordsArray = [...this.state.movieKeywords];
-    const newKeywordsArray = [...this.state.keywordsForGiphy];
+    const newKeywordsArray = [...this.state.movieKeywords];
     //Fisher-Yates algorithm for shuffling the array.
     for (let i = newKeywordsArray.length - 1; i > 0; i--) {
       const newIndex = Math.floor(Math.random() * (i + 1));
@@ -186,16 +188,15 @@ class App extends Component {
     //Slicing the keyword return to pull only the first three random keywords to use as our giphy call search.
     const slicedKeywords = newKeywordsArray.slice(0, 3);
     this.setState({
-      keywordsForGiphy: slicedKeywords
+      movieKeywords: slicedKeywords
     });
     console.log(newKeywordsArray);
     console.log("shuffled keywords");
-    // this.getKeywordsForGiphy();
-    this.getKeywordsForGiphy(0);
+    this.makeGiphyApiCalls(0);
   };
 
-  // Axios call to get the keywords
-  getGifs = keyword => {
+  // Axios call to get gifs related to the keyword
+  getKeywordGifs = keyword => {
     return axios({
       url: `https://api.giphy.com/v1/gifs/search`,
       method: "GET",
@@ -213,7 +214,6 @@ class App extends Component {
     this.setState({
       gifDataArray: [],
       movieKeywords: [],
-      keywordsForGiphy: [],
       showButton: false
     });
   };
