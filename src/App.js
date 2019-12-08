@@ -76,7 +76,7 @@ class App extends Component {
     this.setState({
       movieTitle: movieTitle,
       movieYear: movieYear,
-      movieImageUrl: `https://image.tmdb.org/t/p/w500${movieImageUrl}`
+      movieImageUrl: movieImageUrl
     });
 
     // Axios call to get the keywords
@@ -238,10 +238,16 @@ class App extends Component {
 
         {this.state.autoSuggestions
           ? this.state.movieSuggestions.map(movieSuggestion => {
+              let moviePosterUrl = ""; //placeholder img url
+              if (movieSuggestion.poster_path !== undefined) {
+                moviePosterUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
+              }
+
               if (
                 movieSuggestion.release_date === undefined ||
                 movieSuggestion.release_date === ""
               ) {
+                // if there's no release date data
                 const movieYear = ""; // no release date so it's an empty string
                 return (
                   <li
@@ -251,7 +257,7 @@ class App extends Component {
                         movieSuggestion.id,
                         movieSuggestion.title,
                         movieYear,
-                        movieSuggestion.poster_path
+                        moviePosterUrl
                       );
                     }}
                   >
@@ -259,6 +265,7 @@ class App extends Component {
                   </li>
                 );
               } else {
+                // if there is a release date
                 const movieYear = movieSuggestion.release_date.slice(0, 4);
                 return (
                   <li
@@ -268,7 +275,7 @@ class App extends Component {
                         movieSuggestion.id,
                         movieSuggestion.title,
                         movieYear,
-                        movieSuggestion.poster_path
+                        moviePosterUrl
                       );
                     }}
                   >
@@ -287,7 +294,11 @@ class App extends Component {
                 return (
                   <li key={i}>
                     <p>Hello!</p>
-                    <img src={gif.images.original.url} alt="gif" />
+                    <img src={gif.images.original.webp} alt={gif.title} />
+                    <img
+                      src={this.state.movieImageUrl}
+                      alt={`Movie poster for "${this.state.movieTitle}"`}
+                    />
                   </li>
                 );
               })
