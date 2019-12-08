@@ -6,20 +6,21 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      userInput: "",
-      autoSuggestions: false,
-      movieSuggestions: [],
       apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
       apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
+      userInput: "",
+      inputCounter: 0,
+      autoSuggestions: false,
+      movieSuggestions: [],
+      movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
-      movieTitle: "",
       movieKeywords: [],
       gifDataArray: [],
       showGifs: false,
-      inputCounter: 0,
-      errorMessage: false,
-      showButton: false
+      noGifs: false,
+      showButton: false,
+      errorMessage: false
     };
   }
 
@@ -35,8 +36,12 @@ class App extends Component {
 
   // This function is for getting movie details from the user input
   getMovieDetails = () => {
-    // To make sure the user types something within the character limit
-    if (this.state.userInput.length > 0 && this.state.inputCounter < 35) {
+    // use regex to check for non-space characters
+    const regexCheck = RegExp(/\w/g);
+    console.log(this.state.userInput.length);
+    console.log(regexCheck.test(this.state.userInput));
+    // axios call is only made once there are alphanumeric characters
+    if (regexCheck.test(this.state.userInput) && this.state.inputCounter < 38) {
       // Make axios call to get movie details
       axios({
         url: `https://api.themoviedb.org/3/search/movie`,
@@ -49,17 +54,18 @@ class App extends Component {
         }
       })
         .then(response => {
-          console.log(response);
+          // no movies returned (empty array)
           if (response.data.results.length === 0) {
             this.setState({
               errorMessage: true
             });
+          } else {
+            // Setting the state to an array of movies and making the autosuggestion show up on the page
+            this.setState({
+              autoSuggestions: true,
+              movieSuggestions: response.data.results
+            });
           }
-          // Setting the state to an array of movies and making the autosuggestion show up on the page
-          this.setState({
-            autoSuggestions: true,
-            movieSuggestions: response.data.results
-          });
         }) // end of .then
         .catch(error => {
           this.setState({
@@ -91,13 +97,13 @@ class App extends Component {
     })
       .then(response => {
         console.log(response.data.keywords, "get movie keywords axios call");
-
         this.setState({
           movieKeywords: response.data.keywords,
           userInput: "",
           autoSuggestions: false
         });
-        // if there's less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
+        // if there's 3 or more keywords, shuffle the keyword array for random 3 keywords to use for Giphy API call
+        // if less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
         if (response.data.keywords.length >= 3) {
           this.shuffleKeywordsArray();
         } else if (response.data.keywords.length === 2) {
@@ -107,18 +113,14 @@ class App extends Component {
         } else {
           this.makeGiphyApiCalls(3);
         }
-      })
+      }) // end of .then
       .catch(error => {
-        // MAY NEED A DIFFERENT ERROR MESSAGE IF KEYWORDS DON'T WORK
-        // CUZ RIGHT NOW IT SAYS MOVIE DOESN'T EXIST BUT USER HAS ALREADY CHOSEN A MOVIE AT THIS POINT
-        this.setState({
-          errorMessage: true
-        });
-        console.log(error);
+        // if there's an error getting keywords, just get 3 random gifs
+        this.makeGiphyApiCalls(3);
       });
   };
 
-  // function for getting random gifs if there are no keywords
+  // function for getting a random gif if there are no keywords (API only returns 1 gif)
   getRandomGifs = () => {
     return axios({
       url: `https://api.giphy.com/v1/gifs/random`,
@@ -137,41 +139,52 @@ class App extends Component {
     this.state.movieKeywords.forEach(keyword => {
       gifPromises.push(this.getKeywordGifs(keyword.name));
     });
-
+    // making calls for x amount of random gifs needed if lacking keywords
     for (let i = 0; i < randomGifNum; i++) {
       gifPromises.push(this.getRandomGifs());
     }
-
     this.prepGifData(gifPromises);
   };
 
   prepGifData = gifPromises => {
     // wait for API responses to come back
-    axios.all(gifPromises).then(gifPromiseReturns => {
-      const gifDataArray = [];
-      gifPromiseReturns.forEach(gifPromiseReturn => {
-        let gifData = "";
-        if (Array.isArray(gifPromiseReturn.data.data) === true) {
-          console.log(gifPromiseReturn.data.data);
-          const randomNumber = Math.floor(
-            Math.random() * gifPromiseReturn.data.data.length
-          );
-          gifData = gifPromiseReturn.data.data[randomNumber];
-        } else {
-          gifData = gifPromiseReturn.data.data;
-        }
-        // Randomly selecting a gif from the response data
-        gifDataArray.push(gifData);
-      });
+    axios
+      .all(gifPromises)
+      .then(gifPromiseReturns => {
+        const gifDataArray = [];
+        gifPromiseReturns.forEach(gifPromiseReturn => {
+          let gifData = "";
+          if (Array.isArray(gifPromiseReturn.data.data) === true) {
+            console.log(gifPromiseReturn.data.data);
+            const randomNumber = Math.floor(
+              Math.random() * gifPromiseReturn.data.data.length
+            );
+            gifData = gifPromiseReturn.data.data[randomNumber];
+          } else {
+            gifData = gifPromiseReturn.data.data;
+          }
+          // Randomly selecting a gif from the response data
+          gifDataArray.push(gifData);
+        });
 
-      this.setState({
-        gifDataArray: gifDataArray,
-        showGifs: true,
-        showButton: true,
-        inputCounter: 0
+        this.setState({
+          gifDataArray: gifDataArray,
+          showGifs: true,
+          showButton: true,
+          inputCounter: 0
+        });
+        console.log(gifDataArray);
+      }) // end of .then
+      .catch(error => {
+        // NEED TO PRINT THIS TO PAGE
+        console.log(
+          "Sorry, this movie is not currently playing at our theatre! Please try another movie."
+        );
+        this.setState({
+          noGifs: true,
+          showButton: true
+        });
       });
-      console.log(gifDataArray);
-    });
   };
 
   //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
@@ -212,9 +225,16 @@ class App extends Component {
   resetState = () => {
     // possibly reset inputCounter, userInput, etc. here too if we make the search bar disappear after the user has selected a movie
     this.setState({
-      gifDataArray: [],
+      userInput: "",
+      inputCounter: 0,
+      movieTitle: "",
+      movieYear: "",
+      movieImageUrl: "",
       movieKeywords: [],
-      showButton: false
+      gifDataArray: [],
+      showButton: false,
+      noGifs: false,
+      errorMessage: false
     });
   };
 
@@ -236,57 +256,60 @@ class App extends Component {
         />
         {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
-        {this.state.autoSuggestions
-          ? this.state.movieSuggestions.map(movieSuggestion => {
-              let moviePosterUrl = ""; //placeholder img url
-              if (movieSuggestion.poster_path !== undefined) {
-                moviePosterUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
-              }
-
-              if (
-                movieSuggestion.release_date === undefined ||
-                movieSuggestion.release_date === ""
-              ) {
-                // if there's no release date data
-                const movieYear = ""; // no release date so it's an empty string
-                return (
-                  <li
-                    key={movieSuggestion.id}
-                    onClick={() => {
-                      this.getMovieKeywords(
-                        movieSuggestion.id,
-                        movieSuggestion.title,
-                        movieYear,
-                        moviePosterUrl
-                      );
-                    }}
-                  >
-                    <p>{movieSuggestion.title}</p>
-                  </li>
-                );
-              } else {
-                // if there is a release date
-                const movieYear = movieSuggestion.release_date.slice(0, 4);
-                return (
-                  <li
-                    key={movieSuggestion.id}
-                    onClick={() => {
-                      this.getMovieKeywords(
-                        movieSuggestion.id,
-                        movieSuggestion.title,
-                        movieYear,
-                        moviePosterUrl
-                      );
-                    }}
-                  >
-                    <p>
-                      {movieSuggestion.title} ({movieYear})
-                    </p>
-                  </li>
-                );
-              }
-            })
-          : null}
+        <ul>
+          {this.state.autoSuggestions
+            ? this.state.movieSuggestions.map(movieSuggestion => {
+                let moviePosterUrl = ""; //placeholder img url
+                // check for movie poster data
+                if (movieSuggestion.poster_path !== undefined) {
+                  moviePosterUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
+                }
+                // check for release date data
+                if (
+                  movieSuggestion.release_date === undefined ||
+                  movieSuggestion.release_date === ""
+                ) {
+                  // if there's no release date
+                  const movieYear = ""; // no release date so it's an empty string
+                  return (
+                    <li
+                      key={movieSuggestion.id}
+                      onClick={() => {
+                        this.getMovieKeywords(
+                          movieSuggestion.id,
+                          movieSuggestion.title,
+                          movieYear,
+                          moviePosterUrl
+                        );
+                      }}
+                    >
+                      <p>{movieSuggestion.title}</p>
+                    </li>
+                  );
+                } else {
+                  // if there is a release date
+                  const movieYear = movieSuggestion.release_date.slice(0, 4);
+                  return (
+                    <li
+                      key={movieSuggestion.id}
+                      onClick={() => {
+                        this.getMovieKeywords(
+                          movieSuggestion.id,
+                          movieSuggestion.title,
+                          movieYear,
+                          moviePosterUrl
+                        );
+                      }}
+                    >
+                      <p>
+                        {movieSuggestion.title} ({movieYear})
+                      </p>
+                    </li>
+                  );
+                }
+              })
+            : null}
+        </ul>
         <ul>
           {this.state.showGifs
             ? this.state.gifDataArray.map((gif, i) => {
@@ -299,11 +322,18 @@ class App extends Component {
                       src={this.state.movieImageUrl}
                       alt={`Movie poster for "${this.state.movieTitle}"`}
                     />
+                    {/* THIS MOVIE POSTER ALT TEXT ISN'T GOOD B/C IT'LL STILL SHOW FOR PLACEHOLDER IMAGE */}
                   </li>
                 );
               })
             : null}
         </ul>
+        {this.state.noGifs ? (
+          <p>
+            Sorry, this movie is not currently playing at our theatre! Please
+            try searching a different movie.
+          </p>
+        ) : null}
         {this.state.showButton ? (
           <button onClick={this.resetState}>Watch another movie?</button>
         ) : null}
