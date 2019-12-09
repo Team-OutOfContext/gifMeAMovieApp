@@ -289,119 +289,122 @@ class App extends Component {
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
-
-        <ul>
-          {this.state.autoSuggestions
-            ? this.state.movieSuggestions.map(movieSuggestion => {
-                let movieImageUrl = ""; //placeholder img url
-                // check for movie poster data
-                if (movieSuggestion.poster_path !== null) {
-                  movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
-                }
-                // check for release date data
-                if (
-                  movieSuggestion.release_date === undefined ||
-                  movieSuggestion.release_date === ""
-                ) {
-                  const movieYear = ""; // no release date so it's an empty string
-                  return (
-                    <div className="movieResults" id="mainContent">
-                      <ul className="movieResultsPartOne">
-                        <li
-                          className="movieListing"
-                          key={movieSuggestion.id}
-                          tabIndex="0"
-                          onClick={() => {
-                            this.getMovieKeywords(
-                              movieSuggestion.id,
-                              movieSuggestion.title,
-                              movieYear,
-                              movieSuggestion.poster_path
-                            );
-                          }}
-                        >
-                          <p>{movieSuggestion.title}</p>
-                        </li>
-                      </ul>
-                    </div>
-                  );
-                } else {
-                  const movieYear = movieSuggestion.release_date.slice(0, 4);
-                  return (
+          <ul>
+            {this.state.autoSuggestions
+              ? this.state.movieSuggestions.map(movieSuggestion => {
+                  let movieImageUrl = ""; //placeholder img url
+                  // check for movie poster data
+                  if (movieSuggestion.poster_path !== null) {
+                    movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
+                  }
+                  // check for release date data
+                  if (
+                    movieSuggestion.release_date === undefined ||
+                    movieSuggestion.release_date === ""
+                  ) {
+                    const movieYear = ""; // no release date so it's an empty string
+                    return (
                       <div className="movieResults" id="mainContent">
-                      <ul className="movieResultsPartOne">
-                        <li
-                          className="movieListing"
-                          key={movieSuggestion.id}
-                          tabIndex="0"
-                          onClick={() => {
-                            this.getMovieKeywords(
-                              movieSuggestion.id,
-                              movieSuggestion.title,
-                              movieYear,
-                              movieSuggestion.poster_path
-                            );
-                          }}
-                        >
-                          <p>{movieSuggestion.title} ({movieYear})</p>
-                        </li>
-                      </ul>
-                    </div>
+                        <ul className="movieResultsPartOne">
+                          <li
+                            className="movieListing"
+                            key={movieSuggestion.id}
+                            tabIndex="0"
+                            onClick={() => {
+                              this.getMovieKeywords(
+                                movieSuggestion.id,
+                                movieSuggestion.title,
+                                movieYear,
+                                movieSuggestion.poster_path
+                              );
+                            }}
+                          >
+                            <p>{movieSuggestion.title}</p>
+                          </li>
+                        </ul>
+                      </div>
+                    );
+                  } else {
+                    const movieYear = movieSuggestion.release_date.slice(0, 4);
+                    return (
+                      <div className="movieResults" id="mainContent">
+                        <ul className="movieResultsPartOne">
+                          <li
+                            className="movieListing"
+                            key={movieSuggestion.id}
+                            tabIndex="0"
+                            onClick={() => {
+                              this.getMovieKeywords(
+                                movieSuggestion.id,
+                                movieSuggestion.title,
+                                movieYear,
+                                movieSuggestion.poster_path
+                              );
+                            }}
+                          >
+                            <p>
+                              {movieSuggestion.title} ({movieYear})
+                            </p>
+                          </li>
+                        </ul>
+                      </div>
+                    );
+                  }
+                })
+              : null}
+          </ul>
+          <ul>
+            {this.state.showGifs
+              ? this.state.gifDataArray.map((gif, i) => {
+                  console.log(gif);
+                  let movieImageAltText = "";
+                  // check if it's the movie poster from API or our placeholder img
+                  const movieImageCheck = RegExp(/^(http)/);
+                  if (movieImageCheck.test(this.state.movieImageUrl)) {
+                    console.log(movieImageCheck.test(this.state.movieImageUrl));
+                    movieImageAltText = "Movie poster for";
+                  } else {
+                    console.log(movieImageCheck.test(this.state.movieImageUrl));
+                    movieImageAltText =
+                      "Placeholder image for the movie poster for";
+                  }
+                  return (
+                    <li key={i}>
+                      <p>Hello!</p>
+                      <img src={gif.images.original.webp} alt={gif.title} />
+                      <img
+                        src={this.state.movieImageUrl}
+                        alt={`${movieImageAltText} "${this.state.movieTitle}"`}
+                      />
+                    </li>
                   );
-              })
-            : null}
-        </ul>
-        <ul>
-          {this.state.showGifs
-            ? this.state.gifDataArray.map((gif, i) => {
-                console.log(gif);
-                let movieImageAltText = "";
-                // check if it's the movie poster from API or our placeholder img
-                const movieImageCheck = RegExp(/^(http)/);
-                if (movieImageCheck.test(this.state.movieImageUrl)) {
-                  console.log(movieImageCheck.test(this.state.movieImageUrl));
-                  movieImageAltText = "Movie poster for";
-                } else {
-                  console.log(movieImageCheck.test(this.state.movieImageUrl));
-                  movieImageAltText =
-                    "Placeholder image for the movie poster for";
-                }
-                return (
-                  <li key={i}>
-                    <p>Hello!</p>
-                    <img src={gif.images.original.webp} alt={gif.title} />
-                    <img
-                      src={this.state.movieImageUrl}
-                      alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                    />
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-        {this.state.noGifs ? (
-          <p>
-            Sorry, this movie is not currently playing at our theatre! Please
-            try searching a different movie.
-          </p>
-        ) : null}
-        <div className="movieTagline">
-          {this.state.showTagline && (
+                })
+              : null}
+          </ul>
+          {this.state.noGifs ? (
             <p>
-              {`When a ${this.state.movieKeywords[0].name} and a
-            ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+              Sorry, this movie is not currently playing at our theatre! Please
+              try searching a different movie.
             </p>
-          )}
-        </div>
-        {this.state.showButton ? (
-          <button onClick={this.resetState}>Watch another movie?</button>
-        ) : null}
-
-        {this.state.showLoadingScreen ? (
-          <div className="loading-screen">
-            <p>Getting the results...</p>
+          ) : null}
+          <div className="movieTagline">
+            {this.state.showTagline && (
+              <p>
+                {`When a ${this.state.movieKeywords[0].name} and a
+            ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+              </p>
+            )}
           </div>
-        ) : null}
+          {this.state.showButton ? (
+            <button onClick={this.resetState}>Watch another movie?</button>
+          ) : null}
+
+          {this.state.showLoadingScreen ? (
+            <div className="loading-screen">
+              <p>Getting the results...</p>
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   }
