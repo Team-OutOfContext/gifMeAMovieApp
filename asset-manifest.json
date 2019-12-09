@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/movieSpoilerProjectSix/static/css/main.82833678.chunk.css",
-    "main.js": "/movieSpoilerProjectSix/static/js/main.9617d135.chunk.js",
-    "main.js.map": "/movieSpoilerProjectSix/static/js/main.9617d135.chunk.js.map",
+    "main.css": "/movieSpoilerProjectSix/static/css/main.31f3c118.chunk.css",
+    "main.js": "/movieSpoilerProjectSix/static/js/main.6dac672f.chunk.js",
+    "main.js.map": "/movieSpoilerProjectSix/static/js/main.6dac672f.chunk.js.map",
     "runtime-main.js": "/movieSpoilerProjectSix/static/js/runtime-main.0513148d.js",
     "runtime-main.js.map": "/movieSpoilerProjectSix/static/js/runtime-main.0513148d.js.map",
     "static/js/2.72ad15d5.chunk.js": "/movieSpoilerProjectSix/static/js/2.72ad15d5.chunk.js",
     "static/js/2.72ad15d5.chunk.js.map": "/movieSpoilerProjectSix/static/js/2.72ad15d5.chunk.js.map",
     "index.html": "/movieSpoilerProjectSix/index.html",
-    "precache-manifest.779c17a95a31999d351f1d967e56c7cb.js": "/movieSpoilerProjectSix/precache-manifest.779c17a95a31999d351f1d967e56c7cb.js",
+    "precache-manifest.7b5b032de57ab848170135e56c7b4fb5.js": "/movieSpoilerProjectSix/precache-manifest.7b5b032de57ab848170135e56c7b4fb5.js",
     "service-worker.js": "/movieSpoilerProjectSix/service-worker.js",
-    "static/css/main.82833678.chunk.css.map": "/movieSpoilerProjectSix/static/css/main.82833678.chunk.css.map"
+    "static/css/main.31f3c118.chunk.css.map": "/movieSpoilerProjectSix/static/css/main.31f3c118.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.0513148d.js",
     "static/js/2.72ad15d5.chunk.js",
-    "static/css/main.82833678.chunk.css",
-    "static/js/main.9617d135.chunk.js"
+    "static/css/main.31f3c118.chunk.css",
+    "static/js/main.6dac672f.chunk.js"
   ]
 }
