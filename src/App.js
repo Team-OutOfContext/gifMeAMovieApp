@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import MovieInput from "./components/MovieInput";
 import "./styles/style.css";
+import MovieSuggestions from "./components/MovieSuggestions.js";
 
 class App extends Component {
   constructor() {
@@ -11,7 +12,7 @@ class App extends Component {
       apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
       userInput: "",
       autoSuggestions: false,
-      movieSuggestions: [],
+      movieSuggestions: ["hi"],
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
@@ -60,8 +61,8 @@ class App extends Component {
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
             this.setState({
-              autoSuggestions: true,
-              movieSuggestions: response.data.results
+              movieSuggestions: response.data.results,
+              autoSuggestions: true
             });
           }
         }) // end of .then
@@ -372,6 +373,74 @@ class App extends Component {
                 : null}
             </ul>
             {this.state.noGifs ? (
+            <div className="searchBar">
+              <label htmlFor="userInput">Search a movie title</label>
+              <input
+                type="text"
+                id="userInput"
+                className="searchInput"
+                placeholder="Search for a movie"
+                value={this.state.userInput}
+                onChange={e => {
+                  this.getUserInput(e);
+                  this.getMovieDetails();
+                }}
+              />
+              <i className="fas fa-search searchIcon"></i>
+            </div>
+          </div>
+          {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
+
+          <div className="wrapper">
+            <div className="searchBar">
+              <div className="movieResults" id="mainContent">
+                {this.state.autoSuggestions ? (
+                  <MovieSuggestions
+                    movieSuggestions={this.state.movieSuggestions}
+                    getMovieKeywords={this.getMovieKeywords}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
+
+          <ul>
+            {this.state.showGifs
+              ? this.state.gifDataArray.map((gif, i) => {
+                  console.log(gif);
+                  let movieImageAltText = "";
+                  // check if it's the movie poster from API or our placeholder img
+                  const movieImageCheck = RegExp(/^(http)/);
+                  if (movieImageCheck.test(this.state.movieImageUrl)) {
+                    console.log(movieImageCheck.test(this.state.movieImageUrl));
+                    movieImageAltText = "Movie poster for";
+                  } else {
+                    console.log(movieImageCheck.test(this.state.movieImageUrl));
+                    movieImageAltText =
+                      "Placeholder image for the movie poster for";
+                  }
+                  return (
+                    <li key={i}>
+                      <p>Hello!</p>
+                      <img src={gif.images.original.webp} alt={gif.title} />
+                      <img
+                        src={this.state.movieImageUrl}
+                        alt={`${movieImageAltText} "${this.state.movieTitle}"`}
+                      />
+                    </li>
+                  );
+                })
+              : null}
+          </ul>
+          {this.state.noGifs ? (
+            <p>
+              Sorry, this movie is not currently playing at our theatre! Please
+              try searching a different movie.
+            </p>
+          ) : null}
+
+          <div className="movieTagline">
+            {this.state.movieKeywords.length === 3 ? (
               <p>
                 Sorry, this movie is not currently playing at our theatre!
                 Please try searching a different movie.
