@@ -176,6 +176,7 @@ class App extends Component {
         console.log(gifDataArray);
       }) // end of .then
       .catch(error => {
+        console.log(error);
         // NEED TO PRINT THIS TO PAGE
         console.log(
           "Sorry, this movie is not currently playing at our theatre! Please try another movie."
@@ -259,10 +260,10 @@ class App extends Component {
         <ul>
           {this.state.autoSuggestions
             ? this.state.movieSuggestions.map(movieSuggestion => {
-                let moviePosterUrl = ""; //placeholder img url
+                let movieImageUrl = ""; //placeholder img url
                 // check for movie poster data
-                if (movieSuggestion.poster_path !== undefined) {
-                  moviePosterUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
+                if (movieSuggestion.poster_path !== null) {
+                  movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
                 }
                 // check for release date data
                 if (
@@ -279,7 +280,7 @@ class App extends Component {
                           movieSuggestion.id,
                           movieSuggestion.title,
                           movieYear,
-                          moviePosterUrl
+                          movieImageUrl
                         );
                       }}
                     >
@@ -297,7 +298,7 @@ class App extends Component {
                           movieSuggestion.id,
                           movieSuggestion.title,
                           movieYear,
-                          moviePosterUrl
+                          movieImageUrl
                         );
                       }}
                     >
@@ -314,15 +315,25 @@ class App extends Component {
           {this.state.showGifs
             ? this.state.gifDataArray.map((gif, i) => {
                 console.log(gif);
+                let movieImageAltText = "";
+                // check if it's the movie poster from API or our placeholder img
+                const movieImageCheck = RegExp(/^(http)/);
+                if (movieImageCheck.test(this.state.movieImageUrl)) {
+                  console.log(movieImageCheck.test(this.state.movieImageUrl));
+                  movieImageAltText = "Movie poster for";
+                } else {
+                  console.log(movieImageCheck.test(this.state.movieImageUrl));
+                  movieImageAltText =
+                    "Placeholder image for the movie poster for";
+                }
                 return (
                   <li key={i}>
                     <p>Hello!</p>
                     <img src={gif.images.original.webp} alt={gif.title} />
                     <img
                       src={this.state.movieImageUrl}
-                      alt={`Movie poster for "${this.state.movieTitle}"`}
+                      alt={`${movieImageAltText} "${this.state.movieTitle}"`}
                     />
-                    {/* THIS MOVIE POSTER ALT TEXT ISN'T GOOD B/C IT'LL STILL SHOW FOR PLACEHOLDER IMAGE */}
                   </li>
                 );
               })
