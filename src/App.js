@@ -195,6 +195,7 @@ class App extends Component {
     });
     console.log(newKeywordsArray);
     console.log("shuffled keywords");
+    console.log(this.state.keywordsForGiphy[0].name);
   };
 
   getGifs = keyword => {
@@ -211,6 +212,7 @@ class App extends Component {
   };
 
   render() {
+    const test = this.state.keywordsForGiphy;
     console.log(this.state.gifDataArray);
     return (
       <div>
@@ -286,6 +288,10 @@ class App extends Component {
               })
             : null}
         </ul>
+        {this.state.keywordsForGiphy ? (
+          <p>This is a test of {this.state.keywordsForGiphy[0].name}</p>
+        ) : null}
+
         {this.state.showButton ? <button>Watch another movie?</button> : null}
       </div>
     );
