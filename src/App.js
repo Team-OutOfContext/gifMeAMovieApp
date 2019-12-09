@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./styles/style.css";
+import MovieSuggestions from "./components/MovieSuggestions.js";
 
 class App extends Component {
   constructor() {
@@ -10,7 +11,7 @@ class App extends Component {
       apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
       userInput: "",
       autoSuggestions: false,
-      movieSuggestions: [],
+      movieSuggestions: ["hi"],
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
@@ -59,8 +60,8 @@ class App extends Component {
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
             this.setState({
-              autoSuggestions: true,
-              movieSuggestions: response.data.results
+              movieSuggestions: response.data.results,
+              autoSuggestions: true
             });
           }
         }) // end of .then
@@ -283,70 +284,18 @@ class App extends Component {
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
-          <ul>
-            {this.state.autoSuggestions
-              ? this.state.movieSuggestions.map(movieSuggestion => {
-                  let movieImageUrl = ""; //placeholder img hurl
-                  // check for movie poster data
-                  if (movieSuggestion.poster_path !== null) {
-                    movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
-                  }
-                  // check for release date data
-                  if (
-                    movieSuggestion.release_date === undefined ||
-                    movieSuggestion.release_date === ""
-                  ) {
-                    const movieYear = ""; // no release date so it's an empty string
-                    return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieImageUrl
-                              );
-                            }}
-                          >
-                            <p>{movieSuggestion.title}</p>
-                          </li>
-                        </ul>
-                      </div>
-                    );
-                  } else {
-                    const movieYear = movieSuggestion.release_date.slice(0, 4);
-                    return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieImageUrl
-                              );
-                            }}
-                          >
-                            <p>
-                              {movieSuggestion.title} ({movieYear})
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    );
-                  }
-                })
-              : null}
-          </ul>
+          <div className="wrapper">
+            <div className="searchBar">
+              <div className="movieResults" id="mainContent">
+                {this.state.autoSuggestions ? (
+                  <MovieSuggestions
+                    movieSuggestions={this.state.movieSuggestions}
+                    getMovieKeywords={this.getMovieKeywords}
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
 
           <ul>
             {this.state.showGifs
