@@ -297,12 +297,21 @@ class App extends Component {
             : null}
         </ul>
         <div className="movieTagline">
-          {this.state.keywordsInArray && (
+          {this.state.keywordsInArray.length === 3 ? (
             <p>
               {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
             </p>
-          )}
+          ) : null}
+          {this.state.keywordsInArray.length === 2 ? (
+            <p>
+              {`When a ${this.state.movieKeywords[0].name} and a
+            ${this.state.movieKeywords[1].name} fall in love`}
+            </p>
+          ) : null}
+          {this.state.keywordsInArray.length === 1 ? (
+            <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+          ) : null}
         </div>
         {this.state.showButton ? (
           <button onClick={this.resetState}>Watch another movie?</button>
