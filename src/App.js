@@ -20,7 +20,7 @@ class App extends Component {
       showButton: false,
       errorMessage: false,
       showLoadingScreen: false,
-      keywordsInArray: false
+      showTagline: false
     };
   }
 
@@ -225,7 +225,7 @@ class App extends Component {
     console.log(this.state.movieKeywords[0].name);
     if (this.state.movieKeywords.length > 0) {
       this.setState({
-        keywordsInArray: true
+        showTagline: true
       });
     }
   };
@@ -363,7 +363,7 @@ class App extends Component {
           </p>
         ) : null}
         <div className="movieTagline">
-          {this.state.keywordsInArray && (
+          {this.state.showTagline && (
             <p>
               {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
