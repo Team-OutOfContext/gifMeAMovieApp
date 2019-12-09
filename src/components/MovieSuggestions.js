@@ -2,7 +2,7 @@ import React from "react";
 
 const MovieSuggestions = props => {
   return (
-    <ul className="movieResultsPartOne">
+    <ul className="movie-results-part-one">
       {props.movieSuggestions.map(movieSuggestion => {
         let movieImageUrl = ""; //placeholder img url
         // check for movie poster data
@@ -23,7 +23,7 @@ const MovieSuggestions = props => {
 
         return (
           <li
-            className="movieListing"
+            className="movie-listing"
             key={movieSuggestion.id}
             tabIndex="0"
             onClick={() => {

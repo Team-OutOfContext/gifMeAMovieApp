@@ -29,14 +29,14 @@
     text-align: center;
     animation: flicker 1.5s infinite alternate;
     background-color: $darkPurple;
-    @include mqLaptopBig {
+    @include mq-laptop-big {
       font-size: 3rem;
     }
-    @include mqTabletBig {
+    @include mq-tablet-big {
       width: 75%;
       font-size: 2.5rem;
     }
-    @include mqPhoneSmall {
+    @include mq-phone-small {
       width: 100%;
       font-size: 2rem;
     }
@@ -53,10 +53,10 @@
     text-shadow: 3px 3px $darkPurple;
     color: $cyan;
     letter-spacing: 2px;
-    @include mqTabletBig {
+    @include mq-tablet-big {
       font-size: 2.8rem;
     }
-    @include mqPhoneSmall {
+    @include mq-phone-small {
       font-size: 2.3rem;
     }
   }
@@ -91,11 +91,12 @@
       box-shadow: none;
     }
   }
-  .movieListing {
+  .movie-listing {
     font-size: 1.8rem;
     list-style-type: none;
-    padding: 10px 0;
+    // padding: 10px 0;
     padding-left: 10px;
+    width: 100%;
     &:hover {
       color: white;
       background-color: rgba(107, 110, 236, 0.4);
@@ -105,22 +106,22 @@
   }
 }
 
-.searchBar {
+.search-bar {
   position: relative;
   width: 50%;
   margin: 0 auto;
-  @include mqLaptopBig {
+  @include mq-laptop-big {
     // width: 60%;
   }
-  @include mqTabletBig {
+  @include mq-tablet-big {
     width: 70%;
   }
-  @include mqPhoneSmall {
+  @include mq-phone-small {
     width: 100%;
   }
 }
 
-.searchInput {
+.search-input {
   padding: 15px;
   height: 60px;
   margin-bottom: 2px;
@@ -134,12 +135,12 @@
   &:focus {
     box-shadow: 0 0 10px $cyan;
   }
-  @include mqTabletBig {
+  @include mq-tablet-big {
     font-size: 1.5rem;
   }
 }
 
-.searchIcon {
+.search-icon {
   color: $cyan;
   opacity: 40%;
   font-size: 2.3rem;
@@ -149,20 +150,22 @@
   bottom: 0px;
 }
 
-.movieResults {
+.movie-results {
   display: flex;
   border-radius: 15px;
   background-color: $darkPurple;
   margin-bottom: 30px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.movieResultsPartOne {
+.movie-results-part-one {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 10px 10px;
   width: 100%;
-  .movieListing {
+  .movie-listing {
     font-size: 1.8rem;
     list-style-type: none;
     padding: 10px 0;
@@ -174,7 +177,7 @@
     &:focus {
       box-shadow: 0 0 10px $cyan;
     }
-    @include mqPhoneSmall {
+    @include mq-phone-small {
       font-size: 1.7rem;
     }
   }

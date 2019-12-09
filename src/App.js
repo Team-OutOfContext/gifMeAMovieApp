@@ -258,7 +258,7 @@ class App extends Component {
     // console.log("page render");
     return (
       <div className="main">
-        <div className="search">
+        <ul className="search">
           <div className="wrapper">
             <h1>GIF ME A MOVIE!</h1>
             <h3>
@@ -266,12 +266,12 @@ class App extends Component {
               movie
             </h3>
 
-            <div className="searchBar">
+            <div className="search-bar">
               <label htmlFor="userInput">Search a movie title</label>
               <input
                 type="text"
                 id="userInput"
-                className="searchInput"
+                className="search-input"
                 placeholder="Search for a movie"
                 value={this.state.userInput}
                 onChange={e => {
@@ -279,14 +279,14 @@ class App extends Component {
                   this.getMovieDetails();
                 }}
               />
-              <i className="fas fa-search searchIcon"></i>
+              <i className="fas fa-search search-icon"></i>
             </div>
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
           <div className="wrapper">
-            <div className="searchBar">
-              <div className="movieResults" id="mainContent">
+            <div className="search-bar">
+              <div className="movie-results" id="mainContent">
                 {this.state.autoSuggestions ? (
                   <MovieSuggestions
                     movieSuggestions={this.state.movieSuggestions}
@@ -313,14 +313,22 @@ class App extends Component {
                       "Placeholder image for the movie poster for";
                   }
                   return (
-                    <li key={i}>
-                      <p>Hello!</p>
-                      <img src={gif.images.original.webp} alt={gif.title} />
-                      <img
+                    <div className="movie-details">
+                      <ul className="carousel">
+                        <li key={i} className="carousel-cell">
+                          <p>Hello!</p>
+                          <img
+                            className="carousel-cell-image"
+                            src={gif.images.original.webp}
+                            alt={gif.title}
+                          />
+                        </li>
+                      </ul>
+                      {/* <img
                         src={this.state.movieImageUrl}
                         alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      />
-                    </li>
+                      /> */}
+                    </div>
                   );
                 })
               : null}
@@ -332,17 +340,17 @@ class App extends Component {
             </p>
           ) : null}
 
-          <div className="movieTagline">
+          <div className="movie-tagline">
             {this.state.movieKeywords.length === 3 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
-            ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+              ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
               </p>
             ) : null}
             {this.state.movieKeywords.length === 2 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
-            ${this.state.movieKeywords[1].name} fall in love`}
+              ${this.state.movieKeywords[1].name} fall in love`}
               </p>
             ) : null}
             {this.state.movieKeywords.length === 1 ? (
@@ -353,13 +361,13 @@ class App extends Component {
           {this.state.showButton ? (
             <button onClick={this.resetState}>Watch another movie?</button>
           ) : null}
+        </ul>
 
-          {this.state.showLoadingScreen ? (
-            <div className="loading-screen">
-              <p>Getting the results...</p>
-            </div>
-          ) : null}
-        </div>
+        {this.state.showLoadingScreen ? (
+          <div className="loading-screen">
+            <p>Getting the results...</p>
+          </div>
+        ) : null}
       </div>
     );
   }
