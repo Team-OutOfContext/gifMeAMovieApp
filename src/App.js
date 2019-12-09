@@ -19,8 +19,7 @@ class App extends Component {
       noGifs: false,
       showButton: false,
       errorMessage: false,
-      showLoadingScreen: false,
-      showTagline: false
+      showLoadingScreen: false
     };
   }
 
@@ -223,11 +222,6 @@ class App extends Component {
     });
     this.makeGiphyApiCalls(0);
     console.log(this.state.movieKeywords[0].name);
-    if (this.state.movieKeywords.length > 0) {
-      this.setState({
-        showTagline: true
-      });
-    }
   };
 
   // Axios call to get gifs related to the keyword
@@ -363,12 +357,21 @@ class App extends Component {
           </p>
         ) : null}
         <div className="movieTagline">
-          {this.state.showTagline && (
+          {this.state.movieKeywords.length === 3 ? (
             <p>
               {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
             </p>
-          )}
+          ) : null}
+          {this.state.movieKeywords.length === 2 ? (
+            <p>
+              {`When a ${this.state.movieKeywords[0].name} and a
+            ${this.state.movieKeywords[1].name} fall in love`}
+            </p>
+          ) : null}
+          {this.state.movieKeywords.length === 1 ? (
+            <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+          ) : null}
         </div>
         {this.state.showButton ? (
           <button onClick={this.resetState}>Watch another movie?</button>
