@@ -19,7 +19,7 @@ class App extends Component {
       noGifs: false,
       showButton: false,
       errorMessage: false,
-      showLoadingScreen: false
+      showLoadingScreen: false,
       keywordsInArray: false
     };
   }
