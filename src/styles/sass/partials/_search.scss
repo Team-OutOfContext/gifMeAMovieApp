@@ -13,7 +13,7 @@
 }
 
 .search {
-  //   min-height: 100vh;
+  min-height: 100vh;
   //   display: flex;
   h1 {
     font-size: 4.5rem;
@@ -94,7 +94,7 @@
   .movieListing {
     font-size: 1.8rem;
     list-style-type: none;
-    padding: 10px 0;
+    // padding: 10px 0;
     padding-left: 10px;
     width: 100%;
     &:hover {
@@ -156,6 +156,7 @@
   background-color: $darkPurple;
   margin-bottom: 30px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .movieResultsPartOne {

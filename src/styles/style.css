@@ -277,6 +277,7 @@ html {
 }
 
 .search {
+  min-height: 100vh;
   /* Animate neon flicker */
 }
 
@@ -393,7 +394,6 @@ html {
 .search .movieListing {
   font-size: 1.8rem;
   list-style-type: none;
-  padding: 10px 0;
   padding-left: 10px;
   width: 100%;
 }
@@ -467,6 +467,7 @@ html {
   background-color: #141640;
   margin-bottom: 30px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .movieResultsPartOne {
