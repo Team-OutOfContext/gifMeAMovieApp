@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./styles/style.css";
+import MovieInput from "./components/MovieInput.js";
 import MovieSuggestions from "./components/MovieSuggestions.js";
+import MovieScreen from "./components/MovieScreen.js";
 
 class App extends Component {
   constructor() {
@@ -15,6 +17,7 @@ class App extends Component {
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
+      movieImageAltText: "",
       movieKeywords: [],
       gifDataArray: [],
       showGifs: false,
@@ -102,6 +105,7 @@ class App extends Component {
           autoSuggestions: false
         });
         this.filterKeywords();
+        //INSERT FUNCTION TO SET UP MOVIE POSTER FOR RESULTS
       }) // end of .then
       .catch(error => {
         // if there's an error getting keywords, just get 3 random gifs
@@ -239,6 +243,22 @@ class App extends Component {
     });
   };
 
+  prepMoviePosterData = () => {
+    // check if it's the movie poster from API or our placeholder img
+    const movieImageCheck = RegExp(/^(http)/);
+    if (movieImageCheck.test(this.state.movieImageUrl)) {
+      console.log(movieImageCheck.test(this.state.movieImageUrl));
+      this.setState({
+        movieImageAltText: "Movie poster for"
+      });
+    } else {
+      console.log(movieImageCheck.test(this.state.movieImageUrl));
+      this.setState({
+        movieImageAltText: "Placeholder image for the movie poster for"
+      });
+    }
+  };
+
   // Reset everything to search a new movie (called on button press)
   resetState = () => {
     this.setState({
@@ -246,6 +266,7 @@ class App extends Component {
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
+      movieImageAltText: "",
       movieKeywords: [],
       gifDataArray: [],
       showButton: false,
@@ -258,7 +279,7 @@ class App extends Component {
     // console.log("page render");
     return (
       <div className="main">
-        <ul className="search">
+        <div className="search">
           <div className="wrapper">
             <h1>GIF ME A MOVIE!</h1>
             <h3>
@@ -266,97 +287,112 @@ class App extends Component {
               movie
             </h3>
 
-             <MovieInput
+            <MovieInput
               userInputProp={this.state.userInput}
               getUserInputProp={this.getUserInput}
               getMovieDetailsProp={this.getMovieDetails}
               errorMessageProp={this.state.errorMessage}
             />
 
-          <div className="wrapper">
-            <div className="search-bar">
-              <div className="movie-results" id="mainContent">
-                {this.state.autoSuggestions ? (
-                  <MovieSuggestions
-                    movieSuggestions={this.state.movieSuggestions}
-                    getMovieKeywords={this.getMovieKeywords}
-                  />
-                ) : null}
+            <div className="wrapper">
+              <div className="search-bar">
+                <div className="movie-results" id="mainContent">
+                  {this.state.autoSuggestions ? (
+                    <MovieSuggestions
+                      movieSuggestions={this.state.movieSuggestions}
+                      getMovieKeywords={this.getMovieKeywords}
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
-          </div>
 
-          <ul>
-            {this.state.showGifs
-              ? this.state.gifDataArray.map((gif, i) => {
-                  console.log(gif);
-                  let movieImageAltText = "";
-                  // check if it's the movie poster from API or our placeholder img
-                  const movieImageCheck = RegExp(/^(http)/);
-                  if (movieImageCheck.test(this.state.movieImageUrl)) {
-                    console.log(movieImageCheck.test(this.state.movieImageUrl));
-                    movieImageAltText = "Movie poster for";
-                  } else {
-                    console.log(movieImageCheck.test(this.state.movieImageUrl));
-                    movieImageAltText =
-                      "Placeholder image for the movie poster for";
-                  }
-                  return (
-                    <div className="movie-details">
-                      <ul className="carousel">
-                        <li key={i} className="carousel-cell">
-                          <p>Hello!</p>
-                          <img
-                            className="carousel-cell-image"
-                            src={gif.images.original.webp}
-                            alt={gif.title}
-                          />
-                        </li>
-                      </ul>
-                      {/* <img
+            {this.state.showGifs ? (
+              <MovieScreen
+                movieTitle={this.state.movieTitle}
+                movieImageUrl={this.state.movieImageUrl}
+                movieImageAltText={this.state.movieImageAltText}
+                gifDataArray={this.state.gifDataArray}
+              />
+            ) : null}
+
+            {/* <div>
+              {this.state.showGifs
+                ? this.state.gifDataArray.map((gif, i) => {
+                    console.log(gif);
+                    let movieImageAltText = "";
+                    // check if it's the movie poster from API or our placeholder img
+                    const movieImageCheck = RegExp(/^(http)/);
+                    if (movieImageCheck.test(this.state.movieImageUrl)) {
+                      console.log(
+                        movieImageCheck.test(this.state.movieImageUrl)
+                      );
+                      movieImageAltText = "Movie poster for";
+                    } else {
+                      console.log(
+                        movieImageCheck.test(this.state.movieImageUrl)
+                      );
+                      movieImageAltText =
+                        "Placeholder image for the movie poster for";
+                    }
+                    return (
+                      <div className="movie-details">
+                        <ul className="carousel">
+                          <li key={i} className="carousel-cell">
+                            <p>Hello!</p>
+                            <img
+                              className="carousel-cell-image"
+                              src={gif.images.original.webp}
+                              alt={gif.title}
+                            />
+                          </li>
+                        </ul>
+                        <img
                         src={this.state.movieImageUrl}
                         alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      /> */}
-                    </div>
-                  );
-                })
-              : null}
-          </ul>
-          {this.state.noGifs ? (
-            <p>
-              Sorry, this movie is not currently playing at our theatre! Please
-              try searching a different movie.
-            </p>
-          ) : null}
+                      /> 
+                      </div>
+                    );
+                  })
+                : null}
+            </div> */}
 
-          <div className="movie-tagline">
-            {this.state.movieKeywords.length === 3 ? (
+            {this.state.noGifs ? (
               <p>
-                {`When a ${this.state.movieKeywords[0].name} and a
+                Sorry, this movie is not currently playing at our theatre!
+                Please try searching a different movie.
+              </p>
+            ) : null}
+
+            <div className="movie-tagline">
+              {this.state.movieKeywords.length === 3 ? (
+                <p>
+                  {`When a ${this.state.movieKeywords[0].name} and a
               ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
-              </p>
-            ) : null}
-            {this.state.movieKeywords.length === 2 ? (
-              <p>
-                {`When a ${this.state.movieKeywords[0].name} and a
+                </p>
+              ) : null}
+              {this.state.movieKeywords.length === 2 ? (
+                <p>
+                  {`When a ${this.state.movieKeywords[0].name} and a
               ${this.state.movieKeywords[1].name} fall in love`}
-              </p>
-            ) : null}
-            {this.state.movieKeywords.length === 1 ? (
-              <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+                </p>
+              ) : null}
+              {this.state.movieKeywords.length === 1 ? (
+                <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+              ) : null}
+            </div>
+
+            {this.state.showButton ? (
+              <button onClick={this.resetState}>Watch another movie?</button>
             ) : null}
           </div>
 
-          {this.state.showButton ? (
-            <button onClick={this.resetState}>Watch another movie?</button>
+          {this.state.showLoadingScreen ? (
+            <div className="loading-screen">
+              <p>Getting the results...</p>
+            </div>
           ) : null}
-        </ul>
-
-        {this.state.showLoadingScreen ? (
-          <div className="loading-screen">
-            <p>Getting the results...</p>
-          </div>
-        ) : null}
+        </div>
       </div>
     );
   }
