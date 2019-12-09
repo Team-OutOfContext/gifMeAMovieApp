@@ -102,17 +102,7 @@ class App extends Component {
           userInput: "",
           autoSuggestions: false
         });
-        // if there's 3 or more keywords, shuffle the keyword array for random 3 keywords to use for Giphy API call
-        // if less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
-        if (response.data.keywords.length >= 3) {
-          this.shuffleKeywordsArray();
-        } else if (response.data.keywords.length === 2) {
-          this.makeGiphyApiCalls(1);
-        } else if (response.data.keywords.length === 1) {
-          this.makeGiphyApiCalls(2);
-        } else {
-          this.makeGiphyApiCalls(3);
-        }
+        this.filterKeywords();
       }) // end of .then
       .catch(error => {
         // if there's an error getting keywords, just get 3 random gifs
@@ -120,7 +110,35 @@ class App extends Component {
       });
   };
 
-  // function for getting a random gif if there are no keywords (API only returns 1 gif)
+  // function to filter for unsearchable keywords
+  // (Movie API has some weird keywords like "aftercreditsstinger" for post credit scenes that result in nothing/errors from Giphy =__=)
+  filterKeywords = () => {
+    const keywordCheck = RegExp(/(stinger)$/);
+    const filteredKeywords = this.state.movieKeywords.filter(
+      keyword => !keywordCheck.test(keyword.name)
+    );
+    this.setState({
+      movieKeywords: filteredKeywords
+    });
+    this.prepGiphyApiCalls();
+  };
+
+  // function to determine how many keyword-based API calls & random API calls we need
+  // if there's 3 or more keywords, shuffle the keyword array for random 3 keywords to use for Giphy API call
+  // if less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
+  prepGiphyApiCalls = () => {
+    if (this.state.movieKeywords.length >= 3) {
+      this.shuffleKeywordsArray();
+    } else if (this.state.movieKeywords.length === 2) {
+      this.makeGiphyApiCalls(1);
+    } else if (this.state.movieKeywords.length === 1) {
+      this.makeGiphyApiCalls(2);
+    } else {
+      this.makeGiphyApiCalls(3);
+    }
+  };
+
+  // function for this.state.movieKgetting a random gif if there are no keywords (API only returns 1 gif)
   getRandomGifs = () => {
     return axios({
       url: `https://api.giphy.com/v1/gifs/random`,
