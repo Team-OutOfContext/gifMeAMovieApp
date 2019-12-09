@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./App.css";
 
 class App extends Component {
   constructor() {
@@ -9,7 +8,6 @@ class App extends Component {
       apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
       apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
       userInput: "",
-      inputCounter: 0,
       autoSuggestions: false,
       movieSuggestions: [],
       movieTitle: "",
@@ -20,17 +18,15 @@ class App extends Component {
       showGifs: false,
       noGifs: false,
       showButton: false,
-      errorMessage: false
+      errorMessage: false,
+      showLoadingScreen: false
     };
   }
 
   //This function gets users search term as they type.
   getUserInput = e => {
-    let counter = this.state.inputCounter;
-    counter++;
     this.setState({
-      [e.target.id]: e.target.value,
-      inputCounter: counter
+      [e.target.id]: e.target.value
     });
   };
 
@@ -41,7 +37,7 @@ class App extends Component {
     console.log(this.state.userInput.length);
     console.log(regexCheck.test(this.state.userInput));
     // axios call is only made once there are alphanumeric characters
-    if (regexCheck.test(this.state.userInput) && this.state.inputCounter < 38) {
+    if (regexCheck.test(this.state.userInput)) {
       // Make axios call to get movie details
       axios({
         url: `https://api.themoviedb.org/3/search/movie`,
@@ -82,7 +78,8 @@ class App extends Component {
     this.setState({
       movieTitle: movieTitle,
       movieYear: movieYear,
-      movieImageUrl: movieImageUrl
+      movieImageUrl: movieImageUrl,
+      showLoadingScreen: true
     });
 
     // Axios call to get the keywords
@@ -186,10 +183,10 @@ class App extends Component {
         });
 
         this.setState({
+          showLoadingScreen: false,
           gifDataArray: gifDataArray,
           showGifs: true,
-          showButton: true,
-          inputCounter: 0
+          showButton: true
         });
         console.log(gifDataArray);
       }) // end of .then
@@ -200,6 +197,7 @@ class App extends Component {
           "Sorry, this movie is not currently playing at our theatre! Please try another movie."
         );
         this.setState({
+          showLoadingScreen: false,
           noGifs: true,
           showButton: true
         });
@@ -242,10 +240,8 @@ class App extends Component {
 
   // Reset everything to search a new movie (called on button press)
   resetState = () => {
-    // possibly reset inputCounter, userInput, etc. here too if we make the search bar disappear after the user has selected a movie
     this.setState({
       userInput: "",
-      inputCounter: 0,
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
@@ -365,6 +361,12 @@ class App extends Component {
         ) : null}
         {this.state.showButton ? (
           <button onClick={this.resetState}>Watch another movie?</button>
+        ) : null}
+
+        {this.state.showLoadingScreen ? (
+          <div className="loading-screen">
+            <p>Getting the results...</p>
+          </div>
         ) : null}
       </div>
     );
