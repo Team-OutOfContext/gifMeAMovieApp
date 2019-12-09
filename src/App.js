@@ -265,152 +265,147 @@ class App extends Component {
               A movie theatre for those who don't have time to watch a full
               movie
             </h3>
+            <MovieInput
+              userInputProp={this.state.userInput}
+              getUserInputProp={this.getUserInput}
+              getMovieDetailsProp={this.getMovieDetails}
+              errorMessageProp={this.state.errorMessage}
+            />
+            <ul>
+              {this.state.autoSuggestions
+                ? this.state.movieSuggestions.map(movieSuggestion => {
+                    let movieImageUrl = ""; //placeholder img hurl
+                    // check for movie poster data
+                    if (movieSuggestion.poster_path !== null) {
+                      movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
+                    }
+                    // check for release date data
+                    if (
+                      movieSuggestion.release_date === undefined ||
+                      movieSuggestion.release_date === ""
+                    ) {
+                      const movieYear = ""; // no release date so it's an empty string
+                      return (
+                        <div className="movieResults" id="mainContent">
+                          <ul className="movieResultsPartOne">
+                            <li
+                              className="movieListing"
+                              key={movieSuggestion.id}
+                              tabIndex="0"
+                              onClick={() => {
+                                this.getMovieKeywords(
+                                  movieSuggestion.id,
+                                  movieSuggestion.title,
+                                  movieYear,
+                                  movieImageUrl
+                                );
+                              }}
+                            >
+                              <p>{movieSuggestion.title}</p>
+                            </li>
+                          </ul>
+                        </div>
+                      );
+                    } else {
+                      const movieYear = movieSuggestion.release_date.slice(
+                        0,
+                        4
+                      );
+                      return (
+                        <div className="movieResults" id="mainContent">
+                          <ul className="movieResultsPartOne">
+                            <li
+                              className="movieListing"
+                              key={movieSuggestion.id}
+                              tabIndex="0"
+                              onClick={() => {
+                                this.getMovieKeywords(
+                                  movieSuggestion.id,
+                                  movieSuggestion.title,
+                                  movieYear,
+                                  movieImageUrl
+                                );
+                              }}
+                            >
+                              <p>
+                                {movieSuggestion.title} ({movieYear})
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                      );
+                    }
+                  })
+                : null}
+            </ul>
 
-            <div className="searchBar">
-              <label htmlFor="userInput">Search a movie title</label>
-              <input
-                type="text"
-                id="userInput"
-                className="searchInput"
-                placeholder="Search for a movie"
-                value={this.state.userInput}
-                onChange={e => {
-                  this.getUserInput(e);
-                  this.getMovieDetails();
-                }}
-              />
-              <i className="fas fa-search searchIcon"></i>
-            </div>
-          </div>
-          {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
-          {/* <MovieInput /> */}
-          <ul>
-            {this.state.autoSuggestions
-              ? this.state.movieSuggestions.map(movieSuggestion => {
-                  let movieImageUrl = ""; //placeholder img hurl
-                  // check for movie poster data
-                  if (movieSuggestion.poster_path !== null) {
-                    movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
-                  }
-                  // check for release date data
-                  if (
-                    movieSuggestion.release_date === undefined ||
-                    movieSuggestion.release_date === ""
-                  ) {
-                    const movieYear = ""; // no release date so it's an empty string
+            <ul>
+              {this.state.showGifs
+                ? this.state.gifDataArray.map((gif, i) => {
+                    console.log(gif);
+                    let movieImageAltText = "";
+                    // check if it's the movie poster from API or our placeholder img
+                    const movieImageCheck = RegExp(/^(http)/);
+                    if (movieImageCheck.test(this.state.movieImageUrl)) {
+                      console.log(
+                        movieImageCheck.test(this.state.movieImageUrl)
+                      );
+                      movieImageAltText = "Movie poster for";
+                    } else {
+                      console.log(
+                        movieImageCheck.test(this.state.movieImageUrl)
+                      );
+                      movieImageAltText =
+                        "Placeholder image for the movie poster for";
+                    }
                     return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieImageUrl
-                              );
-                            }}
-                          >
-                            <p>{movieSuggestion.title}</p>
-                          </li>
-                        </ul>
-                      </div>
+                      <li key={i}>
+                        <p>Hello!</p>
+                        <img src={gif.images.original.webp} alt={gif.title} />
+                        <img
+                          src={this.state.movieImageUrl}
+                          alt={`${movieImageAltText} "${this.state.movieTitle}"`}
+                        />
+                      </li>
                     );
-                  } else {
-                    const movieYear = movieSuggestion.release_date.slice(0, 4);
-                    return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieImageUrl
-                              );
-                            }}
-                          >
-                            <p>
-                              {movieSuggestion.title} ({movieYear})
-                            </p>
-                          </li>
-                        </ul>
-                      </div>
-                    );
-                  }
-                })
-              : null}
-          </ul>
-
-          <ul>
-            {this.state.showGifs
-              ? this.state.gifDataArray.map((gif, i) => {
-                  console.log(gif);
-                  let movieImageAltText = "";
-                  // check if it's the movie poster from API or our placeholder img
-                  const movieImageCheck = RegExp(/^(http)/);
-                  if (movieImageCheck.test(this.state.movieImageUrl)) {
-                    console.log(movieImageCheck.test(this.state.movieImageUrl));
-                    movieImageAltText = "Movie poster for";
-                  } else {
-                    console.log(movieImageCheck.test(this.state.movieImageUrl));
-                    movieImageAltText =
-                      "Placeholder image for the movie poster for";
-                  }
-                  return (
-                    <li key={i}>
-                      <p>Hello!</p>
-                      <img src={gif.images.original.webp} alt={gif.title} />
-                      <img
-                        src={this.state.movieImageUrl}
-                        alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      />
-                    </li>
-                  );
-                })
-              : null}
-          </ul>
-          {this.state.noGifs ? (
-            <p>
-              Sorry, this movie is not currently playing at our theatre! Please
-              try searching a different movie.
-            </p>
-          ) : null}
-
-          <div className="movieTagline">
-            {this.state.movieKeywords.length === 3 ? (
+                  })
+                : null}
+            </ul>
+            {this.state.noGifs ? (
               <p>
-                {`When a ${this.state.movieKeywords[0].name} and a
+                Sorry, this movie is not currently playing at our theatre!
+                Please try searching a different movie.
+              </p>
+            ) : null}
+
+            <div className="movieTagline">
+              {this.state.movieKeywords.length === 3 ? (
+                <p>
+                  {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
-              </p>
-            ) : null}
-            {this.state.movieKeywords.length === 2 ? (
-              <p>
-                {`When a ${this.state.movieKeywords[0].name} and a
+                </p>
+              ) : null}
+              {this.state.movieKeywords.length === 2 ? (
+                <p>
+                  {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love`}
-              </p>
+                </p>
+              ) : null}
+              {this.state.movieKeywords.length === 1 ? (
+                <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+              ) : null}
+            </div>
+
+            {this.state.showButton ? (
+              <button onClick={this.resetState}>Watch another movie?</button>
             ) : null}
-            {this.state.movieKeywords.length === 1 ? (
-              <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+
+            {this.state.showLoadingScreen ? (
+              <div className="loading-screen">
+                <p>Getting the results...</p>
+              </div>
             ) : null}
           </div>
-
-          {this.state.showButton ? (
-            <button onClick={this.resetState}>Watch another movie?</button>
-          ) : null}
-
-          {this.state.showLoadingScreen ? (
-            <div className="loading-screen">
-              <p>Getting the results...</p>
-            </div>
-          ) : null}
         </div>
       </div>
     );

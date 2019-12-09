@@ -10,15 +10,15 @@ class MovieInput extends Component {
           id="userInput"
           className="searchInput"
           placeholder="Search for a movie"
-          value={this.state.userInput}
+          value={this.props.userInputProp}
           onChange={e => {
-            this.getUserInput(e);
-            this.getMovieDetails();
+            this.props.getUserInputProp(e);
+            this.props.getMovieDetailsProp();
           }}
         />
         <i className="fas fa-search searchIcon"></i>
 
-        {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
+        {this.props.errorMessageProp ? <p>Your movie doesn't exist!</p> : null}
       </div>
     );
   }
