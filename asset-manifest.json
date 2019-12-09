@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/movieSpoilerProjectSix/static/css/main.4ba86e52.chunk.css",
+    "main.js": "/movieSpoilerProjectSix/static/js/main.8c61db10.chunk.js",
+    "main.js.map": "/movieSpoilerProjectSix/static/js/main.8c61db10.chunk.js.map",
+    "runtime-main.js": "/movieSpoilerProjectSix/static/js/runtime-main.0513148d.js",
+    "runtime-main.js.map": "/movieSpoilerProjectSix/static/js/runtime-main.0513148d.js.map",
+    "static/js/2.72ad15d5.chunk.js": "/movieSpoilerProjectSix/static/js/2.72ad15d5.chunk.js",
+    "static/js/2.72ad15d5.chunk.js.map": "/movieSpoilerProjectSix/static/js/2.72ad15d5.chunk.js.map",
+    "index.html": "/movieSpoilerProjectSix/index.html",
+    "precache-manifest.bed71af6887c3fea22b3b6a2d715384c.js": "/movieSpoilerProjectSix/precache-manifest.bed71af6887c3fea22b3b6a2d715384c.js",
+    "service-worker.js": "/movieSpoilerProjectSix/service-worker.js",
+    "static/css/main.4ba86e52.chunk.css.map": "/movieSpoilerProjectSix/static/css/main.4ba86e52.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0513148d.js",
+    "static/js/2.72ad15d5.chunk.js",
+    "static/css/main.4ba86e52.chunk.css",
+    "static/js/main.8c61db10.chunk.js"
+  ]
+}
