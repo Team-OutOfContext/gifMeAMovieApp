@@ -20,6 +20,7 @@ class App extends Component {
       showButton: false,
       errorMessage: false,
       showLoadingScreen: false
+      keywordsInArray: false
     };
   }
 
@@ -220,9 +221,13 @@ class App extends Component {
     this.setState({
       movieKeywords: slicedKeywords
     });
-    console.log(newKeywordsArray);
-    console.log("shuffled keywords");
     this.makeGiphyApiCalls(0);
+    console.log(this.state.movieKeywords[0].name);
+    if (this.state.movieKeywords.length > 0) {
+      this.setState({
+        keywordsInArray: true
+      });
+    }
   };
 
   // Axios call to get gifs related to the keyword
@@ -254,11 +259,10 @@ class App extends Component {
   };
 
   render() {
-    console.log("page render");
+    // console.log("page render");
     return (
       <div>
         <h1>Woooo our movie site!</h1>
-
         <label htmlFor="userInput">Search a movie title</label>
         <input
           type="text"
@@ -270,7 +274,6 @@ class App extends Component {
           }}
         />
         {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
-
         <ul>
           {this.state.autoSuggestions
             ? this.state.movieSuggestions.map(movieSuggestion => {
@@ -359,6 +362,14 @@ class App extends Component {
             try searching a different movie.
           </p>
         ) : null}
+        <div className="movieTagline">
+          {this.state.keywordsInArray && (
+            <p>
+              {`When a ${this.state.movieKeywords[0].name} and a
+            ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+            </p>
+          )}
+        </div>
         {this.state.showButton ? (
           <button onClick={this.resetState}>Watch another movie?</button>
         ) : null}
