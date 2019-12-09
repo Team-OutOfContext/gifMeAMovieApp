@@ -265,12 +265,12 @@ class App extends Component {
               movie
             </h3>
 
-            <div className="searchBar">
+            <div className="search-bar">
               <label htmlFor="userInput">Search a movie title</label>
               <input
                 type="text"
                 id="userInput"
-                className="searchInput"
+                className="search-input"
                 placeholder="Search for a movie"
                 value={this.state.userInput}
                 onChange={e => {
@@ -278,15 +278,15 @@ class App extends Component {
                   this.getMovieDetails();
                 }}
               />
-              <i className="fas fa-search searchIcon"></i>
+              <i className="fas fa-search search-icon"></i>
             </div>
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
           <div className="wrapper">
-            <div className="searchBar">
-              <div className="movieResults" id="mainContent">
-                <ul className="movieResultsPartOne">
+            <div className="search-bar">
+              <div className="movie-results" id="main-content">
+                <ul className="movie-results-part-one">
                   {this.state.autoSuggestions
                     ? this.state.movieSuggestions.map(movieSuggestion => {
                         let movieImageUrl = ""; //placeholder img hurl
@@ -303,7 +303,7 @@ class App extends Component {
                           return (
                             <ul>
                               <li
-                                className="movieListing"
+                                className="movie-listing"
                                 key={movieSuggestion.id}
                                 tabIndex="0"
                                 onClick={() => {
@@ -325,10 +325,10 @@ class App extends Component {
                             4
                           );
                           return (
-                            <div className="movieResults" id="mainContent">
-                              <ul className="movieResultsPartOne">
+                            <div className="movie-results" id="main-content">
+                              <ul className="movie-results-part-one">
                                 <li
-                                  className="movieListing"
+                                  className="movie-listing"
                                   key={movieSuggestion.id}
                                   tabIndex="0"
                                   onClick={() => {
@@ -400,7 +400,7 @@ class App extends Component {
             </p>
           ) : null}
 
-          <div className="movieTagline">
+          <div className="movie-tagline">
             {this.state.movieKeywords.length === 3 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a

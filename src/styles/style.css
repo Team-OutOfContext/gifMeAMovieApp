@@ -391,14 +391,14 @@ html {
   }
 }
 
-.search .movieListing {
+.search .movie-listing {
   font-size: 1.8rem;
   list-style-type: none;
   padding-left: 10px;
   width: 100%;
 }
 
-.search .movieListing:hover {
+.search .movie-listing:hover {
   color: white;
   background-color: rgba(107, 110, 236, 0.4);
   -webkit-transition: ease-in-out 0.2s;
@@ -406,25 +406,25 @@ html {
   border-radius: 5px;
 }
 
-.searchBar {
+.search-bar {
   position: relative;
   width: 50%;
   margin: 0 auto;
 }
 
 @media (max-width: 900px) {
-  .searchBar {
+  .search-bar {
     width: 70%;
   }
 }
 
 @media (max-width: 400px) {
-  .searchBar {
+  .search-bar {
     width: 100%;
   }
 }
 
-.searchInput {
+.search-input {
   padding: 15px;
   height: 60px;
   margin-bottom: 2px;
@@ -438,18 +438,18 @@ html {
   color: #8ef9f4;
 }
 
-.searchInput:focus {
+.search-input:focus {
   -webkit-box-shadow: 0 0 10px #8ef9f4;
           box-shadow: 0 0 10px #8ef9f4;
 }
 
 @media (max-width: 900px) {
-  .searchInput {
+  .search-input {
     font-size: 1.5rem;
   }
 }
 
-.searchIcon {
+.search-icon {
   color: #8ef9f4;
   opacity: 40%;
   font-size: 2.3rem;
@@ -459,7 +459,7 @@ html {
   bottom: 0px;
 }
 
-.movieResults {
+.movie-results {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -470,7 +470,7 @@ html {
   width: 100%;
 }
 
-.movieResultsPartOne {
+.movie-results-part-one {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -485,7 +485,7 @@ html {
   width: 100%;
 }
 
-.movieResultsPartOne .movieListing {
+.movie-results-part-one .movie-listing {
   font-size: 1.8rem;
   list-style-type: none;
   padding: 10px 0;
@@ -496,13 +496,13 @@ html {
   width: 100%;
 }
 
-.movieResultsPartOne .movieListing:focus {
+.movie-results-part-one .movie-listing:focus {
   -webkit-box-shadow: 0 0 10px #8ef9f4;
           box-shadow: 0 0 10px #8ef9f4;
 }
 
 @media (max-width: 400px) {
-  .movieResultsPartOne .movieListing {
+  .movie-results-part-one .movie-listing {
     font-size: 1.7rem;
   }
 }
@@ -686,7 +686,7 @@ img {
   width: 100%;
 }
 
-.skipLink {
+.skip-link {
   position: absolute;
   left: -1000px;
   top: 5px;
@@ -698,7 +698,7 @@ img {
   font-weight: 600;
 }
 
-.skipLink:focus {
+.skip-link:focus {
   left: 0;
   -webkit-box-shadow: 0 0 20px #8ef9f4;
           box-shadow: 0 0 20px #8ef9f4;
