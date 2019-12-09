@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MovieInput from "./components/MovieInput";
 import "./styles/style.css";
 
 class App extends Component {
@@ -282,7 +283,7 @@ class App extends Component {
             </div>
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
-
+          {/* <MovieInput /> */}
           <ul>
             {this.state.autoSuggestions
               ? this.state.movieSuggestions.map(movieSuggestion => {
