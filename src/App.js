@@ -304,49 +304,53 @@ class App extends Component {
                   ) {
                     const movieYear = ""; // no release date so it's an empty string
                     return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieSuggestion.poster_path
-                              );
-                            }}
-                          >
-                            <p>{movieSuggestion.title}</p>
-                          </li>
-                        </ul>
+                      <div className="wrapper">
+                        <div className="movieResults" id="mainContent">
+                          <ul className="movieResultsPartOne">
+                            <li
+                              className="movieListing"
+                              key={movieSuggestion.id}
+                              tabIndex="0"
+                              onClick={() => {
+                                this.getMovieKeywords(
+                                  movieSuggestion.id,
+                                  movieSuggestion.title,
+                                  movieYear,
+                                  movieSuggestion.poster_path
+                                );
+                              }}
+                            >
+                              <p>{movieSuggestion.title}</p>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     );
                   } else {
                     const movieYear = movieSuggestion.release_date.slice(0, 4);
                     return (
-                      <div className="movieResults" id="mainContent">
-                        <ul className="movieResultsPartOne">
-                          <li
-                            className="movieListing"
-                            key={movieSuggestion.id}
-                            tabIndex="0"
-                            onClick={() => {
-                              this.getMovieKeywords(
-                                movieSuggestion.id,
-                                movieSuggestion.title,
-                                movieYear,
-                                movieSuggestion.poster_path
-                              );
-                            }}
-                          >
-                            <p>
-                              {movieSuggestion.title} ({movieYear})
-                            </p>
-                          </li>
-                        </ul>
+                      <div className="wrapper">
+                        <div className="movieResults" id="mainContent">
+                          <ul className="movieResultsPartOne">
+                            <li
+                              className="movieListing"
+                              key={movieSuggestion.id}
+                              tabIndex="0"
+                              onClick={() => {
+                                this.getMovieKeywords(
+                                  movieSuggestion.id,
+                                  movieSuggestion.title,
+                                  movieYear,
+                                  movieSuggestion.poster_path
+                                );
+                              }}
+                            >
+                              <p>
+                                {movieSuggestion.title} ({movieYear})
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     );
                   }

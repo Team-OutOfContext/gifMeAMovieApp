@@ -13,7 +13,7 @@
 }
 
 .search {
-  min-height: 100vh;
+  //   min-height: 100vh;
   //   display: flex;
   h1 {
     font-size: 4.5rem;
@@ -96,6 +96,7 @@
     list-style-type: none;
     padding: 10px 0;
     padding-left: 10px;
+    width: 100%;
     &:hover {
       color: white;
       background-color: rgba(107, 110, 236, 0.4);
@@ -154,6 +155,7 @@
   border-radius: 15px;
   background-color: $darkPurple;
   margin-bottom: 30px;
+  margin: 0 auto;
 }
 
 .movieResultsPartOne {

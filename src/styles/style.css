@@ -277,7 +277,6 @@ html {
 }
 
 .search {
-  min-height: 100vh;
   /* Animate neon flicker */
 }
 
@@ -396,6 +395,7 @@ html {
   list-style-type: none;
   padding: 10px 0;
   padding-left: 10px;
+  width: 100%;
 }
 
 .search .movieListing:hover {
@@ -466,6 +466,7 @@ html {
   border-radius: 15px;
   background-color: #141640;
   margin-bottom: 30px;
+  margin: 0 auto;
 }
 
 .movieResultsPartOne {
