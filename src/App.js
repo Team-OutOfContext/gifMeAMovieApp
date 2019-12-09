@@ -20,8 +20,7 @@ class App extends Component {
       noGifs: false,
       showButton: false,
       errorMessage: false,
-      showLoadingScreen: false,
-      showTagline: false
+      showLoadingScreen: false
     };
   }
 
@@ -224,11 +223,6 @@ class App extends Component {
     });
     this.makeGiphyApiCalls(0);
     console.log(this.state.movieKeywords[0].name);
-    if (this.state.movieKeywords.length > 0) {
-      this.setState({
-        showTagline: true
-      });
-    }
   };
 
   // Axios call to get gifs related to the keyword
@@ -277,14 +271,14 @@ class App extends Component {
                 type="text"
                 id="userInput"
                 className="searchInput"
-                placeHolder="Search for a movie"
+                placeholder="Search for a movie"
                 value={this.state.userInput}
                 onChange={e => {
                   this.getUserInput(e);
                   this.getMovieDetails();
                 }}
               />
-              <i class="fas fa-search searchIcon"></i>
+              <i className="fas fa-search searchIcon"></i>
             </div>
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
@@ -292,7 +286,7 @@ class App extends Component {
           <ul>
             {this.state.autoSuggestions
               ? this.state.movieSuggestions.map(movieSuggestion => {
-                  let movieImageUrl = ""; //placeholder img url
+                  let movieImageUrl = ""; //placeholder img hurl
                   // check for movie poster data
                   if (movieSuggestion.poster_path !== null) {
                     movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
@@ -316,7 +310,7 @@ class App extends Component {
                                   movieSuggestion.id,
                                   movieSuggestion.title,
                                   movieYear,
-                                  movieSuggestion.poster_path
+                                  movieImageUrl
                                 );
                               }}
                             >
@@ -341,7 +335,7 @@ class App extends Component {
                                   movieSuggestion.id,
                                   movieSuggestion.title,
                                   movieYear,
-                                  movieSuggestion.poster_path
+                                  movieImageUrl
                                 );
                               }}
                             >
@@ -357,6 +351,7 @@ class App extends Component {
                 })
               : null}
           </ul>
+
           <ul>
             {this.state.showGifs
               ? this.state.gifDataArray.map((gif, i) => {
@@ -391,14 +386,25 @@ class App extends Component {
               try searching a different movie.
             </p>
           ) : null}
+
           <div className="movieTagline">
-            {this.state.showTagline && (
+            {this.state.movieKeywords.length === 3 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
               </p>
-            )}
+            ) : null}
+            {this.state.movieKeywords.length === 2 ? (
+              <p>
+                {`When a ${this.state.movieKeywords[0].name} and a
+            ${this.state.movieKeywords[1].name} fall in love`}
+              </p>
+            ) : null}
+            {this.state.movieKeywords.length === 1 ? (
+              <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+            ) : null}
           </div>
+
           {this.state.showButton ? (
             <button onClick={this.resetState}>Watch another movie?</button>
           ) : null}
