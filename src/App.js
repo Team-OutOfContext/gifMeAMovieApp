@@ -271,14 +271,14 @@ class App extends Component {
                 type="text"
                 id="userInput"
                 className="searchInput"
-                placeHolder="Search for a movie"
+                placeholder="Search for a movie"
                 value={this.state.userInput}
                 onChange={e => {
                   this.getUserInput(e);
                   this.getMovieDetails();
                 }}
               />
-              <i class="fas fa-search searchIcon"></i>
+              <i className="fas fa-search searchIcon"></i>
             </div>
           </div>
           {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
@@ -286,7 +286,7 @@ class App extends Component {
           <ul>
             {this.state.autoSuggestions
               ? this.state.movieSuggestions.map(movieSuggestion => {
-                  let movieImageUrl = ""; //placeholder img url
+                  let movieImageUrl = ""; //placeholder img hurl
                   // check for movie poster data
                   if (movieSuggestion.poster_path !== null) {
                     movieImageUrl = `https://image.tmdb.org/t/p/w500${movieSuggestion.poster_path}`;
@@ -309,7 +309,7 @@ class App extends Component {
                                 movieSuggestion.id,
                                 movieSuggestion.title,
                                 movieYear,
-                                movieSuggestion.poster_path
+                                movieImageUrl
                               );
                             }}
                           >
@@ -332,7 +332,7 @@ class App extends Component {
                                 movieSuggestion.id,
                                 movieSuggestion.title,
                                 movieYear,
-                                movieSuggestion.poster_path
+                                movieImageUrl
                               );
                             }}
                           >
@@ -347,6 +347,7 @@ class App extends Component {
                 })
               : null}
           </ul>
+
           <ul>
             {this.state.showGifs
               ? this.state.gifDataArray.map((gif, i) => {
@@ -375,69 +376,31 @@ class App extends Component {
                 })
               : null}
           </ul>
+          {this.state.noGifs ? (
+            <p>
+              Sorry, this movie is not currently playing at our theatre! Please
+              try searching a different movie.
+            </p>
+          ) : null}
 
-        </ul>
-        <ul>
-          {this.state.showGifs
-            ? this.state.gifDataArray.map((gif, i) => {
-                console.log(gif);
-                let movieImageAltText = "";
-                // check if it's the movie poster from API or our placeholder img
-                const movieImageCheck = RegExp(/^(http)/);
-                if (movieImageCheck.test(this.state.movieImageUrl)) {
-                  console.log(movieImageCheck.test(this.state.movieImageUrl));
-                  movieImageAltText = "Movie poster for";
-                } else {
-                  console.log(movieImageCheck.test(this.state.movieImageUrl));
-                  movieImageAltText =
-                    "Placeholder image for the movie poster for";
-                }
-                return (
-                  <li key={i}>
-                    <p>Hello!</p>
-                    <img src={gif.images.original.webp} alt={gif.title} />
-                    <img
-                      src={this.state.movieImageUrl}
-                      alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                    />
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-        {this.state.noGifs ? (
-          <p>
-            Sorry, this movie is not currently playing at our theatre! Please
-            try searching a different movie.
-          </p>
-        ) : null}
-
-
-        <div className="movieTagline">
-          {this.state.movieKeywords.length === 3 ? (
+          <div className="movieTagline">
+            {this.state.movieKeywords.length === 3 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
               </p>
-            )}
-          {this.state.movieKeywords.length === 2 ? (
-            <p>
-              {`When a ${this.state.movieKeywords[0].name} and a
+            ) : null}
+            {this.state.movieKeywords.length === 2 ? (
+              <p>
+                {`When a ${this.state.movieKeywords[0].name} and a
             ${this.state.movieKeywords[1].name} fall in love`}
-            </p>
-          ) : null}
-          {this.state.movieKeywords.length === 1 ? (
-            <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
-          ) : null}
-        </div>
-        {this.state.showButton ? (
-          <button onClick={this.resetState}>Watch another movie?</button>
-        ) : null}
-
-        {this.state.showLoadingScreen ? (
-          <div className="loading-screen">
-            <p>Getting the results...</p>
+              </p>
+            ) : null}
+            {this.state.movieKeywords.length === 1 ? (
+              <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+            ) : null}
           </div>
+
           {this.state.showButton ? (
             <button onClick={this.resetState}>Watch another movie?</button>
           ) : null}
