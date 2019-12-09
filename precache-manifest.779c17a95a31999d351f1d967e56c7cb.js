@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b0282ea80eb9aba44613a9d97ad1a095",
+    "revision": "6e3074cfe2274a992dfd3e8e2102724e",
     "url": "/movieSpoilerProjectSix/index.html"
   },
   {
-    "revision": "f5325799a033f2f3135e",
-    "url": "/movieSpoilerProjectSix/static/css/main.4ba86e52.chunk.css"
+    "revision": "58a89c7186e97a978e2b",
+    "url": "/movieSpoilerProjectSix/static/css/main.82833678.chunk.css"
   },
   {
     "revision": "e7db6c25fbef36d3c78c",
     "url": "/movieSpoilerProjectSix/static/js/2.72ad15d5.chunk.js"
   },
   {
-    "revision": "f5325799a033f2f3135e",
-    "url": "/movieSpoilerProjectSix/static/js/main.8c61db10.chunk.js"
+    "revision": "58a89c7186e97a978e2b",
+    "url": "/movieSpoilerProjectSix/static/js/main.9617d135.chunk.js"
   },
   {
     "revision": "2340918b13cd2dfcf5e3",
