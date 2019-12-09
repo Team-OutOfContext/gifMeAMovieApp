@@ -1,0 +1,139 @@
+// May have to change variable names to kebab case
+// More semantic html
+
+.results {
+  background: $purple;
+  padding-top: 25px;
+  //   padding-bottom: 75px;
+}
+
+.results .wrapper {
+  display: flex;
+  max-height: 100vh;
+  justify-content: space-between;
+  padding: 50px;
+  background: $darkPurple;
+  //   height: auto;
+  border-radius: 75px;
+}
+
+.movie-details {
+  width: 30%;
+  margin-right: 30px;
+
+  h3 {
+    margin-top: 15px;
+    text-transform: uppercase;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  p {
+    color: white;
+    padding-top: 15px;
+    font-size: 1.8rem;
+  }
+
+  img {
+    border: 2px solid $cyan;
+    box-shadow: 1px 0px 3px 3px $cyan;
+  }
+}
+
+.gif-results {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  justify-content: space-between;
+
+  h2,
+  h3 {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  h3 {
+    color: $cyan;
+    font-size: 5rem;
+    margin-bottom: 20px;
+  }
+}
+
+.carousel-cell {
+  width: 100%;
+  //   height: 400px;
+  //   margin-right: 10px;
+  border-radius: 5px;
+  counter-increment: gallery-cell;
+  list-style: none;
+}
+
+.carousel-cell-image {
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.flickity-page-dots .dot {
+  background: $cyan;
+}
+
+.reset-section {
+  text-align: center;
+  padding-top: 20px;
+
+  .reset {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: $darkPurple;
+    color: white;
+    font-family: $bodyFont;
+  }
+}
+
+@media (max-width: 750px) {
+  .movie-details img {
+    display: none;
+  }
+
+  .results .wrapper {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .gif-results,
+  .movie-details {
+    width: 100%;
+  }
+
+  .movie-details {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 610px) {
+  .carousel-cell {
+    height: 300px;
+  }
+
+  .results {
+    background: $darkPurple;
+  }
+
+  .reset-section {
+    .reset {
+      background: $cyan;
+      color: $darkPurple;
+    }
+  }
+}

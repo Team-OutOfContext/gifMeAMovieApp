@@ -354,7 +354,9 @@ class App extends Component {
               </div>
             </div>
           </div>
-
+        </ul>
+        {/* Page 2 Start */}
+        <div className="results">
           <ul>
             {this.state.showGifs
               ? this.state.gifDataArray.map((gif, i) => {
@@ -371,14 +373,22 @@ class App extends Component {
                       "Placeholder image for the movie poster for";
                   }
                   return (
-                    <li key={i}>
-                      <p>Hello!</p>
-                      <img src={gif.images.original.webp} alt={gif.title} />
-                      <img
+                    <div className="movie-details">
+                      <ul className="carousel">
+                        <li key={i} className="carousel-cell">
+                          <p>Hello!</p>
+                          <img
+                            className="carousel-cell-image"
+                            src={gif.images.original.webp}
+                            alt={gif.title}
+                          />
+                        </li>
+                      </ul>
+                      {/* <img
                         src={this.state.movieImageUrl}
                         alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      />
-                    </li>
+                      /> */}
+                    </div>
                   );
                 })
               : null}
@@ -394,13 +404,13 @@ class App extends Component {
             {this.state.movieKeywords.length === 3 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
-            ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+              ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
               </p>
             ) : null}
             {this.state.movieKeywords.length === 2 ? (
               <p>
                 {`When a ${this.state.movieKeywords[0].name} and a
-            ${this.state.movieKeywords[1].name} fall in love`}
+              ${this.state.movieKeywords[1].name} fall in love`}
               </p>
             ) : null}
             {this.state.movieKeywords.length === 1 ? (
@@ -411,14 +421,13 @@ class App extends Component {
           {this.state.showButton ? (
             <button onClick={this.resetState}>Watch another movie?</button>
           ) : null}
+        </div>
 
-          {this.state.showLoadingScreen ? (
-            <div className="loading-screen">
-              <p>Getting the results...</p>
-            </div>
-          ) : null}
-          {/* </div> */}
-        </ul>
+        {this.state.showLoadingScreen ? (
+          <div className="loading-screen">
+            <p>Getting the results...</p>
+          </div>
+        ) : null}
       </div>
     );
   }

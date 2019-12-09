@@ -507,6 +507,148 @@ html {
   }
 }
 
+.results {
+  background: #6b6eec;
+  padding-top: 25px;
+}
+
+.results .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 100vh;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 50px;
+  background: #141640;
+  border-radius: 75px;
+}
+
+.movie-details {
+  width: 30%;
+  margin-right: 30px;
+}
+
+.movie-details h3 {
+  margin-top: 15px;
+  text-transform: uppercase;
+}
+
+.movie-details li {
+  list-style-type: none;
+}
+
+.movie-details p {
+  color: white;
+  padding-top: 15px;
+  font-size: 1.8rem;
+}
+
+.movie-details img {
+  border: 2px solid #8ef9f4;
+  -webkit-box-shadow: 1px 0px 3px 3px #8ef9f4;
+          box-shadow: 1px 0px 3px 3px #8ef9f4;
+}
+
+.gif-results {
+  width: 70%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 70%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.gif-results h2,
+.gif-results h3 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.gif-results h2 {
+  font-size: 3rem;
+}
+
+.gif-results h3 {
+  color: #8ef9f4;
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.carousel-cell {
+  width: 100%;
+  border-radius: 5px;
+  counter-increment: gallery-cell;
+  list-style: none;
+}
+
+.carousel-cell-image {
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.flickity-page-dots .dot {
+  background: #8ef9f4;
+}
+
+.reset-section {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.reset-section .reset {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #141640;
+  color: white;
+  font-family: "Lato", sans-serif;
+}
+
+@media (max-width: 750px) {
+  .movie-details img {
+    display: none;
+  }
+  .results .wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    text-align: center;
+  }
+  .gif-results,
+  .movie-details {
+    width: 100%;
+  }
+  .movie-details {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width: 610px) {
+  .carousel-cell {
+    height: 300px;
+  }
+  .results {
+    background: #141640;
+  }
+  .reset-section .reset {
+    background: #8ef9f4;
+    color: #141640;
+  }
+}
+
 html {
   font-size: 62.5%;
 }
