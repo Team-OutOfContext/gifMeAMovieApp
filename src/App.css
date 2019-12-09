@@ -10,31 +10,12 @@ font-family: 'Kanit', sans-serif;
 - */
 
 /* Colors: */
-/* 
+/*
 purple: #6b6eec
 darkBlue: #141640
-teal: #8ef9f4 
+teal: #8ef9f4
 */
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
 }

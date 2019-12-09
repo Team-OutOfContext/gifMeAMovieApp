@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./App.css";
+import "./styles/style.css";
 
 class App extends Component {
   constructor() {
@@ -221,65 +221,85 @@ class App extends Component {
   render() {
     console.log("page render");
     return (
-      <div>
-        <h1>Woooo our movie site!</h1>
+      <div className="main">
+        <div className="search">
+          <div className="wrapper">
+            <h1>GIF ME A MOVIE!</h1>
+            <h3>
+              A movie theatre for those who don't have time to watch a full
+              movie
+            </h3>
 
-        <label htmlFor="userInput">Search a movie title</label>
-        <input
-          type="text"
-          id="userInput"
-          value={this.state.userInput}
-          onChange={e => {
-            this.getUserInput(e);
-            this.getMovieDetails();
-          }}
-        />
-        {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
+            <div className="searchBar">
+              <label htmlFor="userInput">Search a movie title</label>
+              <input
+                type="text"
+                id="userInput"
+                className="searchInput"
+                placeHolder="Search for a movie"
+                value={this.state.userInput}
+                onChange={e => {
+                  this.getUserInput(e);
+                  this.getMovieDetails();
+                }}
+              />
+              <i class="fas fa-search searchIcon"></i>
+            </div>
+          </div>
+          {this.state.errorMessage ? <p>Your movie doesn't exist!</p> : null}
 
-        {this.state.autoSuggestions
-          ? this.state.movieSuggestions.map(movieSuggestion => {
-              if (
-                movieSuggestion.release_date === undefined ||
-                movieSuggestion.release_date === ""
-              ) {
-                const movieYear = ""; // no release date so it's an empty string
-                return (
-                  <li
-                    key={movieSuggestion.id}
-                    onClick={() => {
-                      this.getMovieKeywords(
-                        movieSuggestion.id,
-                        movieSuggestion.title,
-                        movieYear,
-                        movieSuggestion.poster_path
-                      );
-                    }}
-                  >
-                    <p>{movieSuggestion.title}</p>
-                  </li>
-                );
-              } else {
-                const movieYear = movieSuggestion.release_date.slice(0, 4);
-                return (
-                  <li
-                    key={movieSuggestion.id}
-                    onClick={() => {
-                      this.getMovieKeywords(
-                        movieSuggestion.id,
-                        movieSuggestion.title,
-                        movieYear,
-                        movieSuggestion.poster_path
-                      );
-                    }}
-                  >
-                    <p>
-                      {movieSuggestion.title} ({movieYear})
-                    </p>
-                  </li>
-                );
-              }
-            })
-          : null}
+          {this.state.autoSuggestions
+            ? this.state.movieSuggestions.map(movieSuggestion => {
+                if (
+                  movieSuggestion.release_date === undefined ||
+                  movieSuggestion.release_date === ""
+                ) {
+                  const movieYear = ""; // no release date so it's an empty string
+                  return (
+                    <div className="movieResults" id="mainContent">
+                      <ul className="movieResultsPartOne">
+                        <li
+                          key={movieSuggestion.id}
+                          tabIndex="0"
+                          onClick={() => {
+                            this.getMovieKeywords(
+                              movieSuggestion.id,
+                              movieSuggestion.title,
+                              movieYear,
+                              movieSuggestion.poster_path
+                            );
+                          }}
+                        >
+                          <p>{movieSuggestion.title}</p>
+                        </li>
+                      </ul>
+                    </div>
+                  );
+                } else {
+                  const movieYear = movieSuggestion.release_date.slice(0, 4);
+                  return (
+                    <li
+                      className="movieListing"
+                      key={movieSuggestion.id}
+                      onClick={() => {
+                        this.getMovieKeywords(
+                          movieSuggestion.id,
+                          movieSuggestion.title,
+                          movieYear,
+                          movieSuggestion.poster_path
+                        );
+                      }}
+                    >
+                      <p>
+                        {movieSuggestion.title} ({movieYear})
+                      </p>
+                    </li>
+                  );
+                }
+              })
+            : null}
+        </div>
+
         <ul>
           {this.state.showGifs
             ? this.state.gifDataArray.map((gif, i) => {

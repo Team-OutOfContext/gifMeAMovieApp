@@ -1,0 +1,183 @@
+.main {
+  min-height: 100vh;
+  background-image: linear-gradient(
+    to bottom,
+    #6b6eec,
+    #5456be,
+    #3d3f91,
+    #282a67,
+    #141640
+  );
+  //   Bug fix?!?!?!?!
+  padding-top: 1px;
+}
+
+.search {
+  min-height: 100vh;
+  //   display: flex;
+  h1 {
+    font-size: 4.5rem;
+    font-weight: 400;
+    letter-spacing: 10px;
+    color: white;
+    margin: 50px auto;
+    margin-bottom: 60px;
+    padding: 20px 0px;
+    width: 70%;
+    border: 5px solid $cyan;
+    border-radius: 20px;
+    text-align: center;
+    animation: flicker 1.5s infinite alternate;
+    background-color: $darkPurple;
+    @include mqLaptopBig {
+      font-size: 3rem;
+    }
+    @include mqTabletBig {
+      width: 75%;
+      font-size: 2.5rem;
+    }
+    @include mqPhoneSmall {
+      width: 100%;
+      font-size: 2rem;
+    }
+  }
+
+  label {
+    visibility: hidden;
+  }
+
+  h3 {
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 50px;
+    text-shadow: 3px 3px $darkPurple;
+    color: $cyan;
+    letter-spacing: 2px;
+    @include mqTabletBig {
+      font-size: 2.8rem;
+    }
+    @include mqPhoneSmall {
+      font-size: 2.3rem;
+    }
+  }
+
+  h1:focus {
+    outline: none;
+  }
+
+  /* Animate neon flicker */
+  @keyframes flicker {
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+      text-shadow: -0.2rem -0.2rem 1rem $cyan, 0.2rem 0.2rem 1rem $cyan,
+        0 0 2rem $purple, 0 0 4rem $purple, 0 0 6rem $purple, 0 0 8rem $purple,
+        0 0 10rem $purple;
+
+      box-shadow: 0 0 0.5rem $cyan, inset 0 0 0.5rem $cyan, 0 0 2rem $darkPurple,
+        inset 0 0 2rem $darkPurple, 0 0 4rem $darkPurple,
+        inset 0 0 4rem $darkPurple;
+    }
+
+    20%,
+    24%,
+    55% {
+      text-shadow: none;
+      box-shadow: none;
+    }
+  }
+  .movieListing {
+    font-size: 1.8rem;
+    list-style-type: none;
+    padding: 10px 0;
+    padding-left: 10px;
+    &:hover {
+      color: white;
+      background-color: rgba(107, 110, 236, 0.4);
+      transition: ease-in-out 0.2s;
+      border-radius: 5px;
+    }
+  }
+}
+
+.searchBar {
+  position: relative;
+  width: 50%;
+  margin: 0 auto;
+  @include mqLaptopBig {
+    // width: 60%;
+  }
+  @include mqTabletBig {
+    width: 70%;
+  }
+  @include mqPhoneSmall {
+    width: 100%;
+  }
+}
+
+.searchInput {
+  padding: 15px;
+  height: 60px;
+  margin-bottom: 2px;
+  border-radius: 15px;
+  font-size: 1.8rem;
+  width: 100%;
+  border: none;
+  box-shadow: 4px 3px 3px darkslateblue;
+  background-color: $darkPurple;
+  color: $cyan;
+  &:focus {
+    box-shadow: 0 0 10px $cyan;
+  }
+  @include mqTabletBig {
+    font-size: 1.5rem;
+  }
+}
+
+.searchIcon {
+  color: $cyan;
+  opacity: 40%;
+  font-size: 2.3rem;
+  position: absolute;
+  right: 15px;
+  top: 38px;
+  bottom: 0px;
+}
+
+.movieResults {
+  display: flex;
+  border-radius: 15px;
+  background-color: $darkPurple;
+  margin-bottom: 30px;
+}
+
+.movieResultsPartOne {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 10px;
+  width: 100%;
+  .movieListing {
+    font-size: 1.8rem;
+    list-style-type: none;
+    padding: 10px 0;
+    padding-left: 10px;
+    color: $cyan;
+    text-align: left;
+    border-bottom: 1px solid rgba(142, 249, 244, 0.1);
+    width: 100%;
+    &:focus {
+      box-shadow: 0 0 10px $cyan;
+    }
+    @include mqPhoneSmall {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+// H1 flicker animation credits to George W. Park (https://codepen.io/GeorgePark/pen/MrjbEr)
