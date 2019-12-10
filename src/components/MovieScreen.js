@@ -21,7 +21,7 @@ class MovieScreen extends Component {
     return (
       <div className="results">
         <div className="top-title">
-          <h2>You chose</h2>
+          <h5 className="now-playing-title">Now Playing</h5>
           <h3 className="movie-title">{this.props.movieTitle}</h3>
         </div>
         <div className="wrapper movie-screen-wrap">
@@ -48,13 +48,14 @@ class MovieScreen extends Component {
             </Slider>
           </div>
         </div>
-        <div className="critics-review">
-          <h3>Critic's Review</h3>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
-            excepturi, perferendis sed officiis voluptate, hic inventore
-            sapiente!
-          </p>
+        <div className="critics-review wrapper">
+          <div>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
+              excepturi, perferendis
+            </p>
+          </div>
+          <h6> - Critic's Review</h6>
         </div>
       </div>
     );

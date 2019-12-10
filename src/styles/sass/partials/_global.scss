@@ -17,6 +17,7 @@ body {
 h1,
 h2,
 h3,
+h6,
 li,
 ul,
 p {
@@ -27,7 +28,8 @@ p {
 
 h1,
 h2,
-h3 {
+h3,
+h6 {
   font-family: $headerFont;
 }
 
