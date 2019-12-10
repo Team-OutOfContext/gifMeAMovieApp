@@ -73,42 +73,38 @@ class App extends Component {
 
   render() {
     return (
-      <div className="main">
-        <div className="search">
-          <div className="wrapper">
-            {this.state.showMovieInputComp ? (
-              <MovieInput passMovieInfoProps={this.passMovieInfo} />
-            ) : null}
+      <div className="App">
+        {this.state.showMovieInputComp ? (
+          <MovieInput passMovieInfoProps={this.passMovieInfo} />
+        ) : null}
 
-            {this.state.showGifs ? (
-              <MovieScreen
-                movieTitle={this.state.movieTitle}
-                movieImageUrl={this.state.movieImageUrl}
-                movieImageAltText={this.state.movieImageAltText}
-                gifDataArray={this.state.gifDataArray}
-                showGifs={this.state.showGifs}
-                movieKeywords={this.state.movieKeywords}
-              />
-            ) : null}
+        {this.state.showGifs ? (
+          <MovieScreen
+            movieTitle={this.state.movieTitle}
+            movieImageUrl={this.state.movieImageUrl}
+            movieImageAltText={this.state.movieImageAltText}
+            gifDataArray={this.state.gifDataArray}
+            showGifs={this.state.showGifs}
+            movieKeywords={this.state.movieKeywords}
+          />
+        ) : null}
 
-            {this.state.noGifs ? (
-              <p>
-                Sorry, this movie is not currently playing at our theatre!
-                Please try searching a different movie.
-              </p>
-            ) : null}
+        {this.state.noGifs ? (
+          <p>
+            Sorry, this movie is not currently playing at our theatre! Please
+            try searching a different movie.
+          </p>
+        ) : null}
 
-            {this.state.showButton ? (
-              <button onClick={this.resetState}>Watch another movie?</button>
-            ) : null}
+        {this.state.showButton ? (
+          <button onClick={this.resetState}>Watch another movie?</button>
+        ) : null}
+
+        {this.state.showLoadingScreen ? (
+          <div className="loading-screen">
+            <p>Getting the results...</p>
           </div>
-
-          {this.state.showLoadingScreen ? (
-            <div className="loading-screen">
-              <p>Getting the results...</p>
-            </div>
-          ) : null}
-        </div>
+        ) : null}
       </div>
     );
   }

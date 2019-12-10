@@ -241,48 +241,44 @@ class MovieInput extends Component {
       });
   };
 
-
   render() {
     return (
-      <div>
-        <h1>GIF ME A MOVIE!</h1>
-        <h3>
-          A movie theatre for those who don't have time
-        </h3>
-        <div className="search-bar">
-          <label htmlFor="userInput">Search a movie title</label>
-          <input
-            type="text"
-            id="userInput"
-            className="search-input"
-            placeholder="Search for a movie"
-            value={this.state.userInput}
-            onChange={e => {
-              this.getUserInput(e);
-              this.getMovieDetails();
-            }}
-          />
-          <i className="fas fa-search search-icon"></i>
+      <section className="movie-input-section">
+        <div className="wrapper">
+          <h1>Gif Me A Movie</h1>
+          <h2>A theatre for those who don't have time</h2>
+          <div className="search-bar">
+            <label htmlFor="userInput">Search a movie title</label>
+            <input
+              type="text"
+              id="userInput"
+              className="search-input"
+              placeholder="Search for a movie"
+              value={this.state.userInput}
+              onChange={e => {
+                this.getUserInput(e);
+                this.getMovieDetails();
+              }}
+            />
+            <i className="fas fa-search search-icon"></i>
 
-          {this.props.errorMessageProp ? (
-            <p>Your movie doesn't exist!</p>
-          ) : null}
+            {this.props.errorMessageProp ? (
+              <p>Your movie doesn't exist!</p>
+            ) : null}
 
-          <div className="wrapper">
-            <div className="search-bar">
-              <div className="movie-results" id="mainContent">
-                {this.state.autoSuggestions ? (
-                  <MovieSuggestions
-                    movieSuggestions={this.state.movieSuggestions}
-                    getMovieKeywords={this.getMovieKeywords}
-                    passMovieInfoProps={this.passMovieInfo}
-                  />
-                ) : null}
-              </div>
+            <div className="movie-results">
+              {this.state.autoSuggestions ? (
+                <MovieSuggestions
+                  movieSuggestions={this.state.movieSuggestions}
+                  getMovieKeywords={this.getMovieKeywords}
+                  passMovieInfoProps={this.passMovieInfo}
+                />
+              ) : null}
             </div>
           </div>
+          <div className="movie-seats"></div>
         </div>
-      </div>
+      </section>
     );
   }
 }
