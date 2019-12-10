@@ -3,12 +3,12 @@ import React, { Component } from "react";
 class MovieInput extends Component {
   render() {
     return (
-      <div className="searchBar">
+      <div className="search-bar">
         <label htmlFor="userInput">Search a movie title</label>
         <input
           type="text"
           id="userInput"
-          className="searchInput"
+          className="search-input"
           placeholder="Search for a movie"
           value={this.props.userInputProp}
           onChange={e => {
@@ -16,7 +16,7 @@ class MovieInput extends Component {
             this.props.getMovieDetailsProp();
           }}
         />
-        <i className="fas fa-search searchIcon"></i>
+        <i className="fas fa-search search-icon"></i>
 
         {this.props.errorMessageProp ? <p>Your movie doesn't exist!</p> : null}
       </div>

@@ -350,7 +350,7 @@ class App extends Component {
                         <img
                         src={this.state.movieImageUrl}
                         alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      /> 
+                      />
                       </div>
                     );
                   })
