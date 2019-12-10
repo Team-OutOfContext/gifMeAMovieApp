@@ -306,6 +306,12 @@ img {
   width: 100%;
 }
 
+ul,
+li {
+  list-style: none;
+  padding-left: 0;
+}
+
 .movie-input-section {
   min-height: 100vh;
   background-image: url(../assets/curtains.png), -webkit-gradient(linear, left top, left bottom, from(#6b6eec), color-stop(#5456be), color-stop(#3d3f91), color-stop(#282a67), to(#141640));
@@ -331,9 +337,8 @@ img {
 h1 {
   font-size: 4.5rem;
   text-transform: uppercase;
-  font-weight: 400;
   letter-spacing: 10px;
-  color: white;
+  color: #fff;
   margin: 50px auto 60px;
   padding: 20px 0px;
   width: 70%;
@@ -434,21 +439,6 @@ h2 {
   }
 }
 
-.movie-listing {
-  font-size: 1.8rem;
-  list-style-type: none;
-  padding-left: 10px;
-  width: 100%;
-}
-
-.movie-listing:hover {
-  color: white;
-  background-color: rgba(107, 110, 236, 0.4);
-  -webkit-transition: ease-in-out 0.2s;
-  transition: ease-in-out 0.2s;
-  border-radius: 5px;
-}
-
 .search-bar {
   position: relative;
   width: 50%;
@@ -468,11 +458,10 @@ h2 {
 }
 
 .search-input {
-  padding: 15px;
+  padding: 15px 20px;
   height: 60px;
   margin-bottom: 2px;
   border-radius: 15px;
-  font-size: 1.8rem;
   width: 100%;
   border: none;
   -webkit-box-shadow: 4px 3px 3px black;
@@ -502,18 +491,8 @@ h2 {
   bottom: 0px;
 }
 
-.movie-results {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  border-radius: 15px;
-  background-color: #141640;
-  margin-bottom: 30px;
-  margin: 0 auto;
-  width: 100%;
-}
-
 .movie-results-part-one {
+  background-color: #141640;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -524,24 +503,30 @@ h2 {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  margin: 10px 10px;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
 .movie-listing {
-  font-size: 1.8rem;
-  list-style-type: none;
-  padding: 10px 0;
-  padding-left: 10px;
   color: #8ef9f4;
   text-align: left;
-  border-bottom: 1px solid rgba(142, 249, 244, 0.1);
+  padding: 10px;
   width: 100%;
+  -webkit-transition: ease-in-out 0.2s;
+  transition: ease-in-out 0.2s;
+  border-bottom: 1px solid rgba(142, 249, 244, 0.1);
 }
 
-.movie-listing:focus {
-  -webkit-box-shadow: 0 0 10px #8ef9f4;
-          box-shadow: 0 0 10px #8ef9f4;
+.movie-listing:last-of-type {
+  border-bottom: 0;
+}
+
+.movie-listing:hover, .movie-listing:focus {
+  color: #fff;
+  background-color: rgba(107, 110, 236, 0.4);
+  border-radius: 5px;
 }
 
 @media (max-width: 400px) {

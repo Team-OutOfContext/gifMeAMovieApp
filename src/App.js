@@ -62,8 +62,9 @@ class App extends Component {
             });
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
+            const movieSuggestions = response.data.results.slice(0, 10);
             this.setState({
-              movieSuggestions: response.data.results,
+              movieSuggestions: movieSuggestions,
               autoSuggestions: true
             });
           }
@@ -276,15 +277,12 @@ class App extends Component {
   };
 
   render() {
-    // console.log("page render");
     return (
-      <div>
+      <div className="App">
         <section className="movie-input-section">
           <div className="wrapper">
             <h1>Gif Me A Movie</h1>
-            <h2>
-              A theatre for those who don't have time to watch a full movie
-            </h2>
+            <h2>A theatre for those who don't have time</h2>
 
             <MovieInput
               userInputProp={this.state.userInput}
@@ -295,15 +293,15 @@ class App extends Component {
 
             <div className="movie-seats"></div>
 
-            {/* <div className="search-bar">  MovieSuggestions should be inside MovieInput component so we don't repeat the search-bar div */}
-            <div className="movie-results">
+            <div className="search-bar">
+              {/* MovieSuggestions should be inside MovieInput component so we don't repeat the search-bar div */}
+
               {this.state.autoSuggestions ? (
                 <MovieSuggestions
                   movieSuggestions={this.state.movieSuggestions}
                   getMovieKeywords={this.getMovieKeywords}
                 />
               ) : null}
-              {/* </div> */}
             </div>
           </div>
         </section>

@@ -2,7 +2,6 @@
   min-height: 100vh;
   background-image: url(../assets/curtains.png),
     linear-gradient(to bottom, #6b6eec, #5456be, #3d3f91, #282a67, #141640);
-  //   Bug fix?!?!?!?!
   background-size: cover;
   background-position: top center;
   background-attachment: fixed;
@@ -25,9 +24,8 @@
 h1 {
   font-size: 4.5rem;
   text-transform: uppercase;
-  font-weight: 400;
   letter-spacing: 10px;
-  color: white;
+  color: $primaryTextColor;
   margin: 50px auto 60px;
   padding: 20px 0px;
   width: 70%;
@@ -53,7 +51,7 @@ h1 {
 }
 
 label {
-  visibility: hidden;
+  visibility: hidden; /// shouldn't do this, need to add the class for sr purposes
 }
 
 h2 {
@@ -99,20 +97,6 @@ h2 {
   }
 }
 
-.movie-listing {
-  font-size: 1.8rem;
-  list-style-type: none;
-  // padding: 10px 0;
-  padding-left: 10px;
-  width: 100%;
-  &:hover {
-    color: white;
-    background-color: rgba(107, 110, 236, 0.4);
-    transition: ease-in-out 0.2s;
-    border-radius: 5px;
-  }
-}
-
 .search-bar {
   position: relative;
   width: 50%;
@@ -129,16 +113,16 @@ h2 {
 }
 
 .search-input {
-  padding: 15px;
+  padding: 15px 20px;
   height: 60px;
   margin-bottom: 2px;
   border-radius: 15px;
-  font-size: 1.8rem;
   width: 100%;
   border: none;
   box-shadow: 4px 3px 3px black;
   background-color: $primaryColor;
   color: $accentColor;
+
   &:focus {
     box-shadow: 0 0 10px $accentColor;
   }
@@ -157,34 +141,34 @@ h2 {
   bottom: 0px;
 }
 
-.movie-results {
-  display: flex;
-  border-radius: 15px;
-  background-color: $primaryColor;
-  margin-bottom: 30px;
-  margin: 0 auto;
-  width: 100%;
-}
-
 .movie-results-part-one {
+  background-color: $primaryColor;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 10px 10px;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
 .movie-listing {
-  font-size: 1.8rem;
-  list-style-type: none;
-  padding: 10px 0;
-  padding-left: 10px;
   color: $accentColor;
   text-align: left;
-  border-bottom: 1px solid rgba(142, 249, 244, 0.1);
+  padding: 10px;
   width: 100%;
+  transition: ease-in-out 0.2s;
+  border-bottom: 1px solid rgba(142, 249, 244, 0.1);
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
+
+  &:hover,
   &:focus {
-    box-shadow: 0 0 10px $accentColor;
+    color: $primaryTextColor;
+    background-color: rgba(107, 110, 236, 0.4);
+    border-radius: 5px;
   }
   @include mq-phone-small {
     font-size: 1.7rem;
