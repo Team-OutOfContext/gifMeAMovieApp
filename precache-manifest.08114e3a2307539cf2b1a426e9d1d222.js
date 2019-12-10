@@ -1,27 +1,35 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "601772eb512da84bb8fd953bc0f54e8e",
+    "revision": "97bd8298c086402dcee4414e9285cc2c",
     "url": "/movieSpoilerProjectSix/index.html"
   },
   {
-    "revision": "74d03c257e12967a3e14",
+    "revision": "d4f61701f3ef9b306980",
     "url": "/movieSpoilerProjectSix/static/css/2.c0e28f08.chunk.css"
   },
   {
-    "revision": "a588b6e2cb91de961b56",
-    "url": "/movieSpoilerProjectSix/static/css/main.82833678.chunk.css"
+    "revision": "d04b77d9faade1499f73",
+    "url": "/movieSpoilerProjectSix/static/css/main.92f1bdda.chunk.css"
   },
   {
-    "revision": "74d03c257e12967a3e14",
-    "url": "/movieSpoilerProjectSix/static/js/2.e8dc6e08.chunk.js"
+    "revision": "d4f61701f3ef9b306980",
+    "url": "/movieSpoilerProjectSix/static/js/2.01e5c8ba.chunk.js"
   },
   {
-    "revision": "a588b6e2cb91de961b56",
-    "url": "/movieSpoilerProjectSix/static/js/main.687b238f.chunk.js"
+    "revision": "d04b77d9faade1499f73",
+    "url": "/movieSpoilerProjectSix/static/js/main.3e8eaf73.chunk.js"
   },
   {
     "revision": "9f69e6e821ccc83751df",
     "url": "/movieSpoilerProjectSix/static/js/runtime-main.8bd42297.js"
+  },
+  {
+    "revision": "d884daa285d1dff451b8aa1312fcbbcf",
+    "url": "/movieSpoilerProjectSix/static/media/curtains.d884daa2.png"
+  },
+  {
+    "revision": "a5b9ea8499db8ec6d2041c5deb5f8d04",
+    "url": "/movieSpoilerProjectSix/static/media/movie-seats.a5b9ea84.png"
   },
   {
     "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
