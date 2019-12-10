@@ -6,6 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 class MovieScreen extends Component {
   constructor() {
     super();
+    this.state = {
+      movieImageAltText: "",
+    };
   }
   render() {
     const settings = {
@@ -38,6 +41,48 @@ class MovieScreen extends Component {
           <div class="gif-results">
             <h2>You chose</h2>
             <h3 class="movie-title">{this.props.movieTitle}</h3>
+
+            <div>
+              {this.props.showGifs
+                ? this.props.gifDataArray.map((gif, i) => {
+                    console.log(gif);
+                    let movieImageAltText = "";
+                    // check if it's the movie poster from API or our placeholder img
+                    const movieImageCheck = RegExp(/^(http)/);
+                    if (movieImageCheck.test(this.props.movieImageUrl)) {
+                      console.log(
+                        movieImageCheck.test(this.props.movieImageUrl)
+                      );
+                      movieImageAltText = "Movie poster for";
+                    } else {
+                      console.log(
+                        movieImageCheck.test(this.props.movieImageUrl)
+                      );
+                      movieImageAltText =
+                        "Placeholder image for the movie poster for";
+                    }
+                  })
+                : null}
+            </div>
+
+            <div className="movie-tagline">
+              {this.props.movieKeywords.length === 3 ? (
+                <p>
+                  {`When a ${this.props.movieKeywords[0].name} and a
+              ${this.props.movieKeywords[1].name} fall in love, ${this.props.movieKeywords[2].name} ensues`}
+                </p>
+              ) : null}
+              {this.props.movieKeywords.length === 2 ? (
+                <p>
+                  {`When a ${this.props.movieKeywords[0].name} and a
+              ${this.props.movieKeywords[1].name} fall in love`}
+                </p>
+              ) : null}
+              {this.props.movieKeywords.length === 1 ? (
+                <p>{`When a ${this.props.movieKeywords[0].name} and.`}</p>
+              ) : null}
+            </div>
+
             <Slider {...settings}>
               {this.props.gifDataArray.map((gif, i) => {
                 return (

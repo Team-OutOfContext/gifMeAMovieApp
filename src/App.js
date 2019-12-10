@@ -1,33 +1,30 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "./styles/style.css";
 import MovieInput from "./components/MovieInput.js";
-import MovieSuggestions from "./components/MovieSuggestions.js";
 import MovieScreen from "./components/MovieScreen.js";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      apiKeyMovieDb: "38f9a8f5c677f0356adca226f357b762",
-      apiKeyGiphy: "x51UFN0xOVPnehx6f4dJxLphvkXnx19U",
-      userInput: "",
-      autoSuggestions: false,
-      movieSuggestions: ["hi"],
+      userInput:"",
       movieTitle: "",
       movieYear: "",
       movieImageUrl: "",
-      movieImageAltText: "",
       movieKeywords: [],
+      movieImageAltText:"",
       gifDataArray: [],
       showGifs: false,
-      noGifs: false,
-      showButton: false,
+      showLoadingScreen: false,
       errorMessage: false,
-      showLoadingScreen: false
+      autoSuggestions: false,
+      showButton: false,
+      noGifs: false,
+      showMovieInputComp: true,
     };
   }
-
+  
+  passMovieInfo = (movieTitle, movieImageUrl, gifDataArray, movieKeywords) => {
   //This function gets users search term as they type.
   getUserInput = e => {
     this.setState({
@@ -77,172 +74,18 @@ class App extends Component {
         });
     }
   };
-
-  // Function to get keywords for the user's movie choice
-  getMovieKeywords = (movieId, movieTitle, movieYear, movieImageUrl) => {
-    // Save the user's movie choice to state
+    
     this.setState({
       movieTitle: movieTitle,
-      movieYear: movieYear,
       movieImageUrl: movieImageUrl,
-      showLoadingScreen: true
+      gifDataArray: gifDataArray,
+      movieKeywords: movieKeywords,
+      showLoadingScreen: false,
+      showGifs: true,
+      showButton: true,
+      showMovieInputComp: false,
     });
-
-    // Axios call to get the keywords
-    axios({
-      url: `https://api.themoviedb.org/3/movie/${movieId}/keywords`,
-      method: "GET",
-      dataResponse: "json",
-      params: {
-        api_key: this.state.apiKeyMovieDb,
-        movie_id: movieId
-      }
-    })
-      .then(response => {
-        console.log(response.data.keywords, "get movie keywords axios call");
-        this.setState({
-          movieKeywords: response.data.keywords,
-          userInput: "",
-          autoSuggestions: false
-        });
-        this.filterKeywords();
-        //INSERT FUNCTION TO SET UP MOVIE POSTER FOR RESULTS
-      }) // end of .then
-      .catch(error => {
-        // if there's an error getting keywords, just get 3 random gifs
-        this.makeGiphyApiCalls(3);
-      });
-  };
-
-  // function to filter for unsearchable keywords
-  // (Movie API has some weird keywords like "aftercreditsstinger" for post credit scenes that result in nothing/errors from Giphy =__=)
-  filterKeywords = () => {
-    const keywordCheck = RegExp(/(stinger)$/);
-    const filteredKeywords = this.state.movieKeywords.filter(
-      keyword => !keywordCheck.test(keyword.name)
-    );
-    this.setState({
-      movieKeywords: filteredKeywords
-    });
-    this.prepGiphyApiCalls();
-  };
-
-  // function to determine how many keyword-based API calls & random API calls we need
-  // if there's 3 or more keywords, shuffle the keyword array for random 3 keywords to use for Giphy API call
-  // if less than 3 keywords, we make API calls for the # of random gifs needed to make up 3 gifs total
-  prepGiphyApiCalls = () => {
-    if (this.state.movieKeywords.length >= 3) {
-      this.shuffleKeywordsArray();
-    } else if (this.state.movieKeywords.length === 2) {
-      this.makeGiphyApiCalls(1);
-    } else if (this.state.movieKeywords.length === 1) {
-      this.makeGiphyApiCalls(2);
-    } else {
-      this.makeGiphyApiCalls(3);
-    }
-  };
-
-  // function for this.state.movieKgetting a random gif if there are no keywords (API only returns 1 gif)
-  getRandomGifs = () => {
-    return axios({
-      url: `https://api.giphy.com/v1/gifs/random`,
-      method: "GET",
-      dataResponse: "json",
-      params: {
-        api_key: this.state.apiKeyGiphy,
-        rating: "pg"
-      }
-    });
-  };
-
-  // function to make the right Giphy API calls, then update to state
-  makeGiphyApiCalls = randomGifNum => {
-    const gifPromises = [];
-    this.state.movieKeywords.forEach(keyword => {
-      gifPromises.push(this.getKeywordGifs(keyword.name));
-    });
-    // making calls for x amount of random gifs needed if lacking keywords
-    for (let i = 0; i < randomGifNum; i++) {
-      gifPromises.push(this.getRandomGifs());
-    }
-    this.prepGifData(gifPromises);
-  };
-
-  prepGifData = gifPromises => {
-    // wait for API responses to come back
-    axios
-      .all(gifPromises)
-      .then(gifPromiseReturns => {
-        const gifDataArray = [];
-        gifPromiseReturns.forEach(gifPromiseReturn => {
-          let gifData = "";
-          if (Array.isArray(gifPromiseReturn.data.data) === true) {
-            console.log(gifPromiseReturn.data.data);
-            const randomNumber = Math.floor(
-              Math.random() * gifPromiseReturn.data.data.length
-            );
-            gifData = gifPromiseReturn.data.data[randomNumber];
-          } else {
-            gifData = gifPromiseReturn.data.data;
-          }
-          // Randomly selecting a gif from the response data
-          gifDataArray.push(gifData);
-        });
-
-        this.setState({
-          showLoadingScreen: false,
-          gifDataArray: gifDataArray,
-          showGifs: true,
-          showButton: true
-        });
-        console.log(gifDataArray);
-      }) // end of .then
-      .catch(error => {
-        console.log(error);
-        // NEED TO PRINT THIS TO PAGE
-        console.log(
-          "Sorry, this movie is not currently playing at our theatre! Please try another movie."
-        );
-        this.setState({
-          showLoadingScreen: false,
-          noGifs: true,
-          showButton: true
-        });
-      });
-  };
-
-  //Function to shuffle keywords from return from Moviedb. Then, grabbing the first three keywords and setting them to state (keywordForGiphy state).
-  shuffleKeywordsArray = () => {
-    const newKeywordsArray = [...this.state.movieKeywords];
-    //Fisher-Yates algorithm for shuffling the array.
-    for (let i = newKeywordsArray.length - 1; i > 0; i--) {
-      const newIndex = Math.floor(Math.random() * (i + 1));
-      const currentKeyword = newKeywordsArray[i];
-      const keywordToSwap = newKeywordsArray[newIndex];
-      newKeywordsArray[i] = keywordToSwap;
-      newKeywordsArray[newIndex] = currentKeyword;
-    }
-    //Slicing the keyword return to pull only the first three random keywords to use as our giphy call search.
-    const slicedKeywords = newKeywordsArray.slice(0, 3);
-    this.setState({
-      movieKeywords: slicedKeywords
-    });
-    this.makeGiphyApiCalls(0);
-    console.log(this.state.movieKeywords[0].name);
-  };
-
-  // Axios call to get gifs related to the keyword
-  getKeywordGifs = keyword => {
-    return axios({
-      url: `https://api.giphy.com/v1/gifs/search`,
-      method: "GET",
-      dataResponse: "json",
-      params: {
-        api_key: this.state.apiKeyGiphy,
-        q: keyword
-      }
-    });
-  };
+  }
 
   prepMoviePosterData = () => {
     // check if it's the movie poster from API or our placeholder img
@@ -272,7 +115,9 @@ class App extends Component {
       gifDataArray: [],
       showButton: false,
       noGifs: false,
-      errorMessage: false
+      errorMessage: false,
+      showMovieInputComp: true,
+      showGifs: false
     });
   };
 
@@ -281,6 +126,31 @@ class App extends Component {
       <div className="App">
         <section className="movie-input-section">
           <div className="wrapper">
+            {this.state.showMovieInputComp ? (
+              <MovieInput passMovieInfoProps={this.passMovieInfo} />
+            ) : null}
+
+            {this.state.showGifs ? (
+              <MovieScreen
+                movieTitle={this.state.movieTitle}
+                movieImageUrl={this.state.movieImageUrl}
+                movieImageAltText={this.state.movieImageAltText}
+                gifDataArray={this.state.gifDataArray}
+                showGifs={this.state.showGifs}
+                movieKeywords={this.state.movieKeywords}
+              />
+            ) : null}
+
+            {this.state.noGifs ? (
+              <p>
+                Sorry, this movie is not currently playing at our theatre!
+                Please try searching a different movie.
+              </p>
+            ) : null}
+
+            {this.state.showButton ? (
+              <button onClick={this.resetState}>Watch another movie?</button>
+            ) : null}
             <h1>Gif Me A Movie</h1>
             <h2>A theatre for those who don't have time</h2>
 
