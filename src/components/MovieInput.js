@@ -53,14 +53,16 @@ class MovieInput extends Component {
           // no movies returned (empty array)
           if (response.data.results.length === 0) {
             this.setState({
-              errorMessage: true
+              errorMessage: true,
+              autoSuggestions: false
             });
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
             const movieSuggestions = response.data.results.slice(0, 10);
             this.setState({
               movieSuggestions: movieSuggestions,
-              autoSuggestions: true
+              autoSuggestions: true,
+              errorMessage: false
             });
           }
         }) // end of .then
@@ -248,27 +250,33 @@ class MovieInput extends Component {
         <div className="wrapper">
           <h1>Gif Me A Movie</h1>
           <h2>A theatre for those who don't have time</h2>
-          <div className="search-bar">
-            <label htmlFor="userInput">Search a movie title</label>
-            <input
-              type="text"
-              id="userInput"
-              className="search-input"
-              placeholder="Search for a movie"
-              value={this.state.userInput}
-              onChange={e => {
-                this.getUserInput(e);
-                this.getMovieDetails();
-              }}
-            />
-            <i className="fas fa-search search-icon"></i>
 
-            {this.props.errorMessageProp ? (
-              <p>Your movie doesn't exist!</p>
+          <div className="search-bar">
+            {this.state.errorMessage ? (
+              <p className="error-message">
+                Your movie doesn't seem to be playing here!
+              </p>
             ) : null}
+            <label htmlFor="userInput" className="visually-hidden">
+              Search a movie title
+            </label>
+            <div className="search-container">
+              <input
+                type="text"
+                id="userInput"
+                className="search-input"
+                placeholder="Search for a movie"
+                value={this.state.userInput}
+                onChange={e => {
+                  this.getUserInput(e);
+                  this.getMovieDetails();
+                }}
+              />
+              <i className="fas fa-search search-icon"></i>
+            </div>
 
             <div className="movie-results">
-              {this.state.autoSuggestions ? (
+              {this.state.autoSuggestions && this.state.userInput !== "" ? (
                 <MovieSuggestions
                   movieSuggestions={this.state.movieSuggestions}
                   getMovieKeywords={this.getMovieKeywords}

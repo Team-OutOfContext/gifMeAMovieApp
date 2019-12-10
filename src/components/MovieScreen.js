@@ -7,7 +7,7 @@ class MovieScreen extends Component {
   constructor() {
     super();
     this.state = {
-      movieImageAltText: "",
+      movieImageAltText: ""
     };
   }
   render() {

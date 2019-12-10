@@ -49,10 +49,6 @@ h1 {
   }
 }
 
-label {
-  visibility: hidden; /// shouldn't do this, need to add the class for sr purposes
-}
-
 h2 {
   font-size: 3.2rem;
   text-align: center;
@@ -112,6 +108,10 @@ h2 {
   }
 }
 
+.search-container {
+  position: relative;
+}
+
 .search-input {
   padding: 15px 20px;
   height: 60px;
@@ -137,8 +137,12 @@ h2 {
   font-size: 2.3rem;
   position: absolute;
   right: 15px;
-  top: 38px;
-  bottom: 0px;
+  top: 20px;
+}
+
+.error-message {
+  margin: 20px auto;
+  text-align: center;
 }
 
 .movie-results-part-one {
