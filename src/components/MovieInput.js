@@ -35,8 +35,7 @@ class MovieInput extends Component {
   getMovieDetails = () => {
     // use regex to check for non-space characters
     const regexCheck = RegExp(/\w/g);
-    console.log(this.state.userInput.length);
-    console.log(regexCheck.test(this.state.userInput));
+
     // axios call is only made once there are alphanumeric characters
     if (regexCheck.test(this.state.userInput)) {
       // Make axios call to get movie details
@@ -58,7 +57,6 @@ class MovieInput extends Component {
             });
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
-            console.log(this.state.movieSuggestions);
             this.setState({
               movieSuggestions: response.data.results,
               autoSuggestions: true
@@ -69,7 +67,6 @@ class MovieInput extends Component {
           this.setState({
             errorMessage: true
           });
-          console.log(error);
         });
     }
   };
@@ -95,14 +92,12 @@ class MovieInput extends Component {
       }
     })
       .then(response => {
-        console.log(response.data.keywords, "get movie keywords axios call");
         this.setState({
           movieKeywords: response.data.keywords,
           userInput: "",
           autoSuggestions: false
         });
         this.filterKeywords();
-        //INSERT FUNCTION TO SET UP MOVIE POSTER FOR RESULTS
       }) // end of .then
       .catch(error => {
         // if there's an error getting keywords, just get 3 random gifs
@@ -168,7 +163,6 @@ class MovieInput extends Component {
       movieKeywords: slicedKeywords
     });
     this.makeGiphyApiCalls(0);
-    console.log(this.state.movieKeywords[0].name);
   };
 
   // Axios call to get gifs related to the keyword
@@ -206,7 +200,6 @@ class MovieInput extends Component {
         gifPromiseReturns.forEach(gifPromiseReturn => {
           let gifData = "";
           if (Array.isArray(gifPromiseReturn.data.data) === true) {
-            console.log(gifPromiseReturn.data.data);
             const randomNumber = Math.floor(
               Math.random() * gifPromiseReturn.data.data.length
             );
@@ -234,10 +227,8 @@ class MovieInput extends Component {
             );
           }
         );
-        console.log(gifDataArray);
       }) // end of .then
       .catch(error => {
-        console.log(error);
         // NEED TO PRINT THIS TO PAGE
         console.log(
           "Sorry, this movie is not currently playing at our theatre! Please try another movie."

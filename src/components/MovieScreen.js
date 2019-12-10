@@ -45,19 +45,12 @@ class MovieScreen extends Component {
             <div>
               {this.props.showGifs
                 ? this.props.gifDataArray.map((gif, i) => {
-                    console.log(gif);
                     let movieImageAltText = "";
                     // check if it's the movie poster from API or our placeholder img
                     const movieImageCheck = RegExp(/^(http)/);
                     if (movieImageCheck.test(this.props.movieImageUrl)) {
-                      console.log(
-                        movieImageCheck.test(this.props.movieImageUrl)
-                      );
                       movieImageAltText = "Movie poster for";
                     } else {
-                      console.log(
-                        movieImageCheck.test(this.props.movieImageUrl)
-                      );
                       movieImageAltText =
                         "Placeholder image for the movie poster for";
                     }
