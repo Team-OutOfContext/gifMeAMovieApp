@@ -14,8 +14,8 @@ class MovieScreen extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
-      speed: 500,
-      autoplaySpeed: 500,
+      speed: 900,
+      autoplaySpeed: 1200,
       cssEase: "linear"
     };
     return (
