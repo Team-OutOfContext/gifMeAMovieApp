@@ -15,29 +15,24 @@ class MovieScreen extends Component {
       slidesToScroll: 1,
       autoplay: true,
       speed: 2000,
-      autoplaySpeed: 1200,
+      autoplaySpeed: 500,
       cssEase: "linear"
     };
     return (
-      <div class="results">
-        <div class="wrapper">
-          <div class="movie-details">
+      <div className="results">
+        <div className="top-title">
+          <h2>You chose</h2>
+          <h3 className="movie-title">{this.props.movieTitle}</h3>
+        </div>
+        <div className="wrapper movie-screen-wrap">
+          <div className="movie-details">
             <img
               src={this.props.movieImageUrl}
               alt={this.props.movieImageAltText}
             />
-
-            <h3>Critic's Review</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
-              excepturi, perferendis sed officiis voluptate, hic inventore
-              sapiente!
-            </p>
           </div>
 
-          <div class="gif-results">
-            <h2>You chose</h2>
-            <h3 class="movie-title">{this.props.movieTitle}</h3>
+          <div className="gif-results">
             <Slider {...settings}>
               {this.props.gifDataArray.map((gif, i) => {
                 return (
@@ -52,6 +47,14 @@ class MovieScreen extends Component {
               })}
             </Slider>
           </div>
+        </div>
+        <div className="critics-review">
+          <h3>Critic's Review</h3>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
+            excepturi, perferendis sed officiis voluptate, hic inventore
+            sapiente!
+          </p>
         </div>
       </div>
     );

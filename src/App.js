@@ -383,7 +383,9 @@ class App extends Component {
             </div>
 
             {this.state.showButton ? (
-              <button onClick={this.resetState}>Watch another movie?</button>
+              <button className="restart-button" onClick={this.resetState}>
+                Watch another movie?
+              </button>
             ) : null}
           </div>
 
