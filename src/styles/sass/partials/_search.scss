@@ -6,7 +6,6 @@
   background-position: top center;
   background-attachment: fixed;
   padding-top: 1px;
-  // overflow: hidden;
 }
 
 .movie-seats {
@@ -101,6 +100,7 @@ h2 {
   position: relative;
   width: 50%;
   margin: 0 auto;
+  z-index: 2;
   @include mq-laptop-big {
     // width: 60%;
   }

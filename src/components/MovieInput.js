@@ -57,8 +57,9 @@ class MovieInput extends Component {
             });
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
+            const movieSuggestions = response.data.results.slice(0, 10);
             this.setState({
-              movieSuggestions: response.data.results,
+              movieSuggestions: movieSuggestions,
               autoSuggestions: true
             });
           }
