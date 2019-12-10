@@ -9,9 +9,10 @@ html {
 }
 
 body {
-  background: white;
+  background-color: $secondaryColor;
   font-family: $bodyFont;
   font-size: 1.8rem;
+  color: $primaryTextColor;
 }
 
 h1,
@@ -22,7 +23,6 @@ ul,
 p {
   margin: 0;
   padding: 0;
-  color: white;
 }
 
 h1,
@@ -33,22 +33,4 @@ h3 {
 
 img {
   width: 100%;
-}
-
-.skip-link {
-  position: absolute;
-  left: -1000px;
-  top: 5px;
-  z-index: 999;
-  background: $darkPurple;
-  color: $cyan;
-  padding: 5px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.skip-link:focus {
-  left: 0;
-  box-shadow: 0 0 20px $cyan;
-  outline: none;
 }

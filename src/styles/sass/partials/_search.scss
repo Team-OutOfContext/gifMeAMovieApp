@@ -1,108 +1,115 @@
-.main {
+.movie-input-section {
   min-height: 100vh;
-  background-image: linear-gradient(
-    to bottom,
-    #6b6eec,
-    #5456be,
-    #3d3f91,
-    #282a67,
-    #141640
-  );
+  background-image: url(../assets/curtains.png),
+    linear-gradient(to bottom, #6b6eec, #5456be, #3d3f91, #282a67, #141640);
   //   Bug fix?!?!?!?!
+  background-size: cover;
+  background-position: top center;
+  background-attachment: fixed;
   padding-top: 1px;
+  // overflow: hidden;
 }
 
-.search {
-  min-height: 100vh;
-  //   display: flex;
-  h1 {
-    font-size: 4.5rem;
-    font-weight: 400;
-    letter-spacing: 10px;
-    color: white;
-    margin: 50px auto;
-    margin-bottom: 60px;
-    padding: 20px 0px;
-    width: 70%;
-    border: 5px solid $cyan;
-    border-radius: 20px;
-    text-align: center;
-    animation: flicker 1.5s infinite alternate;
-    background-color: $darkPurple;
-    @include mq-laptop-big {
-      font-size: 3rem;
-    }
-    @include mq-tablet-big {
-      width: 75%;
-      font-size: 2.5rem;
-    }
-    @include mq-phone-small {
-      width: 100%;
-      font-size: 2rem;
-    }
+.movie-seats {
+  height: 28vh;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: url(../assets/movie-seats.png);
+  background-position: top center;
+  background-size: cover;
+}
+
+h1 {
+  font-size: 4.5rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 10px;
+  color: white;
+  margin: 50px auto 60px;
+  padding: 20px 0px;
+  width: 70%;
+  border: 5px solid $accentColor;
+  border-radius: 20px;
+  text-align: center;
+  animation: flicker 1.5s infinite alternate;
+  background-color: $primaryColor;
+
+  @include mq-laptop-big {
+    font-size: 3rem;
   }
 
-  label {
-    visibility: hidden;
+  @include mq-tablet-big {
+    width: 75%;
+    font-size: 2.5rem;
   }
 
-  h3 {
-    font-size: 3.2rem;
-    text-align: center;
-    margin-bottom: 50px;
-    text-shadow: 3px 3px $darkPurple;
-    color: $cyan;
-    letter-spacing: 2px;
-    @include mq-tablet-big {
-      font-size: 2.8rem;
-    }
-    @include mq-phone-small {
-      font-size: 2.3rem;
-    }
-  }
-
-  h1:focus {
-    outline: none;
-  }
-
-  /* Animate neon flicker */
-  @keyframes flicker {
-    0%,
-    19%,
-    21%,
-    23%,
-    25%,
-    54%,
-    56%,
-    100% {
-      text-shadow: -0.2rem -0.2rem 1rem $cyan, 0.2rem 0.2rem 1rem $cyan,
-        0 0 2rem $purple, 0 0 4rem $purple, 0 0 6rem $purple, 0 0 8rem $purple,
-        0 0 10rem $purple;
-
-      box-shadow: 0 0 0.5rem $cyan, inset 0 0 0.5rem $cyan, 0 0 2rem $darkPurple,
-        inset 0 0 2rem $darkPurple, 0 0 4rem $darkPurple,
-        inset 0 0 4rem $darkPurple;
-    }
-
-    20%,
-    24%,
-    55% {
-      text-shadow: none;
-      box-shadow: none;
-    }
-  }
-  .movie-listing {
-    font-size: 1.8rem;
-    list-style-type: none;
-    // padding: 10px 0;
-    padding-left: 10px;
+  @include mq-phone-small {
     width: 100%;
-    &:hover {
-      color: white;
-      background-color: rgba(107, 110, 236, 0.4);
-      transition: ease-in-out 0.2s;
-      border-radius: 5px;
-    }
+    font-size: 2rem;
+  }
+}
+
+label {
+  visibility: hidden;
+}
+
+h2 {
+  font-size: 3.2rem;
+  text-align: center;
+  margin-bottom: 50px;
+  text-shadow: 3px 3px $primaryColor;
+  color: $accentColor;
+  letter-spacing: 2px;
+
+  @include mq-tablet-big {
+    font-size: 2.8rem;
+  }
+  @include mq-phone-small {
+    font-size: 2.3rem;
+  }
+}
+/* Animate neon flicker */
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    text-shadow: -0.2rem -0.2rem 1rem $accentColor,
+      0.2rem 0.2rem 1rem $accentColor, 0 0 2rem $secondaryColor,
+      0 0 4rem $secondaryColor, 0 0 6rem $secondaryColor, 0 0 8rem $purple,
+      0 0 10rem $secondaryColor;
+
+    box-shadow: 0 0 0.5rem $accentColor, inset 0 0 0.5rem $accentColor,
+      0 0 2rem $primaryColor, inset 0 0 2rem $primaryColor,
+      0 0 4rem $primaryColor, inset 0 0 4rem $primaryColor;
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.movie-listing {
+  font-size: 1.8rem;
+  list-style-type: none;
+  // padding: 10px 0;
+  padding-left: 10px;
+  width: 100%;
+  &:hover {
+    color: white;
+    background-color: rgba(107, 110, 236, 0.4);
+    transition: ease-in-out 0.2s;
+    border-radius: 5px;
   }
 }
 
@@ -129,11 +136,11 @@
   font-size: 1.8rem;
   width: 100%;
   border: none;
-  box-shadow: 4px 3px 3px darkslateblue;
-  background-color: $darkPurple;
-  color: $cyan;
+  box-shadow: 4px 3px 3px black;
+  background-color: $primaryColor;
+  color: $accentColor;
   &:focus {
-    box-shadow: 0 0 10px $cyan;
+    box-shadow: 0 0 10px $accentColor;
   }
   @include mq-tablet-big {
     font-size: 1.5rem;
@@ -141,7 +148,7 @@
 }
 
 .search-icon {
-  color: $cyan;
+  color: $accentColor;
   opacity: 40%;
   font-size: 2.3rem;
   position: absolute;
@@ -153,7 +160,7 @@
 .movie-results {
   display: flex;
   border-radius: 15px;
-  background-color: $darkPurple;
+  background-color: $primaryColor;
   margin-bottom: 30px;
   margin: 0 auto;
   width: 100%;
@@ -165,21 +172,22 @@
   align-items: flex-start;
   margin: 10px 10px;
   width: 100%;
-  .movie-listing {
-    font-size: 1.8rem;
-    list-style-type: none;
-    padding: 10px 0;
-    padding-left: 10px;
-    color: $cyan;
-    text-align: left;
-    border-bottom: 1px solid rgba(142, 249, 244, 0.1);
-    width: 100%;
-    &:focus {
-      box-shadow: 0 0 10px $cyan;
-    }
-    @include mq-phone-small {
-      font-size: 1.7rem;
-    }
+}
+
+.movie-listing {
+  font-size: 1.8rem;
+  list-style-type: none;
+  padding: 10px 0;
+  padding-left: 10px;
+  color: $accentColor;
+  text-align: left;
+  border-bottom: 1px solid rgba(142, 249, 244, 0.1);
+  width: 100%;
+  &:focus {
+    box-shadow: 0 0 10px $accentColor;
+  }
+  @include mq-phone-small {
+    font-size: 1.7rem;
   }
 }
 
