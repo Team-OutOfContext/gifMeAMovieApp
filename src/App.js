@@ -62,8 +62,9 @@ class App extends Component {
             });
           } else {
             // Setting the state to an array of movies and making the autosuggestion show up on the page
+            const movieSuggestions = response.data.results.slice(0, 10);
             this.setState({
-              movieSuggestions: response.data.results,
+              movieSuggestions: movieSuggestions,
               autoSuggestions: true
             });
           }
@@ -276,16 +277,12 @@ class App extends Component {
   };
 
   render() {
-    // console.log("page render");
     return (
-      <div className="main">
-        <div className="search">
+      <div className="App">
+        <section className="movie-input-section">
           <div className="wrapper">
-            <h1>GIF ME A MOVIE!</h1>
-            <h3>
-              A movie theatre for those who don't have time to watch a full
-              movie
-            </h3>
+            <h1>Gif Me A Movie</h1>
+            <h2>A theatre for those who don't have time</h2>
 
             <MovieInput
               userInputProp={this.state.userInput}
@@ -294,105 +291,64 @@ class App extends Component {
               errorMessageProp={this.state.errorMessage}
             />
 
-            <div className="wrapper">
-              <div className="search-bar">
-                <div className="movie-results" id="mainContent">
-                  {this.state.autoSuggestions ? (
-                    <MovieSuggestions
-                      movieSuggestions={this.state.movieSuggestions}
-                      getMovieKeywords={this.getMovieKeywords}
-                    />
-                  ) : null}
-                </div>
-              </div>
-            </div>
+            <div className="movie-seats"></div>
 
-            {this.state.showGifs ? (
-              <MovieScreen
-                movieTitle={this.state.movieTitle}
-                movieImageUrl={this.state.movieImageUrl}
-                movieImageAltText={this.state.movieImageAltText}
-                gifDataArray={this.state.gifDataArray}
-              />
-            ) : null}
+            <div className="search-bar">
+              {/* MovieSuggestions should be inside MovieInput component so we don't repeat the search-bar div */}
 
-            {/* <div>
-              {this.state.showGifs
-                ? this.state.gifDataArray.map((gif, i) => {
-                    console.log(gif);
-                    let movieImageAltText = "";
-                    // check if it's the movie poster from API or our placeholder img
-                    const movieImageCheck = RegExp(/^(http)/);
-                    if (movieImageCheck.test(this.state.movieImageUrl)) {
-                      console.log(
-                        movieImageCheck.test(this.state.movieImageUrl)
-                      );
-                      movieImageAltText = "Movie poster for";
-                    } else {
-                      console.log(
-                        movieImageCheck.test(this.state.movieImageUrl)
-                      );
-                      movieImageAltText =
-                        "Placeholder image for the movie poster for";
-                    }
-                    return (
-                      <div className="movie-details">
-                        <ul className="carousel">
-                          <li key={i} className="carousel-cell">
-                            <p>Hello!</p>
-                            <img
-                              className="carousel-cell-image"
-                              src={gif.images.original.webp}
-                              alt={gif.title}
-                            />
-                          </li>
-                        </ul>
-                        <img
-                        src={this.state.movieImageUrl}
-                        alt={`${movieImageAltText} "${this.state.movieTitle}"`}
-                      />
-                      </div>
-                    );
-                  })
-                : null}
-            </div> */}
-
-            {this.state.noGifs ? (
-              <p>
-                Sorry, this movie is not currently playing at our theatre!
-                Please try searching a different movie.
-              </p>
-            ) : null}
-
-            <div className="movie-tagline">
-              {this.state.movieKeywords.length === 3 ? (
-                <p>
-                  {`When a ${this.state.movieKeywords[0].name} and a
-              ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
-                </p>
-              ) : null}
-              {this.state.movieKeywords.length === 2 ? (
-                <p>
-                  {`When a ${this.state.movieKeywords[0].name} and a
-              ${this.state.movieKeywords[1].name} fall in love`}
-                </p>
-              ) : null}
-              {this.state.movieKeywords.length === 1 ? (
-                <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
+              {this.state.autoSuggestions ? (
+                <MovieSuggestions
+                  movieSuggestions={this.state.movieSuggestions}
+                  getMovieKeywords={this.getMovieKeywords}
+                />
               ) : null}
             </div>
-
-            {this.state.showButton ? (
-              <button onClick={this.resetState}>Watch another movie?</button>
-            ) : null}
           </div>
+        </section>
 
-          {this.state.showLoadingScreen ? (
-            <div className="loading-screen">
-              <p>Getting the results...</p>
-            </div>
+        {this.state.showGifs ? (
+          <MovieScreen
+            movieTitle={this.state.movieTitle}
+            movieImageUrl={this.state.movieImageUrl}
+            movieImageAltText={this.state.movieImageAltText}
+            gifDataArray={this.state.gifDataArray}
+          />
+        ) : null}
+
+        {this.state.noGifs ? (
+          <p>
+            Sorry, this movie is not currently playing at our theatre! Please
+            try searching a different movie.
+          </p>
+        ) : null}
+
+        <div className="movie-tagline">
+          {this.state.movieKeywords.length === 3 ? (
+            <p>
+              {`When a ${this.state.movieKeywords[0].name} and a
+              ${this.state.movieKeywords[1].name} fall in love, ${this.state.movieKeywords[2].name} ensues`}
+            </p>
+          ) : null}
+          {this.state.movieKeywords.length === 2 ? (
+            <p>
+              {`When a ${this.state.movieKeywords[0].name} and a
+              ${this.state.movieKeywords[1].name} fall in love`}
+            </p>
+          ) : null}
+          {this.state.movieKeywords.length === 1 ? (
+            <p>{`When a ${this.state.movieKeywords[0].name} and.`}</p>
           ) : null}
         </div>
+
+        {this.state.showButton ? (
+          <button onClick={this.resetState}>Watch another movie?</button>
+        ) : null}
+
+        {this.state.showLoadingScreen ? (
+          <div className="loading-screen">
+            <p>Getting the results...</p>
+          </div>
+        ) : null}
       </div>
     );
   }
