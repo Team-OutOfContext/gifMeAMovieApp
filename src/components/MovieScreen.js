@@ -19,13 +19,13 @@ class MovieScreen extends Component {
       cssEase: "linear"
     };
     return (
-      <div className="results">
+      <section className="results">
         <div className="top-title">
           <h5 className="now-playing-title">Now Playing</h5>
           <h3 className="movie-title">{this.props.movieTitle}</h3>
         </div>
-        <div className="wrapper movie-screen-wrap">
-          <div className="movie-details">
+        <div className="movie-screen">
+          <div className="movie-poster">
             <img
               src={this.props.movieImageUrl}
               alt={this.props.movieImageAltText}
@@ -48,16 +48,14 @@ class MovieScreen extends Component {
             </Slider>
           </div>
         </div>
-        <div className="critics-review wrapper">
-          <div>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
-              excepturi, perferendis
-            </p>
-          </div>
+        <div className="critics-review">
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
+            excepturi, perferendis
+          </p>
           <h6> - Critic's Review</h6>
         </div>
-      </div>
+      </section>
     );
   }
 }
