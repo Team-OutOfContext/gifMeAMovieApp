@@ -22,76 +22,58 @@ class MovieScreen extends Component {
       cssEase: "linear"
     };
     return (
-      <div class="results">
-        <div class="wrapper">
-          <div class="movie-details">
-            <img
-              src={this.props.movieImageUrl}
-              alt={this.props.movieImageAltText}
-            />
+      <section className="results wrapper">
+          <div className="top-title">
+            <h5 className="now-playing-title">Now Playing</h5>
+            <h3 className="movie-title">{this.props.movieTitle}</h3>
+          </div>
 
-            <h3>Critic's Review</h3>
+          <div className="movie-screen">
+            <div className="movie-poster">
+              <img
+                src={this.props.movieImageUrl}
+                alt={this.props.movieImageAltText}
+                />
+            </div>
+            <div className="gif-results">
+
+              <Slider {...settings}>
+                {this.props.gifDataArray.map((gif, i) => {
+                  return (
+                    <li key={i} className="carousel-cell">
+                      <img
+                        className="carousel-cell-image"
+                        src={gif.images.original.webp}
+                        alt={gif.title}
+                      />
+                    </li>
+                  );
+                })}
+              </Slider>
+            </div>
+          </div>
+
+          <div className="critics-review">
+            {this.props.movieKeywords.length === 3 ? (
+              <p>
+                When <strong>{this.props.movieKeywords[0].name}</strong> and
+            <strong> {this.props.movieKeywords[1].name}</strong> fall in love, <strong>{this.props.movieKeywords[2].name}</strong> ensues.
+              </p>
+            ) : null}
+            {this.props.movieKeywords.length === 2 ? (
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum
-              excepturi, perferendis sed officiis voluptate, hic inventore
-              sapiente!
-            </p>
+              When <strong>{this.props.movieKeywords[0].name}</strong> and
+            <strong> {this.props.movieKeywords[1].name}</strong> fall in love.
+              </p>
+            ) : null}
+            {this.props.movieKeywords.length === 1 ? (
+            <p>
+              When <strong>{this.props.movieKeywords[0].name}</strong> ensues.
+              </p>
+            ) : null}
           </div>
 
-          <div class="gif-results">
-            <h2>You chose</h2>
-            <h3 class="movie-title">{this.props.movieTitle}</h3>
-
-            <div>
-              {this.props.showGifs
-                ? this.props.gifDataArray.map((gif, i) => {
-                    let movieImageAltText = "";
-                    // check if it's the movie poster from API or our placeholder img
-                    const movieImageCheck = RegExp(/^(http)/);
-                    if (movieImageCheck.test(this.props.movieImageUrl)) {
-                      movieImageAltText = "Movie poster for";
-                    } else {
-                      movieImageAltText =
-                        "Placeholder image for the movie poster for";
-                    }
-                  })
-                : null}
-            </div>
-
-            <div className="movie-tagline">
-              {this.props.movieKeywords.length === 3 ? (
-                <p>
-                  {`When a ${this.props.movieKeywords[0].name} and a
-              ${this.props.movieKeywords[1].name} fall in love, ${this.props.movieKeywords[2].name} ensues`}
-                </p>
-              ) : null}
-              {this.props.movieKeywords.length === 2 ? (
-                <p>
-                  {`When a ${this.props.movieKeywords[0].name} and a
-              ${this.props.movieKeywords[1].name} fall in love`}
-                </p>
-              ) : null}
-              {this.props.movieKeywords.length === 1 ? (
-                <p>{`When a ${this.props.movieKeywords[0].name} and.`}</p>
-              ) : null}
-            </div>
-
-            <Slider {...settings}>
-              {this.props.gifDataArray.map((gif, i) => {
-                return (
-                  <li key={i} className="carousel-cell">
-                    <img
-                      className="carousel-cell-image"
-                      src={gif.images.original.webp}
-                      alt={gif.title}
-                    />
-                  </li>
-                );
-              })}
-            </Slider>
-          </div>
-        </div>
-      </div>
+      </section>
     );
   }
 }
