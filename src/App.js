@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./styles/style.css";
 import MovieInput from "./components/MovieInput.js";
 import MovieScreen from "./components/MovieScreen.js";
+import LoadingScreen from "./components/LoadingScreen";
 
 class App extends Component {
   constructor() {
@@ -103,9 +104,7 @@ class App extends Component {
         ) : null}
 
         {this.state.showLoadingScreen ? (
-          <div className="loading-screen">
-            <p>Getting the results...</p>
-          </div>
+          <LoadingScreen />
         ) : null}
       </div>
     );
