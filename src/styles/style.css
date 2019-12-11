@@ -715,8 +715,15 @@ h2 {
   border-radius: 10px;
   border: none;
   background: #141640;
-  color: white;
+  color: #fff;
   font-family: "Lato", sans-serif;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+}
+
+.reset:hover, .reset:focus {
+  background: #8ef9f4;
+  color: #141640;
 }
 
 @media (max-width: 1200px) {
