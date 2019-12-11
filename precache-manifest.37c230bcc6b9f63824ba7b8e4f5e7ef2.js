@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2516f9f3464518e7ed7a9c11ca760d9d",
+    "revision": "c1cccd647b7e3afe52c2cdf4a9e65098",
     "url": "/movieSpoilerProjectSix/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/movieSpoilerProjectSix/static/css/2.c0e28f08.chunk.css"
   },
   {
-    "revision": "830211aad8b56af7cb5d",
-    "url": "/movieSpoilerProjectSix/static/css/main.c9067943.chunk.css"
+    "revision": "dbbd6f24541975bab7a4",
+    "url": "/movieSpoilerProjectSix/static/css/main.2a02798c.chunk.css"
   },
   {
     "revision": "d4f61701f3ef9b306980",
     "url": "/movieSpoilerProjectSix/static/js/2.01e5c8ba.chunk.js"
   },
   {
-    "revision": "830211aad8b56af7cb5d",
-    "url": "/movieSpoilerProjectSix/static/js/main.b888c79c.chunk.js"
+    "revision": "dbbd6f24541975bab7a4",
+    "url": "/movieSpoilerProjectSix/static/js/main.33497462.chunk.js"
   },
   {
     "revision": "9f69e6e821ccc83751df",
