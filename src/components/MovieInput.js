@@ -107,6 +107,8 @@ class MovieInput extends Component {
         // if there's an error getting keywords, just get 3 random gifs
         this.makeGiphyApiCalls(3);
       });
+
+    this.prepMoviePosterData();
   };
 
   // function to filter for unsearchable keywords
@@ -226,6 +228,7 @@ class MovieInput extends Component {
             this.props.passMovieInfoProps(
               this.state.movieTitle,
               this.state.movieImageUrl,
+              this.state.movieImageAltText,
               this.state.gifDataArray,
               this.state.movieKeywords
             );
@@ -243,6 +246,22 @@ class MovieInput extends Component {
           showButton: true
         });
       });
+  };
+
+  prepMoviePosterData = () => {
+    // check if it's the movie poster from API or our placeholder img
+    const movieImageCheck = RegExp(/^(http)/);
+    if (movieImageCheck.test(this.state.movieImageUrl)) {
+      console.log(movieImageCheck.test(this.state.movieImageUrl));
+      this.setState({
+        movieImageAltText: "Movie poster for"
+      });
+    } else {
+      console.log(movieImageCheck.test(this.state.movieImageUrl));
+      this.setState({
+        movieImageAltText: "Placeholder image for the movie poster for"
+      });
+    }
   };
 
   render() {

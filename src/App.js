@@ -25,10 +25,17 @@ class App extends Component {
     };
   }
 
-  passMovieInfo = (movieTitle, movieImageUrl, gifDataArray, movieKeywords) => {
+  passMovieInfo = (
+    movieTitle,
+    movieImageUrl,
+    movieImageAltText,
+    gifDataArray,
+    movieKeywords
+  ) => {
     this.setState({
       movieTitle: movieTitle,
       movieImageUrl: movieImageUrl,
+      movieImageAltText: movieImageAltText,
       gifDataArray: gifDataArray,
       movieKeywords: movieKeywords,
       showLoadingScreen: false,
@@ -36,22 +43,6 @@ class App extends Component {
       showButton: true,
       showMovieInputComp: false
     });
-  };
-
-  prepMoviePosterData = () => {
-    // check if it's the movie poster from API or our placeholder img
-    const movieImageCheck = RegExp(/^(http)/);
-    if (movieImageCheck.test(this.state.movieImageUrl)) {
-      console.log(movieImageCheck.test(this.state.movieImageUrl));
-      this.setState({
-        movieImageAltText: "Movie poster for"
-      });
-    } else {
-      console.log(movieImageCheck.test(this.state.movieImageUrl));
-      this.setState({
-        movieImageAltText: "Placeholder image for the movie poster for"
-      });
-    }
   };
 
   // Reset everything to search a new movie (called on button press)
@@ -99,7 +90,9 @@ class App extends Component {
 
         {this.state.showButton ? (
           <div className="button-section">
-            <button className = "reset" onClick={this.resetState}>Watch another movie?</button>
+            <button className="reset" onClick={this.resetState}>
+              Watch another movie?
+            </button>
           </div>
         ) : null}
 
