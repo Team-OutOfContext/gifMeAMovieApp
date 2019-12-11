@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import MovieSuggestions from "./MovieSuggestions";
+import LoadingScreen from './LoadingScreen';
 
 class MovieInput extends Component {
   constructor() {
@@ -287,6 +288,7 @@ class MovieInput extends Component {
           </div>
           <div className="movie-seats"></div>
         </div>
+        {this.state.errorMessage ? <LoadingScreen /> : null}
       </section>
     );
   }
