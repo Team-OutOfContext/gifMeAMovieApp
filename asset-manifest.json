@@ -1,26 +1,27 @@
 {
   "files": {
-    "main.css": "/movieSpoilerProjectSix/static/css/main.2a02798c.chunk.css",
-    "main.js": "/movieSpoilerProjectSix/static/js/main.33497462.chunk.js",
-    "main.js.map": "/movieSpoilerProjectSix/static/js/main.33497462.chunk.js.map",
+    "main.css": "/movieSpoilerProjectSix/static/css/main.a7f7ecb3.chunk.css",
+    "main.js": "/movieSpoilerProjectSix/static/js/main.ca36b7dd.chunk.js",
+    "main.js.map": "/movieSpoilerProjectSix/static/js/main.ca36b7dd.chunk.js.map",
     "runtime-main.js": "/movieSpoilerProjectSix/static/js/runtime-main.8bd42297.js",
     "runtime-main.js.map": "/movieSpoilerProjectSix/static/js/runtime-main.8bd42297.js.map",
     "static/css/2.c0e28f08.chunk.css": "/movieSpoilerProjectSix/static/css/2.c0e28f08.chunk.css",
-    "static/js/2.01e5c8ba.chunk.js": "/movieSpoilerProjectSix/static/js/2.01e5c8ba.chunk.js",
-    "static/js/2.01e5c8ba.chunk.js.map": "/movieSpoilerProjectSix/static/js/2.01e5c8ba.chunk.js.map",
+    "static/js/2.50db8943.chunk.js": "/movieSpoilerProjectSix/static/js/2.50db8943.chunk.js",
+    "static/js/2.50db8943.chunk.js.map": "/movieSpoilerProjectSix/static/js/2.50db8943.chunk.js.map",
     "index.html": "/movieSpoilerProjectSix/index.html",
-    "precache-manifest.734327657196cc0261e163d4c567c86e.js": "/movieSpoilerProjectSix/precache-manifest.734327657196cc0261e163d4c567c86e.js",
+    "precache-manifest.7554d1e9818eee8e6215cdb1a765b3c0.js": "/movieSpoilerProjectSix/precache-manifest.7554d1e9818eee8e6215cdb1a765b3c0.js",
     "service-worker.js": "/movieSpoilerProjectSix/service-worker.js",
     "static/css/2.c0e28f08.chunk.css.map": "/movieSpoilerProjectSix/static/css/2.c0e28f08.chunk.css.map",
-    "static/css/main.2a02798c.chunk.css.map": "/movieSpoilerProjectSix/static/css/main.2a02798c.chunk.css.map",
+    "static/css/main.a7f7ecb3.chunk.css.map": "/movieSpoilerProjectSix/static/css/main.a7f7ecb3.chunk.css.map",
     "static/media/style.css": "/movieSpoilerProjectSix/static/media/movie-seats.a5b9ea84.png",
+    "static/media/poster-placeholder.png": "/movieSpoilerProjectSix/static/media/poster-placeholder.ff4609e8.png",
     "static/media/slick-theme.css": "/movieSpoilerProjectSix/static/media/slick.f97e3bbf.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.8bd42297.js",
     "static/css/2.c0e28f08.chunk.css",
-    "static/js/2.01e5c8ba.chunk.js",
-    "static/css/main.2a02798c.chunk.css",
-    "static/js/main.33497462.chunk.js"
+    "static/js/2.50db8943.chunk.js",
+    "static/css/main.a7f7ecb3.chunk.css",
+    "static/js/main.ca36b7dd.chunk.js"
   ]
 }
