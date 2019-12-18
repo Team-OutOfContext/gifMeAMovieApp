@@ -10,6 +10,7 @@ html {
 
 body {
   background-color: $secondaryColor;
+  min-height: 100vh;
   font-family: $bodyFont;
   font-size: 1.8rem;
   color: $primaryTextColor;

@@ -89,16 +89,25 @@ class App extends Component {
         ) : null}
 
         {this.state.showButton ? (
-          <div className="button-section">
-            <button className="reset" onClick={this.resetState}>
-              Watch another movie?
-            </button>
+          <div>
+            <div className="button-section">
+              <button className="reset" onClick={this.resetState}>
+                Watch another movie?
+              </button>
+            </div>
+
+            <footer>
+              <p>
+                Made by <a href="https://andrealacson.com/">Andrea Lacson</a>,{" "}
+                <a href="https://andrewknows.codes/">Andrew Rubesa</a>,{" "}
+                <a href="https://vipinkirthane.com/">Vipin Kirthane</a>, and{" "}
+                <a href="https://yiying.ca">Yiying Zou</a> 2019
+              </p>
+            </footer>
           </div>
         ) : null}
 
-        {this.state.showLoadingScreen ? (
-          <LoadingScreen />
-        ) : null}
+        {this.state.showLoadingScreen ? <LoadingScreen /> : null}
       </div>
     );
   }

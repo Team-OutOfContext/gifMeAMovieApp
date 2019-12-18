@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import MovieSuggestions from "./MovieSuggestions";
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from "./LoadingScreen";
 
 class MovieInput extends Component {
   constructor() {
@@ -237,9 +237,9 @@ class MovieInput extends Component {
       }) // end of .then
       .catch(error => {
         // NEED TO PRINT THIS TO PAGE
-        console.log(
-          "Sorry, this movie is not currently playing at our theatre! Please try another movie."
-        );
+        // console.log(
+        //   "Sorry, this movie is not currently playing at our theatre! Please try another movie."
+        // );
         this.setState({
           showLoadingScreen: false,
           noGifs: true,
@@ -254,12 +254,12 @@ class MovieInput extends Component {
     if (movieImageCheck.test(this.state.movieImageUrl)) {
       console.log(movieImageCheck.test(this.state.movieImageUrl));
       this.setState({
-        movieImageAltText: "Movie poster for"
+        movieImageAltText: "Movie poster for "
       });
     } else {
       console.log(movieImageCheck.test(this.state.movieImageUrl));
       this.setState({
-        movieImageAltText: "Placeholder image for the movie poster for"
+        movieImageAltText: "Placeholder image for the movie "
       });
     }
   };

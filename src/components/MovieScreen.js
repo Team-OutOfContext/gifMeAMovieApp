@@ -55,20 +55,43 @@ class MovieScreen extends Component {
         <div className="critics-review">
           {this.props.movieKeywords.length === 3 ? (
             <p>
-              When <strong>{this.props.movieKeywords[0].name}</strong> and
-              <strong> {this.props.movieKeywords[1].name}</strong> fall in love,{" "}
-              <strong>{this.props.movieKeywords[2].name}</strong> ensues.
+              When{" "}
+              <span className="keyword">
+                {this.props.movieKeywords[0].name}
+              </span>{" "}
+              and
+              <span className="keyword">
+                {" "}
+                {this.props.movieKeywords[1].name}
+              </span>{" "}
+              fall in love,{" "}
+              <span className="keyword">
+                {this.props.movieKeywords[2].name}
+              </span>{" "}
+              ensues.
             </p>
           ) : null}
           {this.props.movieKeywords.length === 2 ? (
             <p>
-              When <strong>{this.props.movieKeywords[0].name}</strong> and
-              <strong> {this.props.movieKeywords[1].name}</strong> fall in love.
+              When{" "}
+              <span className="keyword">
+                {this.props.movieKeywords[0].name}
+              </span>{" "}
+              and
+              <span className="keyword">
+                {" "}
+                {this.props.movieKeywords[1].name}
+              </span>{" "}
+              fall in love.
             </p>
           ) : null}
           {this.props.movieKeywords.length === 1 ? (
             <p>
-              When <strong>{this.props.movieKeywords[0].name}</strong> ensues.
+              When{" "}
+              <span className="keyword">
+                {this.props.movieKeywords[0].name}
+              </span>{" "}
+              ensues.
             </p>
           ) : null}
           {this.props.movieKeywords.length === 0 ? (
