@@ -252,12 +252,10 @@ class MovieInput extends Component {
     // check if it's the movie poster from API or our placeholder img
     const movieImageCheck = RegExp(/^(http)/);
     if (movieImageCheck.test(this.state.movieImageUrl)) {
-      console.log(movieImageCheck.test(this.state.movieImageUrl));
       this.setState({
         movieImageAltText: "Movie poster for "
       });
     } else {
-      console.log(movieImageCheck.test(this.state.movieImageUrl));
       this.setState({
         movieImageAltText: "Placeholder image for the movie "
       });
